@@ -52,7 +52,7 @@ class UW_Inquiry_Handler
     public function enqueue_frontend_assets()
     {
         // CSS는 style.css에서 @import로 로드됨 (cpt/inquiry/inquiry.css)
-        wp_enqueue_script('uw-inquiry', get_theme_file_uri('/assets/js/inquiry/uw-inquiry.js'), array('jquery'), '1.0.0', true);
+        wp_enqueue_script('uw-inquiry', get_theme_file_uri('/assets/js/CPT/inquiry/uw-inquiry.js'), array('jquery'), '1.0.1', true);
 
         wp_localize_script('uw-inquiry', 'uwInquiry', array(
             'ajaxUrl' => admin_url('admin-ajax.php'),

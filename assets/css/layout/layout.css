@@ -7,24 +7,44 @@
 :root {
   /* Primary Color (프로젝트별 변경) */
   --uw-primary: #3182f6;
+  --uw-sub: #6B7280;
   --uw-black: #111;
   --uw-white: #fff;
   --uw-text: #111;
-  --uw-bg: #f5f5f5;
+  --uw-bg: #F8F9FB;
   --uw-border: #e6e6e6;
 
   /* Typography */
-  --uw-font-main: 'Poppins', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  --uw-font-main: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 
   /* Layout */
-  --area-width: 1500px;
-  --area-padding: 30px;
-  --uw-header-height: 100px;
+  --area-width: 1440px;
+  --area-padding: 100px 0;
+  --uw-header-height: 80px;
+
+  /* Section Padding (반응형 - 미디어쿼리에서 재정의) */
+  --uw-section-py: 100px;
+  --uw-section-px: 0px;
 
   /* Transitions & Shadows */
   --uw-transition: all 0.4s ease-in-out;
   --uw-transition-slow: all 0.8s ease-in-out;
   --uw-shadow: 0 8px 12px rgba(0,0,0,0.1);
+}
+
+/* Section Padding - Responsive Overrides */
+@media (max-width: 1180px) {
+  :root {
+    --uw-section-py: 80px;
+    --uw-section-px: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --uw-section-py: 50px;
+    --uw-section-px: 20px;
+  }
 }
 
 

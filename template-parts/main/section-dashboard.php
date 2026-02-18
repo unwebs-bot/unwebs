@@ -1,0 +1,65 @@
+<?php
+/**
+ * Template Part: 실시간 프로젝트 현황 & 견적 안내 대시보드
+ */
+
+if (!defined('ABSPATH')) exit;
+
+$project_data = uw_dashboard_get_projects();
+$consult_data = uw_dashboard_get_consults();
+
+// 데이터가 없으면 섹션 미표시
+if (empty($project_data) && empty($consult_data)) return;
+?>
+
+<section class="uw-dashboard uw-section">
+  <div class="uw-dashboard__container">
+
+    <!-- 실시간 프로젝트 현황 -->
+    <div class="uw-dashboard__section" data-ticker="project">
+      <h2 class="uw-dashboard__title">실시간 프로젝트 현황</h2>
+      <div class="uw-dashboard__window">
+        <ul class="uw-dashboard__list" id="uwDashboardProject">
+          <?php foreach ($project_data as $item) : ?>
+          <li class="uw-dashboard__item">
+            <div class="uw-dashboard__item-left">
+              <span class="uw-dashboard__tag"><?php echo esc_html($item['type']); ?></span>
+              <div class="uw-dashboard__info">
+                <span class="uw-dashboard__item-title"><?php echo esc_html($item['title']); ?></span>
+                <span class="uw-dashboard__date"><?php echo esc_html($item['date']); ?></span>
+              </div>
+            </div>
+            <span class="uw-dashboard__badge <?php echo uw_dashboard_status_class($item['status']); ?>"><?php echo esc_html($item['status']); ?></span>
+          </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 상담 및 견적 안내 현황 -->
+    <div class="uw-dashboard__section" data-ticker="consult">
+      <h2 class="uw-dashboard__title">상담 및 견적 안내 현황</h2>
+      <div class="uw-dashboard__window">
+        <ul class="uw-dashboard__list" id="uwDashboardConsult">
+          <?php foreach ($consult_data as $item) : ?>
+          <li class="uw-dashboard__item">
+            <div class="uw-dashboard__item-left">
+              <span class="uw-dashboard__tag"><?php echo esc_html($item['type']); ?></span>
+              <div class="uw-dashboard__info">
+                <span class="uw-dashboard__item-title"><?php echo esc_html($item['title']); ?></span>
+                <span class="uw-dashboard__date"><?php echo esc_html($item['date']); ?></span>
+              </div>
+            </div>
+            <span class="uw-dashboard__badge <?php echo uw_dashboard_status_class($item['status']); ?>"><?php echo esc_html($item['status']); ?></span>
+          </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="uw-dashboard__footer">
+    <span class="uw-dashboard__footer-date">*<?php echo date_i18n('Y년 n월 j일'); ?> 기준</span>
+  </div>
+</section>

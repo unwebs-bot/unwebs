@@ -36,12 +36,12 @@ function starter_get_version($file)
 add_action('wp_enqueue_scripts', 'starter_enqueue_assets');
 function starter_enqueue_assets()
 {
-    // Google Fonts (Poppins)
-    wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap', array(), null);
+    // XEIcon
+    wp_enqueue_style('xeicon', 'https://cdn.jsdelivr.net/gh/xpressengine/XEIcon@2.3.3/xeicon.min.css', array(), null);
 
     // Theme CSS (자동 버전 관리)
     wp_enqueue_style('theme-style', get_stylesheet_uri(), array(), starter_get_version('/style.css'));
-    wp_enqueue_style('main-style', get_theme_file_uri('/assets/css/style.css'), array('google-fonts', 'theme-style'), starter_get_version('/assets/css/style.css'));
+    wp_enqueue_style('main-style', get_theme_file_uri('/assets/css/style.css'), array('theme-style'), starter_get_version('/assets/css/style.css'));
 
     // JS (자동 버전 관리)
     wp_enqueue_script('header', get_theme_file_uri('/assets/js/header.js'), array(), starter_get_version('/assets/js/header.js'), true);
@@ -72,6 +72,7 @@ remove_action('wp_head', 'wp_shortlink_wp_head');
 remove_action('wp_head', 'print_emoji_detection_script', 7);
 remove_action('wp_print_styles', 'print_emoji_styles');
 add_filter('the_generator', '__return_empty_string');
+add_filter('show_admin_bar', '__return_false');
 
 /**
  * CPT Engines
@@ -87,6 +88,20 @@ require_once get_template_directory() . '/inc/uw-inquiry/class-uw-inquiry-handle
 require_once get_template_directory() . '/inc/uw-gallery/class-uw-gallery-cpt.php';
 require_once get_template_directory() . '/inc/uw-gallery/class-uw-gallery-admin.php';
 require_once get_template_directory() . '/inc/uw-gallery/class-uw-gallery-engine.php';
+
+require_once get_template_directory() . '/inc/uw-maintenance/class-uw-maintenance-cpt.php';
+require_once get_template_directory() . '/inc/uw-maintenance/class-uw-maintenance-admin.php';
+
+/**
+ * Banner Settings
+ */
+require_once get_template_directory() . '/inc/uw-banner-settings.php';
+
+/**
+ * Dashboard Settings
+ */
+require_once get_template_directory() . '/inc/uw-dashboard-settings.php';
+require_once get_template_directory() . '/inc/uw-dashboard-seed.php';
 
 /**
  * SMTP Mail Configuration

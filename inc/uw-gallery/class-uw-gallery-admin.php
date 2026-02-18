@@ -103,9 +103,9 @@ class UW_Gallery_Admin
     // Admin JS
     wp_enqueue_script(
       'uw-gallery-admin',
-      get_theme_file_uri('assets/js/gallery/uw-gallery-admin.js'),
+      get_theme_file_uri('assets/js/CPT/gallery/uw-gallery-admin.js'),
       array(),
-      '2.0.0',
+      '2.0.1',
       true
     );
 

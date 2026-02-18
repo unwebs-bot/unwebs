@@ -4,152 +4,220 @@
 
 /* --- Footer Container --- */
 .uw-footer {
-  background-color: var(--uw-dark, #1a1a1a);
+  background-color: #191c23;
   color: var(--uw-white, #fff);
-  padding: 60px 0 40px;
+  --footer-transition: all 0.2s ease;
 }
 
 .uw-footer__inner {
-  padding: 0 var(--area-padding, 40px);
-  max-width: none;
+  max-width: var(--area-width, 1440px);
+  margin: 0 auto;
+  padding: 0 var(--area-padding, 100px);
 }
 
 
 /* ==========================================================================
-   1. Upper Section - Logo & Social Links
+   1. Upper Section - Navigation & CTA
    ========================================================================== */
 .uw-footer__upper {
+  padding: 80px 0 40px;
+}
+
+.uw-footer__upper .uw-footer__inner {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding-bottom: 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 60px;
 }
 
-/* Logo - slightly gray/transparent */
-.uw-footer__logo img {
-  height: 44px;
-  width: auto;
-  filter: brightness(0) invert(1);
-  opacity: 0.6;
-}
-
-/* Social Links - Black/Gray circle style */
-.uw-footer__social {
+/* --- Navigation --- */
+.uw-footer__nav {
   display: flex;
-  gap: 12px;
+  gap: 60px;
+  flex: 1;
 }
 
-.uw-footer__social-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #333;
-  color: #999;
-  transition: var(--uw-transition);
+.uw-footer__nav-col {
+  min-width: 0;
 }
 
-.uw-footer__social-link:hover {
-  background-color: #444;
-  color: #fff;
+.uw-footer__nav-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--uw-white, #fff);
+  margin-bottom: 20px;
+  line-height: 1;
 }
 
-.uw-footer__social-link svg {
-  width: 18px;
-  height: 18px;
+.uw-footer__nav-title a {
+  color: inherit;
+  transition: var(--footer-transition);
 }
 
-
-/* ==========================================================================
-   2. Middle Section - Contact Info
-   ========================================================================== */
-.uw-footer__middle {
-  padding: 40px 0;
+.uw-footer__nav-title a:hover {
+  opacity: 0.7;
 }
 
-.uw-footer__contact {
+.uw-footer__nav-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 18px;
-  line-height: 1.8;
+  gap: 14px;
 }
 
-/* Address row - first line */
-.uw-footer__contact-row--address {
-  margin-bottom: 4px;
-}
-
-/* Contact details row - second line (Tel, Fax, Email) */
-.uw-footer__contact-row--details {
-  display: flex;
-  flex-wrap: wrap;
-    gap: 0 50px;
-}
-
-.uw-footer__contact-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.uw-footer__contact-label {
-  font-weight: 600;
+.uw-footer__nav-list li a {
+  font-size: 14px;
+  font-weight: 400;
   color: rgba(255, 255, 255, 0.5);
-  text-transform: uppercase;
-  font-size: 18px;
+  transition: var(--footer-transition);
+  line-height: 1;
 }
 
-.uw-footer__contact-value {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-
-
-/* ==========================================================================
-   3. Bottom Section - Copyright & Legal Links
-   ========================================================================== */
-.uw-footer__bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 30px;
-}
-
-/* Copyright */
-.uw-footer__copyright {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.85rem;
-}
-
-/* Legal Links */
-.uw-footer__legal {
-  display: flex;
-  gap: 24px;
-}
-
-.uw-footer__legal-link {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: var(--uw-transition);
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.uw-footer__legal-link:hover {
+.uw-footer__nav-list li a:hover {
   color: var(--uw-white, #fff);
 }
 
+/* --- Logo --- */
+.uw-footer__logo {
+  display: none;
+}
+
+.uw-footer__logo img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: var(--footer-transition);
+}
+
+.uw-footer__logo:hover img {
+  opacity: 0.7;
+}
+
+/* --- CTA Area --- */
+.uw-footer__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 30px;
+  flex-shrink: 0;
+}
+
+.uw-footer__cta-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.uw-footer__cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--uw-white);
+  background-color: #2b2c2f;
+  border-radius: 8px;
+  transition: var(--footer-transition);
+  white-space: nowrap;
+}
+
+.uw-footer__cta-btn:hover {
+  background-color: var(--uw-primary);
+  color: var(--uw-white, #fff);
+}
+
+.uw-footer__cta-btn--primary {
+  background-color: #6b7280;
+  color: var(--uw-white, #fff);
+}
+
+.uw-footer__cta-btn--primary:hover {
+  background-color: var(--uw-primary);
+}
+
+.uw-footer__cta-btn svg {
+  flex-shrink: 0;
+}
+
+/* --- Phone --- */
+.uw-footer__phone {
+  text-align: right;
+}
+
+.uw-footer__phone-number {
+  display: block;
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--uw-white, #fff);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  transition: var(--footer-transition);
+}
+
+.uw-footer__phone-number:hover {
+  opacity: 0.8;
+}
+
+.uw-footer__phone-hours {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 8px;
+}
+
 
 /* ==========================================================================
-   4. Modal Styles
+   2. Lower Section - Business Info & Copyright
+   ========================================================================== */
+.uw-footer__lower {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px 0;
+}
+
+.uw-footer__lower .uw-footer__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+/* --- Business Info (6-column table grid) --- */
+.uw-footer__info {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr;
+  gap: 10px 0;
+  align-items: baseline;
+}
+
+.uw-footer__info-item {
+  display: contents;
+}
+
+.uw-footer__info-item dt {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--uw-white);
+  white-space: nowrap;
+  padding-right: 30px;
+}
+
+.uw-footer__info-item dd {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* --- Copyright --- */
+.uw-footer__copyright {
+  flex-shrink: 0;
+}
+
+.uw-footer__copyright p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+
+/* ==========================================================================
+   3. Modal Styles
    ========================================================================== */
 .uw-modal-overlay {
   position: fixed;
@@ -164,7 +232,7 @@
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: var(--uw-transition);
+  transition: var(--footer-transition);
 }
 
 .uw-modal-overlay.is-open {
@@ -181,7 +249,7 @@
   display: flex;
   flex-direction: column;
   transform: translateY(20px) scale(0.95);
-  transition: var(--uw-transition);
+  transition: var(--footer-transition);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
@@ -189,7 +257,6 @@
   transform: translateY(0) scale(1);
 }
 
-/* Modal Header */
 .uw-modal__header {
   display: flex;
   justify-content: space-between;
@@ -217,7 +284,7 @@
   cursor: pointer;
   border-radius: 50%;
   color: var(--uw-gray, #666);
-  transition: var(--uw-transition);
+  transition: var(--footer-transition);
 }
 
 .uw-modal__close:hover {
@@ -230,7 +297,6 @@
   height: 24px;
 }
 
-/* Modal Body */
 .uw-modal__body {
   padding: 24px;
   overflow-y: auto;
@@ -278,96 +344,138 @@
   color: var(--uw-text, #222);
 }
 
-/* Body scroll lock when modal is open */
 body.modal-open {
   overflow: hidden;
 }
 
 
 /* ==========================================================================
-   5. Responsive
+   4. Responsive
    ========================================================================== */
+
+/* Large Desktop */
+@media (max-width: 1280px) {
+  .uw-footer__nav {
+    gap: 40px;
+  }
+
+  .uw-footer__upper .uw-footer__inner {
+    gap: 40px;
+  }
+
+  .uw-footer__phone-number {
+    font-size: 30px;
+  }
+}
 
 /* Tablet */
 @media (max-width: 1024px) {
-  .uw-footer {
-    padding: 50px 0 30px;
+  .uw-footer__inner {
+    padding: 0 40px;
   }
 
   .uw-footer__upper {
-    padding-bottom: 30px;
+    padding: 50px 0;
   }
 
-  .uw-footer__middle {
-    padding: 30px 0;
+  .uw-footer__upper .uw-footer__inner {
+    flex-direction: column;
+    gap: 40px;
   }
 
-  .uw-footer__contact {
-    gap: 10px 30px;
+  /* Hide sitemap on tablet */
+  .uw-footer__nav {
+    display: none;
+  }
+
+  /* Show logo on tablet/mobile */
+  .uw-footer__logo {
+    display: block;
+  }
+
+  .uw-footer__cta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .uw-footer__cta-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .uw-footer__cta-btn {
+    justify-content: center;
+  }
+
+  .uw-footer__phone {
+    text-align: left;
+  }
+
+  .uw-footer__lower .uw-footer__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
   }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-  .uw-footer {
-    padding: 40px 0 24px;
+  .uw-footer__inner {
+    padding: 0 24px;
   }
 
   .uw-footer__upper {
+    padding: 40px 0;
+  }
+
+  /* Hide sitemap on mobile */
+  .uw-footer__nav {
+    display: none;
+  }
+
+  .uw-footer__cta {
     flex-direction: column;
     align-items: flex-start;
     gap: 24px;
-    padding-bottom: 24px;
+    width: 100%;
   }
 
-  .uw-footer__logo img {
-    height: 32px;
+  /* 2 buttons in a row */
+  .uw-footer__cta-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 10px;
   }
 
-  .uw-footer__social {
-    gap: 12px;
+  .uw-footer__cta-btn {
+    justify-content: center;
+    padding: 14px 16px;
+    font-size: 13px;
   }
 
-  .uw-footer__social-link {
-    width: 36px;
-    height: 36px;
+  .uw-footer__phone {
+    text-align: left;
   }
 
-  .uw-footer__middle {
-    padding: 24px 0;
+  .uw-footer__phone-number {
+    font-size: 28px;
   }
 
-  .uw-footer__contact {
-    gap: 0;
-    font-size: 1rem;
+  .uw-footer__lower {
+    padding: 20px 0 0;
   }
 
-  .uw-footer__contact-row--details {
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 6px 20px;
+  .uw-footer__info {
+    grid-template-columns: auto 1fr auto 1fr;
   }
 
-  .uw-footer__contact-label {
-    font-size: 1rem;
-    width: 50px;
-    flex-shrink: 0;
-  }
-
-  .uw-footer__bottom {
-    flex-direction: column;
-    gap: 16px;
-    padding-top: 24px;
-    text-align: center;
-  }
-
-  .uw-footer__copyright {
-    order: 2;
-  }
-
-  .uw-footer__legal {
-    order: 1;
-    gap: 20px;
+  .uw-footer__info-item dd {
+    padding-right: 24px;
   }
 
   /* Modal Mobile */
@@ -407,15 +515,25 @@ body.modal-open {
     padding: 0 20px;
   }
 
-  .uw-footer__contact-item {
-    gap: 2px;
+  .uw-footer__phone-number {
+    font-size: 24px;
   }
 
-  .uw-footer__legal {
-    gap: 16px;
+  .uw-footer__cta-btn {
+    font-size: 12px;
+    padding: 12px 10px;
+    gap: 6px;
   }
 
-  .uw-footer__legal-link {
-    font-size: 0.85rem;
+  .uw-footer__info {
+    grid-template-columns: auto 1fr;
+  }
+
+  .uw-footer__copyright p {
+    font-size: 12px;
+  }
+
+  .uw-footer__lower .uw-footer__inner {
+    padding-bottom: 20px;
   }
 }

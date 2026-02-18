@@ -146,7 +146,7 @@ class UW_Board_Admin
 
         // Custom admin styles
         wp_enqueue_style('uw-board-admin', get_theme_file_uri('/assets/css/cpt/board/admin.css'), array(), '1.0.3');
-        wp_enqueue_script('uw-board-admin', get_theme_file_uri('/assets/js/board/uw-board-admin.js'), array('jquery', 'summernote', 'media-upload'), '1.0.1', true);
+        wp_enqueue_script('uw-board-admin', get_theme_file_uri('/assets/js/CPT/board/uw-board-admin.js'), array('jquery', 'summernote', 'media-upload'), '1.0.2', true);
 
         wp_localize_script('uw-board-admin', 'uwBoardAdmin', array(
             'ajaxUrl' => admin_url('admin-ajax.php'),

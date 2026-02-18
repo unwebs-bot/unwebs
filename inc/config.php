@@ -19,10 +19,10 @@ function starter_get_config()
         $config = array(
             // Site / SEO Info
             'site' => array(
-                'title'       => '회사명',
-                'description' => '회사 소개 문구를 입력하세요.',
-                'keywords'    => '키워드1, 키워드2, 키워드3',
-                'og_image'    => '/assets/images/og-image.jpg',     // 테마 상대경로
+                'title'       => '홈페이지제작전문 | 언웹스',
+                'description' => '기업홈페이지제작 1000+ | LG, 문화체육관광부, 현대엔지니어링 프로젝트 진행',
+                'keywords'    => '홈페이지제작, 웹사이트제작, 아임웹 제작, 워드프레스제작, 기업홈페이지, 언웹스',
+                'og_image'    => '/assets/images/ogimage.png',     // 테마 상대경로
                 'theme_color' => '#222222',
                 'google_verification' => '',   // Google Search Console
                 'naver_verification'  => '',   // Naver Search Advisor
@@ -30,15 +30,16 @@ function starter_get_config()
 
             // Company Info
             'company' => array(
-                'name'      => '회사명',
-                'name_en'   => 'Company Name',
-                'ceo'       => '대표자명',
-                'tel'       => '02-0000-0000',
-                'fax'       => '02-0000-0001',
-                'email'     => 'info@example.com',
-                'address'   => '서울특별시 강남구 테헤란로 123',
-                'biz_no'    => '000-00-00000',
-                'corp_no'   => '0000-0000-0000',
+                'name'      => '언웹스',
+                'name_en'   => 'Unwebs',
+                'ceo'       => '이종진',
+                'tel'       => '0507.1381.3731',
+                'fax'       => '',
+                'email'     => 'contact@unwebs.co.kr',
+                'address'   => '서울특별시 성동구 뚝섬로13길 38 KT&G 상상플래닛, 6층',
+                'biz_no'    => '164-62-00641',
+                'corp_no'   => '',
+                'hours'     => '평일 09:00 ~ 17:00 (주말/공휴일 제외)',
             ),
 
             // SNS Links
@@ -51,49 +52,42 @@ function starter_get_config()
 
             // Navigation Menu
             'nav' => array(
-                'company' => array(
-                    'label' => 'COMPANY',
-                    'url'   => '/company/intro/',
+                'service' => array(
+                    'label' => '홈페이지 제작',
+                    'url'   => '#',
                     'items' => array(
-                        array('slug' => '/company/intro/', 'label' => '기업 소개'),
-                        array('slug' => '/company/vision/', 'label' => '기업 비전'),
-                        array('slug' => '/company/org/', 'label' => '조직도'),
-                        array('slug' => '/company/clients/', 'label' => '고객사'),
-                        array('slug' => '/company/location/', 'label' => '오시는 길'),
+                        array('slug' => '/service-info/', 'label' => '서비스 안내'),
+                        array('slug' => '/resources/', 'label' => '준비자료'),
+                        array('slug' => '/process/', 'label' => '제작절차'),
                     ),
                 ),
-                'product' => array(
-                    'label' => 'PRODUCT',
-                    'url'   => '/product/media/',
+                'maintenance' => array(
+                    'label' => '유지보수',
+                    'url'   => '#',
                     'items' => array(
-                        array('slug' => '/product/media/', 'label' => '여재 필터'),
-                        array('slug' => '/product/home/', 'label' => '가정용 필터'),
-                        array('slug' => '/product/industrial/', 'label' => '차량/산업용 필터'),
-                        array('slug' => '/product/compact/', 'label' => '소형 필터'),
+                        array('slug' => '/maintenance-apply/', 'label' => '유지보수 신청'),
+                        array('slug' => '/one-time-maintenance/', 'label' => '건별 유지보수'),
+                        array('slug' => '/subscription-maintenance/', 'label' => '정기 유지보수'),
                     ),
                 ),
-                'rnd' => array(
-                    'label' => 'R&D',
-                    'url'   => '/rnd/lab/',
+                'portfolio' => array(
+                    'label' => '포트폴리오',
+                    'url'   => '/portfolio/',
+                    'items' => array(),
+                ),
+                'support' => array(
+                    'label' => '고객지원',
+                    'url'   => '#',
                     'items' => array(
-                        array('slug' => '/rnd/lab/', 'label' => '기업부설 연구소'),
-                        array('slug' => '/rnd/equipment/', 'label' => '테스트 장비'),
+                        array('slug' => '/notice/', 'label' => '공지사항'),
+                        array('slug' => '/faq/', 'label' => '자주묻는질문'),
+                        array('slug' => 'https://guide.unwebs.co.kr', 'label' => '가이드 센터', 'target' => '_blank'),
                     ),
                 ),
-                'news' => array(
-                    'label' => 'NEWS',
-                    'url'   => '/news/press/',
-                    'items' => array(
-                        array('slug' => '/news/press/', 'label' => '뉴스'),
-                        array('slug' => '/news/video/', 'label' => '홍보영상'),
-                    ),
-                ),
-                'contact' => array(
-                    'label' => 'CONTACT',
-                    'url'   => '/contact/',
-                    'items' => array(
-                        array('slug' => '/contact/', 'label' => '상담문의'),
-                    ),
+                'blog' => array(
+                    'label' => '블로그',
+                    'url'   => '/blog/',
+                    'items' => array(),
                 ),
             ),
         );

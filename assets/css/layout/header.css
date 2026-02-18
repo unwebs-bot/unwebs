@@ -33,7 +33,6 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   height: var(--uw-header-height);
   margin: 0 auto;
   padding: 0 var(--area-padding);
@@ -53,7 +52,7 @@
 }
 
 .uw-header__logo img {
-  height: 44px;
+  height: 50px;
   width: auto;
   filter: brightness(0) invert(1);
   transition: filter 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -73,17 +72,17 @@
    3. GNB - PC Navigation
    ========================================================================== */
 .uw-gnb {
-  position: absolute;
-  text-align: center;
-  top: 0;
-  left: 0;
-  width: 100%;
+  position: relative;
   z-index: 99;
+  margin-left: 40px;
+    margin-left: 70px;
 }
 
 .uw-gnb__list {
-  display: inline-flex;
+  display: flex;
+  align-items: center;
   height: 100%;
+  gap: 0;
 }
 
 .uw-gnb__item {
@@ -92,16 +91,31 @@
 }
 
 .uw-gnb__link {
-  position: relative;
-  z-index: 100;
-  display: block;
-  line-height: var(--uw-header-height);
-  padding: 0 2.5rem;
+    position: relative;
+    z-index: 100;
+    line-height: var(--uw-header-height);
+    padding: 15px 30px;
+    border-radius: 10px;
   text-align: center;
   color: var(--uw-white);
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 700;
   transition: color 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.uw-header.is-scrolled .uw-gnb__link:hover{  
+    background: var(--uw-bg);
+    transition: 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.uw-gnb__arrow {
+  margin-left: 6px;
+  font-size: 13px;
+  transition: transform 0.3s ease;
+}
+
+.uw-gnb__link:hover .uw-gnb__arrow {
+  transform: rotate(180deg);
 }
 
 .uw-gnb__link:hover,
@@ -116,7 +130,7 @@
    ========================================================================== */
 .uw-gnb__sub {
   position: absolute;
-  top: calc(var(--uw-header-height) - 15px);
+  top: calc(var(--uw-header-height) - 10px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 99;
@@ -137,7 +151,7 @@
   height: 0;
   background-color: var(--uw-white);
   transition: height 0.2s cubic-bezier(0.4, 0, 1, 1);
-  box-shadow: var(--uw-shadow);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 4px, rgba(0, 0, 0, 0.12) 2px 6px 12px;
   border-radius: 1.5rem;
 }
 
@@ -154,14 +168,24 @@
 
 .uw-gnb__sub-link {
   position: relative;
+  isolation: isolate;
   display: block;
   color: #666;
   font-size: 1rem;
   font-weight: 500;
   text-align: center;
   line-height: 1.7;
-  transition: opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: color 0.3s ease, opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   padding: 0.5rem 0;
+}
+
+.uw-gnb__sub-external {
+    position: relative;
+  margin-left: 2px;
+    top: 1px;
+    opacity: 0.5;
+  font-size: 16px;
+  opacity: 0.5;
 }
 
 /* Submenu Link Hover Background */
@@ -172,10 +196,15 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.05);
+  background: #f5f8ff;
   border-radius: 2rem;
+  z-index: -1;
   opacity: 0;
   transition: opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.uw-gnb__sub-link:hover {
+  color: var(--uw-primary);
 }
 
 .uw-gnb__sub-link:hover::before {
@@ -206,45 +235,88 @@
 
 
 /* ==========================================================================
-   5. Sitemap Button (Dotted Grid Button)
+   5. Header CTA Buttons
    ========================================================================== */
-.uw-header__util {
+.uw-header__cta {
   position: relative;
   z-index: 100;
-}
-
-.uw-header__sitemap-btn,
-.uw-header__mobile-btn {
-  height: 40px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  background: none;
-  border: none;
+  gap: 10px;
+  margin-left: auto;
 }
 
-.uw-header__dotted {
-  display: flex;
-  flex-wrap: wrap;
+.uw-header__btn {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
+  padding: 10px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 50px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-.uw-header__dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #a2c8ff;
-  margin: 2px;
-  transition: background 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+/* Outline (샘플 사이트 체험) */
+.uw-header__btn--outline {
+  gap: 10px;
+  color: var(--uw-text);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: var(--uw-bg);
 }
 
-.uw-header__dot:nth-child(2),
-.uw-header__dot:nth-child(3) {
+.uw-header__btn--outline:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* Primary (프로젝트 문의) */
+.uw-header__btn--primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--uw-text);
+  background: #fff;
+  border: 1px solid #fff;
+}
+
+.uw-header__btn--primary:hover {
   background: var(--uw-primary);
+  color: var(--uw-white);
+  border-color: var(--uw-primary);
+}
+
+/* Primary Button Tooltip */
+.uw-header__tooltip {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: var(--uw-sub);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  font-size: 13px;
+  font-weight: 400;
+  padding: 8px 16px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+
+.uw-header__tooltip strong {
+  font-weight: 700;
+  color: var(--uw-primary);
+}
+
+.uw-header__btn--primary:hover .uw-header__tooltip {
+  opacity: 1;
+  visibility: visible;
 }
 
 
@@ -270,16 +342,31 @@
 
 .uw-header.is-scrolled .uw-gnb__link:hover,
 .uw-header.is-scrolled .uw-gnb__item.is-active > .uw-gnb__link {
-  color: #666;
+  color: var(--uw-primary);
 }
 
-.uw-header.is-scrolled .uw-header__dot {
-  background: #a2c8ff;
+/* Scrolled CTA Buttons */
+.uw-header.is-scrolled .uw-header__btn--outline {
+  color: var(--uw-sub);
+  border-color: var(--uw-border);
 }
 
-.uw-header.is-scrolled .uw-header__dot:nth-child(2),
-.uw-header.is-scrolled .uw-header__dot:nth-child(3) {
+.uw-header.is-scrolled .uw-header__btn--outline:hover {
+  border-color: var(--uw-text);
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--uw-text);
+}
+
+.uw-header.is-scrolled .uw-header__btn--primary {
+  color: #fff;
+  background: var(--uw-text);
+  border-color: var(--uw-text);
+}
+
+.uw-header.is-scrolled .uw-header__btn--primary:hover {
   background: var(--uw-primary);
+  color: var(--uw-white);
+  border-color: var(--uw-primary);
 }
 
 
@@ -445,13 +532,8 @@ body.sitemap-open .uw-header__logo-text {
   color: var(--uw-white) !important;
 }
 
-body.sitemap-open .uw-header__dot {
-  background: #a2c8ff;
-}
-
-body.sitemap-open .uw-header__dot:nth-child(2),
-body.sitemap-open .uw-header__dot:nth-child(3) {
-  background: var(--uw-primary);
+body.sitemap-open .uw-header__cta {
+  display: none;
 }
 
 
@@ -677,7 +759,7 @@ body.mobile-menu-open .uw-mobile-nav {
 }
 
 .uw-mobile-nav__item.is-open .uw-mobile-nav__panel {
-  max-height: 300px;
+  max-height: 500px;
   transition: max-height 0.5s cubic-bezier(0.2, 0.4, 0.8, 1);
 }
 
@@ -720,18 +802,43 @@ body.mobile-menu-open {
    9. Responsive
    ========================================================================== */
 
-   @media (max-width: 1420px) {
+@media (max-width: 1440px) {
+  .uw-header__inner {
+    padding: 0 40px;
+  }
+
+  .uw-gnb {
+    margin-left: 30px;
+  }
+
+  .uw-gnb__list {
+    gap: 4px;
+  }
+
+  .uw-gnb__link {
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+
+  .uw-header__cta {
+    gap: 6px;
+  }
+
+  .uw-header__btn {
+    padding: 8px 18px;
+    font-size: 14px;
+  }
+
   .uw-sitemap__title {
     font-size: 36px;
     margin-bottom: 30px;
   }
-   }
+}
 
-/* Tablet (1024px) - Switch to mobile navigation */
-@media (max-width: 1024px) {
-  .uw-header__wrap {
-    position: fixed;
-    z-index: 99;
+/* Tablet (1180px) - Switch to mobile navigation */
+@media (max-width: 1180px) {
+  .uw-header__inner {
+    padding: 0 24px;
   }
 
   .uw-header.is-scrolled .uw-header__wrap {
@@ -741,12 +848,13 @@ body.mobile-menu-open {
 
   /* Hide PC elements */
   .uw-gnb { display: none; }
-  .uw-header__sitemap-btn { display: none; }
+  .uw-header__cta { display: none; }
   .uw-sitemap { display: none; }
 
   /* Show mobile elements */
   .uw-mobile-btn {
     display: flex;
+    right: 24px;
   }
 
   .uw-mobile-overlay {
@@ -760,8 +868,16 @@ body.mobile-menu-open {
 
 /* Mobile (768px) */
 @media (max-width: 768px) {
+  .uw-header__inner {
+    padding: 0 20px;
+  }
+
   .uw-header__logo img {
     height: 36px;
+  }
+
+  .uw-mobile-btn {
+    right: 20px;
   }
 
   .uw-mobile-nav__title {
@@ -776,12 +892,20 @@ body.mobile-menu-open {
 
 /* Small Mobile (480px) */
 @media (max-width: 480px) {
+  .uw-header__inner {
+    padding: 0 16px;
+  }
+
   .uw-header__logo img {
-    height: 36px;
+    height: 32px;
+  }
+
+  .uw-mobile-btn {
+    right: 16px;
   }
 
   .uw-mobile-nav {
-    width: 80%;
+    width: 85%;
     max-width: none;
   }
 
@@ -796,9 +920,5 @@ body.mobile-menu-open {
 
   .uw-mobile-nav__sub-link {
     padding: 10px 16px 10px 24px;
-  }
-
-  .uw-mobile-nav__footer {
-    padding: 16px;
   }
 }

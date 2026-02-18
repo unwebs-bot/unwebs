@@ -1,0 +1,175 @@
+/**
+ * UW Maintenance Admin Styles
+ *
+ * @package starter-theme
+ */
+
+/* ==========================================================================
+   General Styles
+   ========================================================================== */
+
+.uw-maint-wrap {
+  max-width: 1200px;
+}
+
+.uw-maint-wrap .required {
+  color: #d63638;
+}
+
+/* ==========================================================================
+   List Page
+   ========================================================================== */
+
+.uw-maint-empty {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  padding: 40px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.uw-maint-empty p {
+  font-size: 14px;
+  color: #646970;
+  margin-bottom: 20px;
+}
+
+.uw-maint-table .column-company {
+  width: 30%;
+}
+
+.uw-maint-table .column-date {
+  width: 15%;
+}
+
+.uw-maint-table .column-type {
+  width: 15%;
+}
+
+.uw-maint-table .column-status {
+  width: 15%;
+}
+
+.uw-maint-table .column-actions {
+  width: 25%;
+}
+
+/* Status badges */
+.uw-maint-status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.uw-maint-status--receiving {
+  background: #f0f0f1;
+  color: #1d2327;
+}
+
+.uw-maint-status--ongoing {
+  background: #e7f5ff;
+  color: #0073aa;
+  border: 1px solid #0073aa;
+}
+
+.uw-maint-status--completed {
+  background: #0073aa;
+  color: #fff;
+}
+
+/* ==========================================================================
+   Form Styles
+   ========================================================================== */
+
+.uw-maint-form .form-table th {
+  width: 150px;
+  padding-top: 15px;
+}
+
+.uw-maint-form .form-table td {
+  padding-top: 10px;
+}
+
+.uw-maint-form input[type="text"],
+.uw-maint-form input[type="url"],
+.uw-maint-form input[type="date"],
+.uw-maint-form select {
+  min-width: 300px;
+}
+
+.uw-maint-form input[type="number"] {
+  width: 100px;
+}
+
+/* ==========================================================================
+   KPI Settings Page
+   ========================================================================== */
+
+.uw-maint-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.uw-maint-kpi-card {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.uw-maint-kpi-card label {
+  display: block;
+  font-size: 13px;
+  color: #646970;
+  margin-bottom: 10px;
+}
+
+.uw-maint-kpi-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.uw-maint-kpi-input input {
+  flex: 1;
+  font-size: 24px;
+  font-weight: 600;
+  padding: 8px 12px;
+  text-align: right;
+  max-width: 120px;
+}
+
+.uw-maint-kpi-input .unit {
+  font-size: 16px;
+  color: #646970;
+  min-width: 20px;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media screen and (max-width: 782px) {
+  .uw-maint-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .uw-maint-form input[type="text"],
+  .uw-maint-form input[type="url"],
+  .uw-maint-form input[type="date"],
+  .uw-maint-form select {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .uw-maint-table .column-type,
+  .uw-maint-table .column-date {
+    display: none;
+  }
+}

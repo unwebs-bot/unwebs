@@ -20,7 +20,7 @@ html {
 body {
   min-height: 100vh;
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: auto;
 }
 
 img, video, svg {

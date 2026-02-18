@@ -1,0 +1,47 @@
+/* Dashboard Admin Styles */
+.uw-dash-wrap .description {
+  margin-bottom: 20px;
+}
+
+.uw-dash-section {
+  margin-bottom: 30px;
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ccd0d4;
+  border-radius: 4px;
+}
+
+.uw-dash-section h2 {
+  margin-top: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e4e7;
+}
+
+.uw-dash-table th,
+.uw-dash-table td {
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+
+.uw-dash-table select {
+  width: 100%;
+}
+
+.uw-dash-table input[type="date"] {
+  width: 100%;
+}
+
+.uw-dash-remove {
+  color: #a00 !important;
+  border-color: #a00 !important;
+  min-width: 32px;
+}
+
+.uw-dash-remove:hover {
+  background: #a00 !important;
+  color: #fff !important;
+}
+
+.uw-dash-add {
+  margin-top: 10px !important;
+}

@@ -8,14 +8,20 @@
 
 /* 디자인시스템 레이아웃 래퍼 */
 .sub-page.board {
-  max-width: 1500px;
+  max-width: var(--area-width, 1440px);
   margin: 0 auto;
-  padding: 120px 20px;
+  padding: 120px var(--area-padding, 20px);
 }
 
 @media (max-width: 768px) {
   .sub-page.board {
-    padding: 80px 20px;
+    padding: 80px var(--area-padding, 15px);
+  }
+}
+
+@media (max-width: 480px) {
+  .sub-page.board {
+    padding: 60px var(--area-padding, 12px);
   }
 }
 

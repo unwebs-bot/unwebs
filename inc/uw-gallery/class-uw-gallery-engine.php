@@ -50,9 +50,9 @@ class UW_Gallery_Engine
     // Frontend JS (Vanilla)
     wp_enqueue_script(
       'uw-gallery',
-      get_theme_file_uri('assets/js/gallery/uw-gallery.js'),
+      get_theme_file_uri('assets/js/CPT/gallery/uw-gallery.js'),
       array(),
-      '2.0.0',
+      '2.0.1',
       true
     );
 

@@ -1,0 +1,163 @@
+<style>
+  /* [시스템 설정 변수] */
+  :root {
+    --card-ratio: 3 / 4;        /* 카드 비율 */
+    --pc-scroll-speed: 1.5s;      /* PC 이미지 스크롤 속도 */
+    --mob-width: 30%;           /* 모바일 기기 크기 (카드 대비 %) */
+    --mob-radius: 20px;         /* 모바일 둥글기 */
+  }
+
+  /* [레이아웃 컨테이너] */
+  .imweb-theme-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 20px;
+  }
+
+  .imweb-theme-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  /* [포트폴리오 카드 - 컨테이너 쿼리 적용] */
+  .pf-card {
+    position: relative;
+    aspect-ratio: var(--card-ratio);
+    border-radius: 16px;
+    background-color: #f8f9fa;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* 핵심: 자식 요소가 부모 높이(cqh)를 인식하게 함 */
+    container-type: size; 
+  }
+
+  .pf-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  }
+
+  /* [1. PC 뷰 영역 - 스크롤 효과] */
+  .pc-view {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; 
+    /* 높이는 이미지 길이에 따라 자동 */
+  }
+
+  .pc-img {
+    width: 100%;
+    display: block;
+    /* 부드러운 스크롤 애니메이션 */
+    transition: transform var(--pc-scroll-speed) ease-in-out; 
+  }
+
+  /* 호버 시 PC 이미지 스크롤 (정확한 계산식) */
+  .pf-card:hover .pc-img {
+    /* -100% : 내 전체 높이만큼 위로 올림
+      +100cqh : 부모(카드) 높이만큼 다시 내림 
+      결과 : 정확히 이미지 바닥이 카드 바닥에 닿음 
+    */
+    transform: translateY(calc(-100% + 100cqh)); 
+  }
+
+
+  /* [2. 모바일 뷰 영역 - 고정 팝업] */
+  .mob-view {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: var(--mob-width);
+    aspect-ratio: 9 / 19.5; /* 최신 스마트폰 비율 */
+    background: #fff;
+    border: 8px solid #222; /* 기기 테두리 */
+    border-radius: var(--mob-radius);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    overflow: hidden; 
+    z-index: 10;
+    
+    /* 초기 상태: 아래로 숨김 */
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* 텐션 있는 등장 효과 */
+  }
+
+  /* 모바일 다이나믹 아일랜드/노치 */
+  .mob-view::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 35%; height: 18px;
+    background: #222;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    z-index: 11;
+  }
+
+  .mob-img {
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 0; left: 0;
+    /* 스크롤 없음 (고정) */
+  }
+
+  /* 호버 시 모바일 기기 등장 */
+  .pf-card:hover .mob-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* [반응형] */
+  @media (max-width: 1024px) { .imweb-theme-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .imweb-theme-grid { grid-template-columns: repeat(1, 1fr); } }
+</style>
+
+<div class="imweb-theme-container">
+  <ul class="imweb-theme-grid">
+
+    <li class="pf-card" onclick="location.href='#'">
+      <div class="pc-view">
+        <img src="https://cdn.imweb.me/upload/47fc8e829221a.png" class="pc-img" alt="PC Design">
+      </div>
+      <div class="mob-view">
+        <img src="https://cdn.imweb.me/upload/7b2baad6c6f68.png" class="mob-img" alt="Mobile Design">
+      </div>
+    </li>
+
+    <li class="pf-card">
+      <div class="pc-view">
+        <img src="https://cdn.imweb.me/upload/47fc8e829221a.png" class="pc-img">
+      </div>
+      <div class="mob-view">
+        <img src="https://cdn.imweb.me/upload/7b2baad6c6f68.png" class="mob-img">
+      </div>
+    </li>
+
+    <li class="pf-card">
+      <div class="pc-view">
+        <img src="https://cdn.imweb.me/upload/47fc8e829221a.png" class="pc-img">
+      </div>
+      <div class="mob-view">
+        <img src="https://cdn.imweb.me/upload/7b2baad6c6f68.png" class="mob-img">
+      </div>
+    </li>
+
+    <li class="pf-card">
+      <div class="pc-view">
+        <img src="https://cdn.imweb.me/upload/47fc8e829221a.png" class="pc-img">
+      </div>
+      <div class="mob-view">
+        <img src="https://cdn.imweb.me/upload/7b2baad6c6f68.png" class="mob-img">
+      </div>
+    </li>
+
+  </ul>
+</div>

@@ -7,46 +7,23 @@ get_header();
 
 <main class="uw-main" id="main-content" role="main">
 
-  <!-- 메인 비주얼 슬라이더 -->
-  <section class="uw-visual">
-    <div class="uw-visual__slide is-active">
-      <div class="uw-visual__bg" style="background-image: url('<?php echo esc_url(get_theme_file_uri('/assets/images/bg1.jpg')); ?>');"></div>
-      <div class="uw-visual__overlay"></div>
-      <div class="uw-visual__content">
-        <h2 class="uw-visual__title">Strategic<br>Planning</h2>
-        <p class="uw-visual__desc">데이터 기반의 확실한 전략으로<br>비즈니스의 성장을 견인합니다.</p>
-      </div>
-    </div>
+  <!-- 메인 비주얼 - 포트폴리오 쇼케이스 -->
+  <?php get_template_part('template-parts/main/visual', 'portfolio'); ?>
 
-    <div class="uw-visual__slide">
-      <div class="uw-visual__bg" style="background-image: url('<?php echo esc_url(get_theme_file_uri('/assets/images/bg2.jpg')); ?>');"></div>
-      <div class="uw-visual__overlay"></div>
-      <div class="uw-visual__content">
-        <h2 class="uw-visual__title">Creative<br>Design</h2>
-        <p class="uw-visual__desc">직관적이고 구조적인 디자인으로<br>사용자 경험을 최적화합니다.</p>
-      </div>
-    </div>
+  <!-- 실시간 프로젝트 현황 대시보드 -->
+  <?php get_template_part('template-parts/main/section', 'dashboard'); ?>
 
-    <div class="uw-visual__slide">
-      <div class="uw-visual__bg" style="background-image: url('<?php echo esc_url(get_theme_file_uri('/assets/images/bg3.jpg')); ?>');"></div>
-      <div class="uw-visual__overlay"></div>
-      <div class="uw-visual__content">
-        <h2 class="uw-visual__title">System<br>Optimization</h2>
-        <p class="uw-visual__desc">효율적인 유지보수 시스템 구축으로<br>운영 리소스를 최소화합니다.</p>
-      </div>
-    </div>
+  <!-- 포트폴리오 쇼케이스 -->
+  <?php get_template_part('template-parts/main/section', 'portfolio'); ?>
 
-    <div class="uw-visual__nav">
-      <div class="uw-visual__nav-item is-active" data-slide="0"><div class="uw-visual__nav-fill"></div></div>
-      <div class="uw-visual__nav-item" data-slide="1"><div class="uw-visual__nav-fill"></div></div>
-      <div class="uw-visual__nav-item" data-slide="2"><div class="uw-visual__nav-fill"></div></div>
-    </div>
+  <!-- 유지보수 서비스 현황 -->
+  <?php get_template_part('template-parts/main/section', 'maintenance'); ?>
 
-    <div class="uw-visual__scroll">
-      <span class="uw-visual__scroll-text">Scroll Down</span>
-      <div class="uw-visual__scroll-line"></div>
-    </div>
-  </section>
+  <!-- 일정관리 프로세스 -->
+  <?php get_template_part('template-parts/main/section', 'schedule'); ?>
+
+  <!-- 데이터 수치 카운터 -->
+  <?php get_template_part('template-parts/main/section', 'stats'); ?>
 
 </main>
 

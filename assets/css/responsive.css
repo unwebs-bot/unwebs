@@ -103,14 +103,6 @@
     white-space: nowrap;
   }
 
-  .uw-footer {
-    padding: 40px 0 25px;
-  }
-
-  .uw-footer-info {
-    font-size: 13px;
-  }
-
   /* Title Box - Mobile */
   .tit-box {
     margin-bottom: 30px;
@@ -123,5 +115,41 @@
   .tit-box .sub-tit {
     font-size: 15px;
     margin-top: 12px;
+  }
+}
+
+/* Small Mobile (480px) */
+@media (max-width: 480px) {
+  :root {
+    --area-padding: 12px;
+  }
+
+  .sub-visual {
+    height: 200px;
+  }
+
+  .sub-visual__title {
+    font-size: 22px;
+  }
+
+  .sub-breadcrumb__item {
+    font-size: 12px;
+  }
+
+  .sub-lnb {
+    height: 44px;
+  }
+
+  .sub-lnb__item a {
+    padding: 0 14px;
+    font-size: 13px;
+  }
+
+  .tit-box .main-tit {
+    font-size: 22px;
+  }
+
+  .tit-box .sub-tit {
+    font-size: 14px;
   }
 }
