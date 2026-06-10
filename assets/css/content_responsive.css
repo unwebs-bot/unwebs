@@ -787,3 +787,21 @@
   .sub-faq-cate { font-size: 16px; }
   .sub-faq-q-text { font-size: 14px; }
 }
+
+
+/* ========== 문의 접수 완료 (inquiry-complete) ========== */
+@media (max-width: 768px) {
+  .inquiry-complete-sec { padding: 60px 20px; }
+  .inquiry-complete-card { padding: 44px 24px; border-radius: 20px; }
+  .inquiry-complete-icon { width: 76px; height: 76px; margin-bottom: 24px; }
+  .inquiry-complete-icon svg { width: 40px; height: 40px; }
+  .inquiry-complete-tit { font-size: 22px; }
+  .inquiry-complete-sub { font-size: 15px; }
+  .inquiry-complete-divider { margin: 30px 0; }
+}
+@media (max-width: 480px) {
+  .inquiry-complete-card { padding: 36px 20px; }
+  .inquiry-complete-tit { font-size: 20px; }
+  .inquiry-complete-desc { font-size: 14px; }
+  .inquiry-complete-kakao { display: flex; width: 100%; min-width: 0; }
+}

@@ -308,15 +308,15 @@
       contentType: false,
       success: function (response) {
         if (response.success) {
-          // 네이버 파워링크 전환 (문의 완료) — redirect/popup 양쪽 모두 이동 전 발화
-          if (window.uwNaverCnvInquiry) { window.uwNaverCnvInquiry(); }
           // 성공
           if (response.data.type === 'redirect' && response.data.redirect) {
-            // 페이지 이동
-            alert(response.data.message || '문의가 접수되었습니다.');
+            // 완료 페이지로 이동 — 전환(네이버·구글)은 완료 페이지 도달 시 발화한다.
+            // 새로고침·직접접근 중복 집계를 막기 위해 플래그를 남기고 이동.
+            try { sessionStorage.setItem('uw_inquiry_done', '1'); } catch (e) {}
             window.location.href = response.data.redirect;
           } else {
-            // 브라우저 기본 alert 사용
+            // 팝업 모드(완료 페이지를 쓰지 않는 폼) — 네이버 전환 발화 + alert
+            if (window.uwNaverCnvInquiry) { window.uwNaverCnvInquiry(); }
             alert(response.data.message || '문의가 접수되었습니다.');
 
             // 폼 초기화

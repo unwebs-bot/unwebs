@@ -4810,3 +4810,107 @@ body.mq-modal-lock {
 /* ==========================================================================
    ========== 문의하기 (contact) ==========
    ========================================================================== */
+
+
+/* ==========================================================================
+   ========== 문의 접수 완료 (inquiry-complete) ==========
+   메인 하단·/contact 제작문의 폼 접수 후 redirect 도착 페이지.
+   ========================================================================== */
+.inquiry-complete-sec {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--cm-header-height));
+  padding: 80px 20px;
+  background: var(--cm-bg);
+}
+.inquiry-complete-card {
+  width: 100%;
+  max-width: 560px;
+  padding: 56px 48px;
+  background: var(--cm-white);
+  border: 1px solid var(--cm-border);
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(17, 17, 17, 0.06);
+  text-align: center;
+}
+.inquiry-complete-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 84px;
+  margin-bottom: 28px;
+  border-radius: 50%;
+  background: rgba(var(--cm-primary-rgb), 0.1);
+  color: var(--cm-primary);
+}
+.inquiry-complete-icon svg {
+  width: 44px;
+  height: 44px;
+}
+.inquiry-complete-tit {
+  margin-bottom: 14px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--cm-text);
+}
+.inquiry-complete-sub {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--cm-sub);
+}
+.inquiry-complete-sub strong {
+  font-weight: 700;
+  color: var(--cm-primary);
+}
+.inquiry-complete-divider {
+  margin: 36px 0;
+  border: 0;
+  border-top: 1px solid var(--cm-border);
+}
+.inquiry-complete-desc {
+  margin-bottom: 28px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--cm-text-body);
+}
+.inquiry-complete-desc strong {
+  font-weight: 700;
+  color: var(--cm-text);
+}
+/* 카카오톡 버튼 — KakaoTalk 브랜드 색상은 고정값(브랜드 가이드라인) */
+.inquiry-complete-kakao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 220px;
+  padding: 15px 28px;
+  border-radius: 12px;
+  background: #FEE500;
+  color: #3C1E1E;
+  font-size: 16px;
+  font-weight: 700;
+  transition: var(--cm-transition);
+}
+.inquiry-complete-kakao svg {
+  width: 22px;
+  height: 22px;
+}
+.inquiry-complete-kakao:hover {
+  background: #F4DC00;
+  transform: translateY(-1px);
+}
+.inquiry-complete-home {
+  display: block;
+  width: fit-content;
+  margin: 22px auto 0;
+  font-size: 14px;
+  color: var(--cm-sub);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.inquiry-complete-home:hover {
+  color: var(--cm-text);
+}

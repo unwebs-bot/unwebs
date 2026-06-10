@@ -194,6 +194,23 @@ function starter_company($key = null)
 }
 
 /**
+ * 카카오톡 상담 채널 URL
+ *
+ * 설정(wp-config.php 권장):
+ *   define('UW_KAKAO_CONSULT_URL', 'http://pf.kakao.com/_xxxxx/chat'); // 카카오톡 채널 상담(채팅) 링크
+ * 또는 필터:
+ *   add_filter('uw_kakao_consult_url', function () { return 'https://...'; });
+ *
+ * 사용처: page-inquiry-complete.php (문의 완료 후 카카오톡 상담 유도 버튼)
+ * 미설정 시 버튼 href는 '#' 로 출력되므로 운영 전 반드시 설정할 것.
+ */
+function uw_kakao_consult_url()
+{
+    $url = defined('UW_KAKAO_CONSULT_URL') ? UW_KAKAO_CONSULT_URL : '';
+    return apply_filters('uw_kakao_consult_url', $url);
+}
+
+/**
  * Get navigation menu
  */
 function starter_nav($section = null)
