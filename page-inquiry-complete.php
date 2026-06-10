@@ -71,7 +71,10 @@ $kakao_url = function_exists('uw_kakao_consult_url') ? uw_kakao_consult_url() : 
   // 네이버 검색광고 전환
   if (typeof window.uwNaverCnvInquiry === 'function') { window.uwNaverCnvInquiry(); }
 
-  // 구글 — GTM dataLayer 이벤트 (GTM에서 'inquiry_complete' 트리거 → Google Ads 전환 태그 연결)
+  // 구글 애즈 전환 (gtag.js 직접 — inc/cm-gads.php)
+  if (typeof window.uwGadsConversion === 'function') { window.uwGadsConversion(); }
+
+  // GTM dataLayer 이벤트 (GA4·기타 GTM 태그용. ※ Google Ads 전환은 위 gtag가 처리 — GTM에 같은 전환 중복 연결 금지)
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event: 'inquiry_complete' });
 })();

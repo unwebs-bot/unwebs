@@ -390,6 +390,11 @@ require_once get_template_directory() . '/inc/cm-favicon.php';
 require_once get_template_directory() . '/inc/cm-naver-ads.php';
 
 /**
+ * Google Ads — 전역 사이트 태그(gtag.js) + 전환 헬퍼 (운영 환경만 출력). 전환: 문의 완료 페이지
+ */
+require_once get_template_directory() . '/inc/cm-gads.php';
+
+/**
  * Service 하위 URL 통합 — /service-materials, /service-process → /service#앵커 301 redirect
  * 사이트맵 통합 이전 인덱싱된 URL 보존용
  */

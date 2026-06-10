@@ -17,6 +17,7 @@ $has_rank_math = class_exists('RankMath');
   <meta name="format-detection" content="telephone=no">
 
   <?php if (function_exists('uw_gtm_head')) uw_gtm_head(); ?>
+  <?php if (function_exists('uw_gads_head')) uw_gads_head(); ?>
 
   <?php if (!$has_rank_math) : ?>
   <!-- Fallback SEO Meta (Rank Math 미활성화 시) -->
