@@ -202,6 +202,7 @@ class UW_Auth_Handler {
 
         $email    = isset($_POST['uw_email'])    ? sanitize_email(wp_unslash($_POST['uw_email'])) : '';
         $password = isset($_POST['uw_password']) ? (string) wp_unslash($_POST['uw_password']) : '';
+        $password2= isset($_POST['uw_password2']) ? (string) wp_unslash($_POST['uw_password2']) : '';
         $company  = isset($_POST['uw_company'])  ? sanitize_text_field(wp_unslash($_POST['uw_company'])) : '';
         $name     = isset($_POST['uw_name'])     ? sanitize_text_field(wp_unslash($_POST['uw_name']))    : '';
         $phone    = isset($_POST['uw_phone'])    ? sanitize_text_field(wp_unslash($_POST['uw_phone']))   : '';
@@ -213,6 +214,7 @@ class UW_Auth_Handler {
         if (strlen($password) < 8
             || !preg_match('/[A-Za-z]/', $password)
             || !preg_match('/\d/', $password))                   $errs[] = 'password';
+        elseif ($password !== $password2)                        $errs[] = 'mismatch';
         if (!$company)                                           $errs[] = 'company';
         if (!$name)                                              $errs[] = 'name';
         if (!$phone)                                             $errs[] = 'phone';

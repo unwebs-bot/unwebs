@@ -57,7 +57,7 @@ $is_complete = ($ok_code === 'registered');
           </div>
         <?php else: ?>
 
-          <?php if (!empty($err_codes) && !$has_err('duplicate') && !$has_err('email') && !$has_err('password') && !$has_err('company') && !$has_err('name') && !$has_err('phone') && !$has_err('agree')): ?>
+          <?php if (!empty($err_codes) && !$has_err('duplicate') && !$has_err('email') && !$has_err('password') && !$has_err('mismatch') && !$has_err('company') && !$has_err('name') && !$has_err('phone') && !$has_err('agree')): ?>
             <div class="auth-alert auth-alert-error" role="alert">
               <i class="xi-error-o" aria-hidden="true"></i>
               <span><?php echo esc_html(UW_Auth_Handler::get_error_message($err_codes[0])); ?></span>
@@ -102,6 +102,21 @@ $is_complete = ($ok_code === 'registered');
                      required>
               <?php if ($has_err('password')): ?>
                 <p class="auth-field-error"><?php echo esc_html(UW_Auth_Handler::get_error_message('password')); ?></p>
+              <?php endif; ?>
+            </div>
+
+            <div class="auth-field">
+              <label class="auth-label" for="uw-reg-password-confirm">비밀번호 확인</label>
+              <input id="uw-reg-password-confirm"
+                     class="cm-input <?php echo $has_err('mismatch') ? 'has-error' : ''; ?>"
+                     type="password"
+                     name="uw_password2"
+                     placeholder="동일한 비밀번호 입력"
+                     autocomplete="new-password"
+                     minlength="8"
+                     required>
+              <?php if ($has_err('mismatch')): ?>
+                <p class="auth-field-error"><?php echo esc_html(UW_Auth_Handler::get_error_message('mismatch')); ?></p>
               <?php endif; ?>
             </div>
 
@@ -167,6 +182,41 @@ $is_complete = ($ok_code === 'registered');
             <span class="auth-links-txt">이미 회원이신가요?</span>
             <a href="<?php echo esc_url(home_url('/login/')); ?>">로그인</a>
           </nav>
+
+          <script>
+          (function () {
+            var form = document.querySelector('.auth-card-register .auth-form');
+            if (!form) return;
+            var pw  = document.getElementById('uw-reg-password');
+            var pw2 = document.getElementById('uw-reg-password-confirm');
+            if (!pw || !pw2) return;
+            var field = pw2.closest('.auth-field');
+
+            function setError(msg) {
+              pw2.classList.add('has-error');
+              var p = field.querySelector('.auth-field-error');
+              if (!p) { p = document.createElement('p'); p.className = 'auth-field-error'; field.appendChild(p); }
+              p.textContent = msg;
+            }
+            function clearError() {
+              pw2.classList.remove('has-error');
+              var p = field.querySelector('.auth-field-error');
+              if (p) p.remove();
+            }
+
+            // 제출 시 일치 검사 (서버에서도 재검증 — 클라이언트는 UX용)
+            form.addEventListener('submit', function (e) {
+              if (pw.value !== pw2.value) {
+                e.preventDefault();
+                setError('두 비밀번호가 일치하지 않습니다.');
+                pw2.focus();
+              }
+            });
+            // 입력 중 일치하면 에러 해제
+            pw2.addEventListener('input', function () { if (pw.value === pw2.value) clearError(); });
+            pw.addEventListener('input',  function () { if (pw.value === pw2.value) clearError(); });
+          })();
+          </script>
 
         <?php endif; ?>
       </div>
