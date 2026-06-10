@@ -1,8 +1,9 @@
 <?php
 /**
- * UW Maintenance CPT Registration
+ * UW Maintenance Utilities
  *
- * 유지보수 현황 Custom Post Type
+ * 메인페이지 유지보수 섹션에서 사용하는 정적 유틸 모음
+ * (상태 라벨/클래스, 회사명 마스킹, 날짜 포맷, 컬럼 분할)
  *
  * @package starter-theme
  * @since 1.0.0
@@ -14,73 +15,6 @@ if (!defined('ABSPATH')) {
 
 class UW_Maintenance_CPT
 {
-
-  /**
-   * Instance
-   */
-  private static $instance = null;
-
-  /**
-   * KPI Options key
-   */
-  const KPI_OPTION_KEY = 'uw_maintenance_kpi_options';
-
-  /**
-   * Get instance
-   */
-  public static function get_instance()
-  {
-    if (null === self::$instance) {
-      self::$instance = new self();
-    }
-    return self::$instance;
-  }
-
-  /**
-   * Constructor
-   */
-  private function __construct()
-  {
-    add_action('init', array($this, 'register_post_type'));
-  }
-
-  /**
-   * Register CPT: uw_maintenance
-   */
-  public function register_post_type()
-  {
-    $labels = array(
-      'name' => '유지보수 현황',
-      'singular_name' => '유지보수',
-      'menu_name' => '유지보수',
-      'add_new' => '새 항목 추가',
-      'add_new_item' => '새 유지보수 항목 추가',
-      'edit_item' => '항목 수정',
-      'new_item' => '새 항목',
-      'view_item' => '항목 보기',
-      'search_items' => '항목 검색',
-      'not_found' => '항목이 없습니다',
-      'not_found_in_trash' => '휴지통에 항목이 없습니다',
-    );
-
-    $args = array(
-      'labels' => $labels,
-      'public' => false,
-      'publicly_queryable' => false,
-      'show_ui' => false,
-      'show_in_menu' => false,
-      'query_var' => false,
-      'rewrite' => false,
-      'capability_type' => 'post',
-      'has_archive' => false,
-      'hierarchical' => false,
-      'supports' => array('title'),
-      'show_in_rest' => false,
-    );
-
-    register_post_type('uw_maintenance', $args);
-  }
-
   /**
    * Get available maintenance types
    */
@@ -114,12 +48,12 @@ class UW_Maintenance_CPT
     switch ($status) {
       case 'receiving':
       case '접수중':
-        return 'uw-maintenance__badge--receiving';
+        return 'main-maintenance-badge-receiving';
       case 'completed':
       case '수정완료':
-        return 'uw-maintenance__badge--completed';
+        return 'main-maintenance-badge-completed';
       default:
-        return 'uw-maintenance__badge--ongoing';
+        return 'main-maintenance-badge-ongoing';
     }
   }
 
@@ -166,54 +100,6 @@ class UW_Maintenance_CPT
   }
 
   /**
-   * Get KPI options with defaults
-   */
-  public static function get_kpi_options()
-  {
-    $defaults = array(
-      'today_completed' => 0,
-      'monthly_completed' => 0,
-      'one_day_rate' => 0.0,
-      'free_rate' => 0.0,
-      'status_link' => '',
-    );
-
-    $options = get_option(self::KPI_OPTION_KEY, array());
-    return wp_parse_args($options, $defaults);
-  }
-
-  /**
-   * Get maintenance entries for ticker display
-   *
-   * @param int $limit Number of entries to retrieve
-   * @return array Array of maintenance entry data
-   */
-  public static function get_ticker_entries($limit = 20)
-  {
-    $posts = get_posts(array(
-      'post_type' => 'uw_maintenance',
-      'posts_per_page' => $limit,
-      'post_status' => 'publish',
-      'meta_key' => '_uw_maintenance_date',
-      'orderby' => 'meta_value',
-      'order' => 'DESC',
-    ));
-
-    $entries = array();
-    foreach ($posts as $post) {
-      $entries[] = array(
-        'id' => $post->ID,
-        'company' => get_post_meta($post->ID, '_uw_maintenance_company', true),
-        'date' => get_post_meta($post->ID, '_uw_maintenance_date', true),
-        'type' => get_post_meta($post->ID, '_uw_maintenance_type', true),
-        'status' => get_post_meta($post->ID, '_uw_maintenance_status', true),
-      );
-    }
-
-    return $entries;
-  }
-
-  /**
    * Split entries into columns for ticker display
    *
    * @param array $entries Array of entries
@@ -249,6 +135,3 @@ class UW_Maintenance_CPT
     return str_replace('-', '.', $date);
   }
 }
-
-// Initialize
-UW_Maintenance_CPT::get_instance();

@@ -981,12 +981,21 @@ class UW_Board_Engine
     }
 
     $q = $wp_query->query_vars;
-    $n = !empty($q['exact']) ? '' : '%';
+    $exact = !empty($q['exact']);
     $search = $searchand = '';
 
+    // 필드 화이트리스트 (식별자는 prepare 불가 → 직접 검증)
+    $allowed_fields = array('post_title', 'post_content', 'post_excerpt');
+    if (!in_array($field, $allowed_fields, true)) {
+      $field = 'post_title';
+    }
+
     foreach ((array) $q['search_terms'] as $term) {
-      $term = esc_sql($wpdb->esc_like($term));
-      $search .= "{$searchand}($wpdb->posts.{$field} LIKE '{$n}{$term}{$n}')";
+      $like = $exact ? $wpdb->esc_like($term) : '%' . $wpdb->esc_like($term) . '%';
+      $search .= $searchand . $wpdb->prepare(
+        "({$wpdb->posts}.{$field} LIKE %s)",
+        $like
+      );
       $searchand = ' AND ';
     }
 

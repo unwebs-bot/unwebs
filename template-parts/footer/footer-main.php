@@ -10,17 +10,17 @@ $nav     = $config['nav'];
 $company = $config['company'];
 ?>
 
-<footer class="uw-footer" role="contentinfo">
+<footer class="cm-footer" role="contentinfo">
 
   <!-- Upper Section: Navigation & CTA -->
-  <div class="uw-footer__upper">
-    <div class="uw-footer__inner">
+  <div class="cm-footer-upper">
+    <div class="cm-footer-inner">
 
       <!-- Left: Navigation Links -->
-      <nav class="uw-footer__nav" aria-label="푸터 내비게이션">
+      <nav class="cm-footer-nav" aria-label="푸터 내비게이션">
         <?php foreach ($nav as $key => $section) : ?>
-        <div class="uw-footer__nav-col">
-          <h3 class="uw-footer__nav-title">
+        <div class="cm-footer-nav-col">
+          <h3 class="cm-footer-nav-tit">
             <?php if (!empty($section['url']) && $section['url'] !== '#') : ?>
               <a href="<?php echo esc_url(home_url($section['url'])); ?>"><?php echo esc_html($section['label']); ?></a>
             <?php else : ?>
@@ -28,7 +28,7 @@ $company = $config['company'];
             <?php endif; ?>
           </h3>
           <?php if (!empty($section['items'])) : ?>
-          <ul class="uw-footer__nav-list">
+          <ul class="cm-footer-nav-list">
             <?php foreach ($section['items'] as $item) : ?>
             <li>
               <a href="<?php echo esc_url(
@@ -45,20 +45,20 @@ $company = $config['company'];
       </nav>
 
       <!-- Right: Logo, CTA & Contact -->
-      <div class="uw-footer__cta">
-        <a href="<?php echo esc_url(home_url('/')); ?>" class="uw-footer__logo">
-          <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/logo.png')); ?>" alt="<?php bloginfo('name'); ?>">
+      <div class="cm-footer-cta">
+        <a href="<?php echo esc_url(home_url('/')); ?>" class="cm-footer-logo">
+          <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/common/logo.png')); ?>" alt="<?php bloginfo('name'); ?>">
         </a>
-        <div class="uw-footer__phone">
-          <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9]/', '', $company['tel'])); ?>" class="uw-footer__phone-number">
+        <div class="cm-footer-phone">
+          <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9]/', '', $company['tel'])); ?>" class="cm-footer-phone-number">
             <?php echo esc_html($company['tel']); ?>
           </a>
           <?php if (!empty($company['hours'])) : ?>
-          <p class="uw-footer__phone-hours"><?php echo esc_html($company['hours']); ?></p>
+          <p class="cm-footer-phone-hours"><?php echo esc_html($company['hours']); ?></p>
           <?php endif; ?>
         </div>
-        <div class="uw-footer__cta-buttons">
-          <a href="#" class="uw-footer__cta-btn">
+        <div class="cm-footer-cta-buttons">
+          <a href="<?php echo esc_url(get_theme_file_uri('/assets/files/unwebs-company-profile.pdf')); ?>" class="cm-footer-cta-btn" download="언웹스 회사소개서.pdf" target="_blank" rel="noopener">
             <span>회사소개서 다운로드</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -66,7 +66,7 @@ $company = $config['company'];
               <line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
           </a>
-          <a href="#" class="uw-footer__cta-btn uw-footer__cta-btn--primary">
+          <a href="<?php echo esc_url(get_theme_file_uri('/assets/files/unwebs-project-request.docx')); ?>" class="cm-footer-cta-btn cm-footer-cta-btn-primary" download="언웹스 제작의뢰서 양식.docx">
             <span>제작의뢰서 다운로드</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -81,43 +81,43 @@ $company = $config['company'];
   </div>
 
   <!-- Lower Section: Business Info & Copyright -->
-  <div class="uw-footer__lower">
-    <div class="uw-footer__inner">
+  <div class="cm-footer-lower">
+    <div class="cm-footer-inner">
 
-      <div class="uw-footer__info">
-        <dl class="uw-footer__info-item">
+      <div class="cm-footer-info">
+        <dl class="cm-footer-info-item">
           <dt>대표</dt>
           <dd><?php echo esc_html($company['ceo']); ?></dd>
         </dl>
         <?php if (!empty($company['email'])) : ?>
-        <dl class="uw-footer__info-item">
+        <dl class="cm-footer-info-item">
           <dt>메일</dt>
           <dd><?php echo esc_html($company['email']); ?></dd>
         </dl>
         <?php endif; ?>
-        <dl class="uw-footer__info-item">
+        <dl class="cm-footer-info-item">
           <dt>전화</dt>
           <dd><?php echo esc_html($company['tel']); ?></dd>
         </dl>
-        <dl class="uw-footer__info-item">
+        <dl class="cm-footer-info-item">
           <dt>상호</dt>
           <dd><?php echo esc_html($company['name']); ?></dd>
         </dl>
         <?php if (!empty($company['biz_no'])) : ?>
-        <dl class="uw-footer__info-item">
+        <dl class="cm-footer-info-item">
           <dt>사업자등록번호</dt>
           <dd><?php echo esc_html($company['biz_no']); ?></dd>
         </dl>
         <?php endif; ?>
         <?php if (!empty($company['address'])) : ?>
-        <dl class="uw-footer__info-item">
+        <dl class="cm-footer-info-item">
           <dt>주소</dt>
           <dd><?php echo esc_html($company['address']); ?></dd>
         </dl>
         <?php endif; ?>
       </div>
 
-      <div class="uw-footer__copyright">
+      <div class="cm-footer-copyright">
         <p>&copy;<?php echo date('Y'); ?> UNWEBS. All rights Reserved</p>
       </div>
 

@@ -14,11 +14,11 @@
   // ==========================================================================
   // DOM Elements
   // ==========================================================================
-  const modalOverlay = document.querySelector('.uw-modal-overlay');
-  const modal = document.querySelector('.uw-modal');
-  const modalTitle = document.querySelector('.uw-modal__title');
-  const modalContent = document.querySelector('.uw-modal__content');
-  const modalCloseBtn = document.querySelector('.uw-modal__close');
+  const modalOverlay = document.querySelector('.cm-modal-overlay');
+  const modal = document.querySelector('.cm-modal');
+  const modalTitle = document.querySelector('.cm-modal-tit');
+  const modalContent = document.querySelector('.cm-modal-content');
+  const modalCloseBtn = document.querySelector('.cm-modal-close');
   const privacyBtn = document.querySelector('[data-modal="privacy"]');
   const termsBtn = document.querySelector('[data-modal="terms"]');
 
@@ -176,7 +176,7 @@
   // ==========================================================================
   // Public API
   // ==========================================================================
-  window.uwFooter = {
+  window.cmFooter = {
     openModal: openModal,
     closeModal: closeModal
   };

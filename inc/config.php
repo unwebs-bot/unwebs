@@ -20,12 +20,28 @@ function starter_get_config()
             // Site / SEO Info
             'site' => array(
                 'title'       => '홈페이지제작전문 | 언웹스',
-                'description' => '기업홈페이지제작 1000+ | LG, 문화체육관광부, 현대엔지니어링 프로젝트 진행',
-                'keywords'    => '홈페이지제작, 웹사이트제작, 아임웹 제작, 워드프레스제작, 기업홈페이지, 언웹스',
-                'og_image'    => '/assets/images/ogimage.png',     // 테마 상대경로
+                'description' => '워드프레스 커스텀 홈페이지 제작과 반응형 디자인, 운영·유지보수를 단일 창구로 제공합니다.',
+                'keywords'    => '워드프레스 제작, 홈페이지 제작, 반응형 웹사이트, 홈페이지 유지보수, 언웹스',
+                'og_image'    => '/assets/images/common/ogimage.png',
                 'theme_color' => '#222222',
-                'google_verification' => '',   // Google Search Console
-                'naver_verification'  => '',   // Naver Search Advisor
+                'google_verification' => '',
+                'naver_verification'  => '',
+            ),
+
+            // 페이지별 meta description (Rank Math 미설정 시 fallback. is_page() slug 기준)
+            // 공개 카피 중립 원칙: 포지셔닝·타겟업종·운영형태·기술스택 직접노출 금지. 가치·사실 중심.
+            'page_desc' => array(
+                'home'                       => '워드프레스 커스텀 홈페이지 제작과 반응형 디자인, 검색 최적화, 운영·유지보수를 단일 창구로 제공합니다. 기획·디자인·개발·납품 전 과정을 일관된 품질로 진행합니다.',
+                'service'                    => '워드프레스 커스텀 홈페이지 제작 서비스. 반응형 디자인과 검색 최적화를 기본 구성에 포함하며, 서비스 안내·준비자료·제작절차를 단계별로 정리했습니다.',
+                'maintenance'                => '건별과 정기 두 가지 방식으로 제공되는 홈페이지 유지보수 서비스. 보안 업데이트·백업·콘텐츠 수정을 단일 창구로 처리합니다.',
+                'maintenance-pricing'        => '홈페이지 유지보수 비용 안내. 건별 작업 단가와 정기 구독형 요금을 항목별로 정리했습니다.',
+                'maintenance-request'        => '운영 중인 홈페이지의 유지보수를 신청합니다. 건별·정기 선택이 가능하며 1영업일 이내 회신합니다.',
+                'maintenance-request-notice' => '유지보수 신청 전 준비 자료와 진행 시 유의사항을 안내하는 페이지입니다.',
+                'portfolio'                  => '다양한 업종의 홈페이지 제작 사례. 각 사례별 기획·제작 과정을 정리해 공개합니다.',
+                'support'                    => '공지사항·자주 묻는 질문·가이드 센터를 한 곳에서 제공하는 고객지원 페이지입니다.',
+                'faq'                        => '홈페이지 제작·가격·기간·유지보수·검색 최적화에 대해 자주 묻는 질문을 한 페이지에 정리했습니다.',
+                'contact'                    => '홈페이지 제작·리뉴얼·유지보수 문의를 접수합니다. 1영업일 이내 회신합니다.',
+                'blog'                       => '홈페이지 제작·검색 최적화·답변엔진(AEO) 관련 실전 기록과 가이드를 정리합니다.',
             ),
 
             // Company Info
@@ -33,7 +49,7 @@ function starter_get_config()
                 'name'      => '언웹스',
                 'name_en'   => 'Unwebs',
                 'ceo'       => '이종진',
-                'tel'       => '0507.1381.3731',
+                'tel'       => '010-2130-3731',
                 'fax'       => '',
                 'email'     => 'contact@unwebs.co.kr',
                 'address'   => '서울특별시 성동구 뚝섬로13길 38 KT&G 상상플래닛, 6층',
@@ -50,24 +66,25 @@ function starter_get_config()
                 'blog'      => '',
             ),
 
-            // Navigation Menu
+            // Navigation Menu (사이트맵 확정 2026-04-18)
             'nav' => array(
                 'service' => array(
                     'label' => '홈페이지 제작',
-                    'url'   => '#',
+                    'url'   => '/service',
+                    // 단일 페이지 + 앵커 스크롤 구조. 슬러그는 /service#섹션id 로 통일
+                    // '서비스 안내'는 페이지 최상단(반응형 체험)으로 진입 → 앵커 없이 /service
                     'items' => array(
-                        array('slug' => '/service-info/', 'label' => '서비스 안내'),
-                        array('slug' => '/resources/', 'label' => '준비자료'),
-                        array('slug' => '/process/', 'label' => '제작절차'),
+                        array('slug' => '/service',           'label' => '서비스 안내'),
+                        array('slug' => '/service#materials', 'label' => '준비자료'),
+                        array('slug' => '/service#process',   'label' => '제작절차'),
                     ),
                 ),
                 'maintenance' => array(
                     'label' => '유지보수',
-                    'url'   => '#',
+                    'url'   => '/maintenance',
                     'items' => array(
-                        array('slug' => '/maintenance-apply/', 'label' => '유지보수 신청'),
-                        array('slug' => '/one-time-maintenance/', 'label' => '건별 유지보수'),
-                        array('slug' => '/subscription-maintenance/', 'label' => '정기 유지보수'),
+                        array('slug' => '/maintenance-request', 'label' => '유지보수 신청'),
+                        array('slug' => '/maintenance-pricing', 'label' => '비용 안내'),
                     ),
                 ),
                 'portfolio' => array(
@@ -77,16 +94,21 @@ function starter_get_config()
                 ),
                 'support' => array(
                     'label' => '고객지원',
-                    'url'   => '#',
+                    'url'   => '/support',
                     'items' => array(
                         array('slug' => '/notice/', 'label' => '공지사항'),
-                        array('slug' => '/faq/', 'label' => '자주묻는질문'),
+                        array('slug' => '/faq/',    'label' => '자주묻는질문'),
                         array('slug' => 'https://guide.unwebs.co.kr', 'label' => '가이드 센터', 'target' => '_blank'),
                     ),
                 ),
                 'blog' => array(
                     'label' => '블로그',
                     'url'   => '/blog/',
+                    'items' => array(),
+                ),
+                'contact' => array(
+                    'label' => '문의하기',
+                    'url'   => '/contact',
                     'items' => array(),
                 ),
             ),
@@ -110,13 +132,13 @@ function starter_site($key = null)
 
 /**
  * Get head meta data (페이지별 동적 생성)
+ * Rank Math 설치 시 중복 회피 — 호출부에서 class_exists 체크.
  */
 function starter_head_meta()
 {
     $site = starter_site();
     $site_url = home_url('/');
 
-    // 페이지별 타이틀
     if (is_front_page()) {
         $page_title = $site['title'];
     } elseif (is_singular()) {
@@ -125,26 +147,26 @@ function starter_head_meta()
         $page_title = wp_title('|', false, 'right') . $site['title'];
     }
 
-    // 페이지별 설명
-    if (is_singular() && has_excerpt()) {
+    $config_all    = starter_get_config();
+    $page_desc_map = isset($config_all['page_desc']) ? $config_all['page_desc'] : array();
+    if (is_front_page()) {
+        $page_desc = isset($page_desc_map['home']) ? $page_desc_map['home'] : $site['description'];
+    } elseif (is_singular() && has_excerpt()) {
         $page_desc = get_the_excerpt();
+    } elseif (is_page()) {
+        $slug      = get_post_field('post_name', get_queried_object_id());
+        $page_desc = isset($page_desc_map[$slug]) ? $page_desc_map[$slug] : $site['description'];
     } else {
         $page_desc = $site['description'];
     }
 
-    // OG 이미지 (특성 이미지 → 기본 이미지)
     if (is_singular() && has_post_thumbnail()) {
         $og_image = get_the_post_thumbnail_url(null, 'large');
     } else {
         $og_image = get_theme_file_uri($site['og_image']);
     }
 
-    // Canonical URL
-    if (is_singular()) {
-        $canonical = get_permalink();
-    } else {
-        $canonical = $site_url;
-    }
+    $canonical = is_singular() ? get_permalink() : $site_url;
 
     return array(
         'title'       => esc_attr($page_title),
@@ -177,10 +199,22 @@ function starter_company($key = null)
 function starter_nav($section = null)
 {
     $config = starter_get_config();
-    if ($section === null) {
-        return $config['nav'];
+    $nav    = $config['nav'];
+
+    // 부모 메뉴 클릭 시 첫 번째 자식 URL로 이동 (자식이 있고 첫 자식이 내부 링크일 때만)
+    foreach ($nav as $key => &$menu) {
+        if (empty($menu['items'])) continue;
+        $first = $menu['items'][0];
+        if (!empty($first['target']) && $first['target'] === '_blank') continue;
+        if (empty($first['slug'])) continue;
+        $menu['url'] = $first['slug'];
     }
-    return isset($config['nav'][$section]) ? $config['nav'][$section] : array();
+    unset($menu);
+
+    if ($section === null) {
+        return $nav;
+    }
+    return isset($nav[$section]) ? $nav[$section] : array();
 }
 
 /**
@@ -188,20 +222,31 @@ function starter_nav($section = null)
  */
 function starter_current_nav_section()
 {
-    // 보안: REQUEST_URI 살균 (XSS 방지)
     $uri = isset($_SERVER['REQUEST_URI'])
         ? esc_url_raw(wp_unslash($_SERVER['REQUEST_URI']))
         : '';
     $nav = starter_nav();
 
+    // 정확 매칭 우선 (유지보수 하위가 /maintenance로 오인되는 문제 방지)
+    $uri_path = parse_url($uri, PHP_URL_PATH);
+    $uri_clean = trim($uri_path, '/');
+
+    // 유지보수 하위 페이지 처리
+    if (strpos($uri_clean, 'maintenance-') === 0 || $uri_clean === 'maintenance') {
+        return 'maintenance';
+    }
+    // 고객지원 하위 (notice/faq는 별도 최상위 URL이지만 support 섹션 소속)
+    if (in_array($uri_clean, array('notice', 'faq', 'support'), true) || strpos($uri_clean, 'notice/') === 0 || strpos($uri_clean, 'faq/') === 0) {
+        return 'support';
+    }
+
     foreach ($nav as $key => $data) {
-        // $key는 내부 정의값이므로 안전
-        if (strpos($uri, '/' . $key . '/') !== false) {
+        if (strpos($uri, '/' . $key . '/') !== false || $uri_clean === $key) {
             return $key;
         }
     }
 
-    return 'about'; // default
+    return '';
 }
 
 /**
@@ -211,7 +256,7 @@ function starter_sns($key = null)
 {
     $config = starter_get_config();
     if ($key === null) {
-        return array_filter($config['sns']); // 빈 값 제거
+        return array_filter($config['sns']);
     }
     return isset($config['sns'][$key]) ? $config['sns'][$key] : '';
 }
@@ -239,28 +284,12 @@ function starter_footer_data()
     $company = starter_company();
 
     return array(
-        'logo'        => get_theme_file_uri('/assets/images/logo.png'),
+        'logo'        => get_theme_file_uri('/assets/images/common/logo-footer.png'),
         'socialLinks' => array(
-            array(
-                'name' => 'facebook',
-                'url'  => starter_sns('facebook'),
-                'icon' => 'facebook',
-            ),
-            array(
-                'name' => 'instagram',
-                'url'  => starter_sns('instagram'),
-                'icon' => 'instagram',
-            ),
-            array(
-                'name' => 'youtube',
-                'url'  => starter_sns('youtube'),
-                'icon' => 'youtube',
-            ),
-            array(
-                'name' => 'blog',
-                'url'  => starter_sns('blog'),
-                'icon' => 'blog',
-            ),
+            array('name' => 'facebook',  'url' => starter_sns('facebook'),  'icon' => 'facebook'),
+            array('name' => 'instagram', 'url' => starter_sns('instagram'), 'icon' => 'instagram'),
+            array('name' => 'youtube',   'url' => starter_sns('youtube'),   'icon' => 'youtube'),
+            array('name' => 'blog',      'url' => starter_sns('blog'),      'icon' => 'blog'),
         ),
         'companyInfo' => array(
             'address'   => $company['address'],

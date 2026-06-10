@@ -1,0 +1,293 @@
+/**
+ * UW Portfolio Admin Form
+ */
+.uw-port-form-wrap .page-title-action { margin-left: 8px; }
+
+.uw-port-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+@media (max-width: 1180px) {
+  .uw-port-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.uw-port-section {
+  background: #fff;
+  border: 1px solid #ccd0d4;
+  border-radius: 6px;
+  padding: 22px 24px;
+  margin-bottom: 18px;
+}
+
+.uw-port-section-tit {
+  margin: 0 0 16px;
+  padding: 0 0 10px;
+  font-size: 16px;
+  font-weight: 700;
+  border-bottom: 1px solid #eee;
+}
+
+.uw-port-form .uw-port-lbl {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.uw-port-form .required { color: #d63638; }
+
+.uw-port-form input[type="text"],
+.uw-port-form input[type="url"],
+.uw-port-form input[type="number"],
+.uw-port-form textarea {
+  font-size: 14px;
+}
+
+.uw-port-form .description {
+  display: block;
+  margin-top: 4px;
+  color: #666;
+  font-size: 12px;
+}
+
+.uw-port-radios {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.uw-port-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  border: 1px solid #ccd0d4;
+  border-radius: 999px;
+  background: #f6f7f7;
+  cursor: pointer;
+  font-size: 13px;
+}
+.uw-port-radio input { margin: 0 4px 0 0; }
+.uw-port-radio:has(input:checked) {
+  background: #2271b1;
+  color: #fff;
+  border-color: #2271b1;
+}
+
+.uw-port-thumb-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.uw-port-thumb-preview {
+  width: 220px;
+  aspect-ratio: 4 / 3;
+  background: #f0f0f1;
+  border: 1px dashed #ccd0d4;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.uw-port-thumb-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.uw-port-thumb-placeholder {
+  color: #888;
+  font-size: 13px;
+}
+
+.uw-port-thumb-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.uw-port-form-side .uw-port-side-box {
+  position: sticky;
+  top: 50px;
+  background: #fff;
+  border: 1px solid #ccd0d4;
+  border-radius: 6px;
+  padding: 18px 20px;
+}
+.uw-port-side-box h3 {
+  margin: 0 0 12px;
+  padding: 0 0 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+}
+.uw-port-side-box label {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.uw-port-delete-link {
+  color: #b91c1c;
+  text-decoration: none;
+  font-size: 13px;
+}
+.uw-port-delete-link:hover { text-decoration: underline; }
+
+.uw-port-alt-warn {
+  display: block;
+  margin-top: 6px;
+  padding: 8px 12px;
+  background: #fef3c7;
+  border-left: 3px solid #f59e0b;
+  border-radius: 4px;
+  color: #92400e;
+  font-size: 12px;
+}
+.uw-port-alt-warn[hidden] { display: none; }
+.uw-port-alt-warn a { color: #92400e; text-decoration: underline; margin-left: 6px; }
+
+/* ==========================================================================
+   자체 콤보박스 (서비스명 / 태그)
+   ========================================================================== */
+.uw-combo {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 600px;
+}
+
+.uw-combo .uw-combo-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #8c8f94;
+  border-radius: 4px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.uw-combo .uw-combo-input:focus {
+  border-color: #2271b1;
+  box-shadow: 0 0 0 1px #2271b1;
+  outline: none;
+}
+
+/* 다중 모드: 칩 + input 한 박스 */
+.uw-combo--multi {
+  border: 1px solid #8c8f94;
+  border-radius: 4px;
+  background: #fff;
+  padding: 6px 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  cursor: text;
+}
+
+.uw-combo--multi:focus-within {
+  border-color: #2271b1;
+  box-shadow: 0 0 0 1px #2271b1;
+}
+
+.uw-combo--multi .uw-combo-input {
+  flex: 1 1 140px;
+  min-width: 140px;
+  border: 0;
+  padding: 4px 4px;
+  box-shadow: none;
+  background: transparent;
+}
+
+.uw-combo--multi .uw-combo-input:focus {
+  border: 0;
+  box-shadow: none;
+}
+
+.uw-combo-chips {
+  display: contents;
+}
+
+.uw-combo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 4px 3px 10px;
+  background: #e7f1ff;
+  border: 1px solid #c2d9ff;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #1d4ed8;
+  white-space: nowrap;
+}
+
+.uw-combo-chip-label { line-height: 1.2; }
+
+.uw-combo-chip-remove {
+  background: transparent;
+  border: 0;
+  color: #1d4ed8;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.uw-combo-chip-remove:hover {
+  background: rgba(29, 78, 216, 0.15);
+}
+
+/* 드롭다운 */
+.uw-combo-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 999;
+  max-height: 240px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ccd0d4;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 4px;
+}
+
+.uw-combo.is-open .uw-combo-dropdown {
+  display: block;
+}
+
+.uw-combo-opt {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 13px;
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #333;
+}
+.uw-combo-opt:hover,
+.uw-combo-opt.is-hi {
+  background: #2271b1;
+  color: #fff;
+}
+
+.uw-combo-empty {
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #888;
+}

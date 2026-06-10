@@ -183,6 +183,10 @@ class UW_Inquiry_Handler
                 </fieldset>
                 <?php endif; ?>
                 
+                <?php
+                /* 보안 — honeypot 등 외부 hook (cm-security.php 등록) */
+                do_action('uw_inquiry_form_before_submit', $form_id);
+                ?>
                 <div class="uw-inquiry-actions uw-inquiry-submit">
                     <button type="submit" class="uw-inquiry-submit uw-submit-btn">
                         <span class="uw-inquiry-submit-text btn-text">문의하기</span>
@@ -331,30 +335,64 @@ class UW_Inquiry_Handler
                         break;
 
                     case 'file':
-                        ?>
-                        <div class="uw-inquiry-field-file uw-file-wrapper">
-                            <div class="uw-inquiry-file-box">
-                                <button type="button" class="uw-inquiry-file-btn">파일 선택</button>
-                                <div class="uw-inquiry-file-status">
-                                    <span class="uw-inquiry-file-placeholder"><?php echo esc_html($field['placeholder'] ?: '회사소개서, 서비스 소개서, 상품 브로셔 등 홈페이지 제작에 참고할 만한 자료가 있다면 첨부해 주세요. 최대 100MB까지 첨부할 수 있습니다.'); ?></span>
+                        $is_multi      = !empty($field['multiple']);
+                        $max_files     = isset($field['max_files']) ? (int) $field['max_files'] : 1;
+                        $max_filesize  = isset($field['max_filesize']) ? (int) $field['max_filesize'] : (10 * 1024 * 1024);
+                        $max_filesize_mb = max(1, round($max_filesize / (1024 * 1024)));
+
+                        if ($is_multi) :
+                            $multi_input_name = $field_name . '[]';
+                            ?>
+                            <div class="uw-inquiry-field-multifile uw-multifile-wrapper"
+                                 data-multifile
+                                 data-max-files="<?php echo esc_attr($max_files); ?>"
+                                 data-max-filesize="<?php echo esc_attr($max_filesize); ?>">
+                                <div class="uw-multifile-box">
+                                    <button type="button" class="uw-multifile-btn" aria-controls="<?php echo esc_attr($field_id); ?>">
+                                        <i class="xi-plus" aria-hidden="true"></i>
+                                        파일 추가하기
+                                    </button>
+                                    <p class="uw-multifile-help">최대 <?php echo (int) $max_files; ?>개, 파일당 <?php echo (int) $max_filesize_mb; ?>MB</p>
                                 </div>
-                                <div class="uw-inquiry-file-size">0 Byte / 100 MB</div>
+                                <input
+                                    class="uw-inquiry-field-input uw-multifile-input"
+                                    type="file"
+                                    id="<?php echo esc_attr($field_id); ?>"
+                                    name="<?php echo esc_attr($multi_input_name); ?>"
+                                    multiple
+                                    style="display: none;"
+                                    <?php echo $aria_describedby ? 'aria-describedby="' . esc_attr($aria_describedby) . '"' : ''; ?>
+                                    <?php echo $is_required ? 'required' : ''; ?>
+                                >
+                                <ul class="uw-multifile-list" hidden></ul>
                             </div>
-                            <input 
-                                class="uw-inquiry-field-input uw-inquiry-field-file-input"
-                                type="file" 
-                                id="<?php echo esc_attr($field_id); ?>" 
-                                name="<?php echo esc_attr($field_name); ?>"
-                                style="display: none;"
-                                <?php echo $aria_describedby ? 'aria-describedby="' . esc_attr($aria_describedby) . '"' : ''; ?>
-                                <?php echo $is_required ? 'required' : ''; ?>
-                            >
-                            <div class="uw-inquiry-field-file-preview uw-file-preview" style="display: none;">
-                                <span class="uw-inquiry-field-file-name uw-file-name"></span>
-                                <button type="button" class="uw-inquiry-field-file-remove uw-file-remove" title="삭제" aria-label="파일 삭제">&times;</button>
+                            <?php
+                        else :
+                            ?>
+                            <div class="uw-inquiry-field-file uw-file-wrapper">
+                                <div class="uw-inquiry-file-box">
+                                    <button type="button" class="uw-inquiry-file-btn">파일 선택</button>
+                                    <div class="uw-inquiry-file-status">
+                                        <span class="uw-inquiry-file-placeholder"><?php echo esc_html($field['placeholder'] ?: '회사소개서, 서비스 소개서, 상품 브로셔 등 홈페이지 제작에 참고할 만한 자료가 있다면 첨부해 주세요. 최대 100MB까지 첨부할 수 있습니다.'); ?></span>
+                                    </div>
+                                    <div class="uw-inquiry-file-size">0 Byte / 100 MB</div>
+                                </div>
+                                <input
+                                    class="uw-inquiry-field-input uw-inquiry-field-file-input"
+                                    type="file"
+                                    id="<?php echo esc_attr($field_id); ?>"
+                                    name="<?php echo esc_attr($field_name); ?>"
+                                    style="display: none;"
+                                    <?php echo $aria_describedby ? 'aria-describedby="' . esc_attr($aria_describedby) . '"' : ''; ?>
+                                    <?php echo $is_required ? 'required' : ''; ?>
+                                >
+                                <div class="uw-inquiry-field-file-preview uw-file-preview" style="display: none;">
+                                    <span class="uw-inquiry-field-file-name uw-file-name"></span>
+                                    <button type="button" class="uw-inquiry-field-file-remove uw-file-remove" title="삭제" aria-label="파일 삭제">&times;</button>
+                                </div>
                             </div>
-                        </div>
-                        <?php
+                            <?php
+                        endif;
                         break;
 
                     case 'date':
@@ -483,68 +521,178 @@ class UW_Inquiry_Handler
             
             // 파일 필드 처리
             if ($field['type'] === 'file') {
-                if (!empty($_FILES[$field_id]) && $_FILES[$field_id]['error'] === UPLOAD_ERR_OK) {
-                    // 허용된 MIME 타입 검증
-                    $allowed_types = array(
-                        'image/jpeg', 'image/png', 'image/gif', 'image/webp',
-                        'application/pdf',
-                        'application/msword',
-                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                        'application/vnd.ms-excel',
-                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                        'application/zip', 'application/x-zip-compressed'
+                $is_multi      = !empty($field['multiple']);
+                $max_files     = isset($field['max_files']) ? (int) $field['max_files'] : 1;
+                $max_filesize  = isset($field['max_filesize']) ? (int) $field['max_filesize'] : (10 * 1024 * 1024);
+
+                // 확장자별 허용 MIME 매핑. 확장자 1차 게이트 + MIME 2차 검증.
+                // 한글(hwp/hwpx)·압축(rar/7z)·디자인(ai/psd) 등은 환경에 따라 application/octet-stream으로
+                // 인식되므로 octet-stream도 허용 목록에 포함.
+                $allowed_ext_to_mimes = array(
+                    // 이미지
+                    'jpg'  => array('image/jpeg'),
+                    'jpeg' => array('image/jpeg'),
+                    'png'  => array('image/png'),
+                    'gif'  => array('image/gif'),
+                    'webp' => array('image/webp'),
+                    'bmp'  => array('image/bmp', 'image/x-ms-bmp'),
+                    'svg'  => array('image/svg+xml', 'text/xml', 'text/plain'),
+                    'heic' => array('image/heic', 'image/heif', 'application/octet-stream'),
+                    'heif' => array('image/heif', 'image/heic', 'application/octet-stream'),
+                    'tiff' => array('image/tiff'),
+                    'tif'  => array('image/tiff'),
+                    // 문서
+                    'pdf'  => array('application/pdf'),
+                    'doc'  => array('application/msword', 'application/vnd.ms-office', 'application/octet-stream'),
+                    'docx' => array('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip'),
+                    'xls'  => array('application/vnd.ms-excel', 'application/vnd.ms-office', 'application/octet-stream'),
+                    'xlsx' => array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip'),
+                    'ppt'  => array('application/vnd.ms-powerpoint', 'application/vnd.ms-office', 'application/octet-stream'),
+                    'pptx' => array('application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/zip'),
+                    // 한글 (한컴오피스)
+                    'hwp'  => array('application/x-hwp', 'application/haansofthwp', 'application/vnd.hancom.hwp', 'application/octet-stream'),
+                    'hwpx' => array('application/hwp+zip', 'application/vnd.hancom.hwpx', 'application/zip', 'application/octet-stream'),
+                    // 텍스트
+                    'txt'  => array('text/plain'),
+                    'csv'  => array('text/csv', 'text/plain', 'application/csv', 'application/vnd.ms-excel'),
+                    'rtf'  => array('application/rtf', 'text/rtf'),
+                    // 압축
+                    'zip'  => array('application/zip', 'application/x-zip-compressed', 'multipart/x-zip', 'application/octet-stream'),
+                    'rar'  => array('application/vnd.rar', 'application/x-rar-compressed', 'application/x-rar', 'application/octet-stream'),
+                    '7z'   => array('application/x-7z-compressed', 'application/octet-stream'),
+                    // 디자인 원본
+                    'ai'   => array('application/postscript', 'application/illustrator', 'application/pdf', 'application/octet-stream'),
+                    'psd'  => array('image/vnd.adobe.photoshop', 'application/x-photoshop', 'application/octet-stream'),
+                );
+                $allowed_extensions = array_keys($allowed_ext_to_mimes);
+
+                if (!function_exists('wp_handle_upload')) {
+                    require_once(ABSPATH . 'wp-admin/includes/file.php');
+                }
+                $upload_overrides = array('test_form' => false);
+
+                // 비표준 확장자(hwp/hwpx/pptx/7z/rar/ai/psd 등)를 wp_handle_upload가 거부하지 않도록
+                // 폼 처리 중에만 upload_mimes 필터 확장.
+                $extra_mimes_filter = function ($mimes) {
+                    $extra = array(
+                        'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                        'ppt'  => 'application/vnd.ms-powerpoint',
+                        'hwp'  => 'application/x-hwp',
+                        'hwpx' => 'application/hwp+zip',
+                        'rar'  => 'application/vnd.rar',
+                        '7z'   => 'application/x-7z-compressed',
+                        'ai'   => 'application/postscript',
+                        'psd'  => 'image/vnd.adobe.photoshop',
+                        'svg'  => 'image/svg+xml',
+                        'heic' => 'image/heic',
+                        'heif' => 'image/heif',
+                        'tiff|tif' => 'image/tiff',
+                        'bmp'  => 'image/bmp',
+                        'rtf'  => 'application/rtf',
+                        'csv'  => 'text/csv',
                     );
-                    
-                    $file_type = wp_check_filetype($_FILES[$field_id]['name']);
-                    $actual_type = $file_type['type'];
-
-                    // PHP fileinfo 확장으로 실제 MIME 타입 검증
-                    if (function_exists('finfo_open')) {
-                        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                        $actual_type = finfo_file($finfo, $_FILES[$field_id]['tmp_name']);
-                        finfo_close($finfo);
+                    return array_merge((array) $mimes, $extra);
+                };
+                add_filter('upload_mimes', $extra_mimes_filter, 99);
+                // wp_check_filetype_and_ext 가 MIME 불일치 시 false ext를 돌려주는 케이스도 우회.
+                $skip_real_mime = function ($data, $file, $filename, $mimes, $real_mime) use ($allowed_extensions) {
+                    $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                    if (in_array($ext, $allowed_extensions, true)) {
+                        $data['ext']  = $ext;
+                        $data['type'] = isset($mimes[$ext]) ? $mimes[$ext] : ($real_mime ?: 'application/octet-stream');
                     }
+                    return $data;
+                };
+                add_filter('wp_check_filetype_and_ext', $skip_real_mime, 99, 5);
 
-                    if (!in_array($actual_type, $allowed_types)) {
-                        wp_send_json_error('허용되지 않는 파일 형식입니다. (허용: 이미지, PDF, 문서, 엑셀, ZIP)');
-                    }
-
-                    // 파일 크기 제한 (10MB)
-                    $max_file_size = 10 * 1024 * 1024; // 10MB
-                    if ($_FILES[$field_id]['size'] > $max_file_size) {
-                        wp_send_json_error('파일 크기가 너무 큽니다. (최대 10MB)');
-                    }
-
-                    // 워드프레스 파일 업로드 함수 로드
-                    if (!function_exists('wp_handle_upload')) {
-                        require_once(ABSPATH . 'wp-admin/includes/file.php');
-                    }
-                    
-                    $upload_overrides = array('test_form' => false);
-                    $uploaded_file = wp_handle_upload($_FILES[$field_id], $upload_overrides);
-                    
-                    if ($uploaded_file && !isset($uploaded_file['error'])) {
-                        // 파일 URL과 이름 저장
-                        $entry_data[$field_id] = array(
-                            'url' => $uploaded_file['url'],
-                            'file' => $uploaded_file['file'],
-                            'name' => sanitize_file_name($_FILES[$field_id]['name']),
-                            'type' => $uploaded_file['type']
-                        );
-                    } else {
-                        // 파일 업로드 실패
-                        if (!empty($field['required'])) {
-                            wp_send_json_error('파일 업로드에 실패했습니다.');
+                // 다중 파일: $_FILES[field_id] 의 각 키가 배열
+                $files_iter = array();
+                if (!empty($_FILES[$field_id])) {
+                    if ($is_multi && is_array($_FILES[$field_id]['name'])) {
+                        $count = count($_FILES[$field_id]['name']);
+                        if ($count > $max_files) {
+                            wp_send_json_error('첨부파일은 최대 ' . $max_files . '개까지 가능합니다.');
                         }
-                        $entry_data[$field_id] = '';
+                        for ($i = 0; $i < $count; $i++) {
+                            if ($_FILES[$field_id]['error'][$i] === UPLOAD_ERR_NO_FILE) continue;
+                            $files_iter[] = array(
+                                'name'     => $_FILES[$field_id]['name'][$i],
+                                'type'     => $_FILES[$field_id]['type'][$i],
+                                'tmp_name' => $_FILES[$field_id]['tmp_name'][$i],
+                                'error'    => $_FILES[$field_id]['error'][$i],
+                                'size'     => $_FILES[$field_id]['size'][$i],
+                            );
+                        }
+                    } elseif (!$is_multi && $_FILES[$field_id]['error'] !== UPLOAD_ERR_NO_FILE) {
+                        $files_iter[] = $_FILES[$field_id];
                     }
-                } else {
-                    // 파일 없음
-                    if (!empty($field['required']) && (empty($_FILES[$field_id]) || $_FILES[$field_id]['error'] === UPLOAD_ERR_NO_FILE)) {
+                }
+
+                if (empty($files_iter)) {
+                    if (!empty($field['required'])) {
                         wp_send_json_error($field['label'] . ' 파일을 첨부해주세요.');
                     }
                     $entry_data[$field_id] = '';
+                    continue;
                 }
+
+                // Phase 1: 모든 파일 사전 검증 (확장자 + MIME + 크기 + 업로드 에러)
+                foreach ($files_iter as $f) {
+                    if ($f['error'] !== UPLOAD_ERR_OK) {
+                        remove_filter('upload_mimes', $extra_mimes_filter, 99);
+                        remove_filter('wp_check_filetype_and_ext', $skip_real_mime, 99);
+                        wp_send_json_error('파일 업로드 중 오류가 발생했습니다. (' . esc_html($f['name']) . ')');
+                    }
+                    $ext = strtolower(pathinfo($f['name'], PATHINFO_EXTENSION));
+                    if (!isset($allowed_ext_to_mimes[$ext])) {
+                        remove_filter('upload_mimes', $extra_mimes_filter, 99);
+                        remove_filter('wp_check_filetype_and_ext', $skip_real_mime, 99);
+                        wp_send_json_error('허용되지 않는 파일 형식입니다. (허용: 이미지·PDF·Word·Excel·PowerPoint·한글·텍스트·압축·디자인 원본) — ' . esc_html($f['name']));
+                    }
+                    $actual_type = wp_check_filetype($f['name'])['type'];
+                    if (function_exists('finfo_open')) {
+                        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                        $actual_type = finfo_file($finfo, $f['tmp_name']);
+                        finfo_close($finfo);
+                    }
+                    if (!in_array($actual_type, $allowed_ext_to_mimes[$ext], true)) {
+                        remove_filter('upload_mimes', $extra_mimes_filter, 99);
+                        remove_filter('wp_check_filetype_and_ext', $skip_real_mime, 99);
+                        wp_send_json_error('파일 내용이 확장자와 일치하지 않습니다. — ' . esc_html($f['name']));
+                    }
+                    if ($f['size'] > $max_filesize) {
+                        remove_filter('upload_mimes', $extra_mimes_filter, 99);
+                        remove_filter('wp_check_filetype_and_ext', $skip_real_mime, 99);
+                        wp_send_json_error('파일 크기가 너무 큽니다. (최대 ' . round($max_filesize / 1024 / 1024) . 'MB) — ' . esc_html($f['name']));
+                    }
+                }
+
+                // Phase 2: 일괄 업로드. 도중 실패 시 앞서 업로드된 파일 롤백
+                $uploaded_list = array();
+                foreach ($files_iter as $f) {
+                    $uploaded_file = wp_handle_upload($f, $upload_overrides);
+                    if (!$uploaded_file || isset($uploaded_file['error'])) {
+                        foreach ($uploaded_list as $rollback) {
+                            if (!empty($rollback['file']) && file_exists($rollback['file'])) {
+                                @unlink($rollback['file']);
+                            }
+                        }
+                        remove_filter('upload_mimes', $extra_mimes_filter, 99);
+                        remove_filter('wp_check_filetype_and_ext', $skip_real_mime, 99);
+                        wp_send_json_error('파일 업로드에 실패했습니다. (' . esc_html($f['name']) . ')');
+                    }
+                    $uploaded_list[] = array(
+                        'url'  => $uploaded_file['url'],
+                        'file' => $uploaded_file['file'],
+                        'name' => sanitize_file_name($f['name']),
+                        'type' => $uploaded_file['type'],
+                    );
+                }
+
+                remove_filter('upload_mimes', $extra_mimes_filter, 99);
+                remove_filter('wp_check_filetype_and_ext', $skip_real_mime, 99);
+
+                $entry_data[$field_id] = $is_multi ? $uploaded_list : (isset($uploaded_list[0]) ? $uploaded_list[0] : '');
                 continue;
             }
             
@@ -572,14 +720,15 @@ class UW_Inquiry_Handler
         }
 
         // 문의 내역 저장
-        $entry_title = !empty($entry_data['field_name']) 
-            ? $entry_data['field_name'] . ' - ' . date('Y-m-d H:i')
-            : '문의 - ' . date('Y-m-d H:i');
+        $now_local = current_time('Y-m-d H:i');
+        $entry_title = !empty($entry_data['field_name'])
+            ? $entry_data['field_name'] . ' - ' . $now_local
+            : '문의 - ' . $now_local;
 
         $entry_id = wp_insert_post(array(
-            'post_title' => $entry_title,
-            'post_type' => 'uw_inquiry_entry',
-            'post_status' => 'publish',
+            'post_title'  => $entry_title,
+            'post_type'   => 'uw_inquiry_entry',
+            'post_status' => 'private',
         ));
 
         if (!$entry_id || is_wp_error($entry_id)) {
@@ -592,8 +741,14 @@ class UW_Inquiry_Handler
         update_post_meta($entry_id, '_uw_inquiry_ip', $this->get_client_ip());
         update_post_meta($entry_id, '_uw_inquiry_user_agent', isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : '');
 
-        // 이메일 발송
+        // 어드민 알림 메일
         $this->send_notification_email($form_id, $entry_data, $entry_id);
+
+        // 어드민 SMS 알림 (메일과 독립 — Solapi 상수 설정 시에만 발송)
+        $this->send_admin_sms_notification($form_id, $entry_data, $entry_id);
+
+        // 문의자 자동회신 메일
+        $this->send_autoreply_email($form_id, $entry_data, $entry_id);
 
         // 성공 응답
         $success_type = get_post_meta($form_id, '_uw_inquiry_success_type', true) ?: 'popup';
@@ -605,6 +760,27 @@ class UW_Inquiry_Handler
             'type' => $success_type,
             'redirect' => $success_page_id ? get_permalink($success_page_id) : '',
         ));
+    }
+
+    /**
+     * 어드민 SMS 알림 (Solapi) — 메일과 별개로 발송. inc/cm-sms.php
+     */
+    private function send_admin_sms_notification($form_id, $entry_data, $entry_id)
+    {
+        if (!function_exists('uw_send_admin_sms')) return;
+
+        $form  = get_post($form_id);
+        $title = $form ? $form->post_title : '문의';
+
+        $name  = isset($entry_data['field_name'])  ? trim((string) $entry_data['field_name'])  : '';
+        $phone = isset($entry_data['field_phone']) ? trim((string) $entry_data['field_phone']) : '';
+
+        $lines = array('[언웹스] 새 문의 접수', $title);
+        $who = trim($name . ($phone !== '' ? ' / ' . $phone : ''));
+        if ($who !== '') $lines[] = $who;
+        $lines[] = '메일·관리자페이지에서 확인하세요.';
+
+        uw_send_admin_sms(implode("\n", $lines));
     }
 
     /**
@@ -649,10 +825,11 @@ class UW_Inquiry_Handler
         // 이메일 본문 구성
         $message = "새로운 문의가 접수되었습니다.\n\n";
         $message .= "폼: " . $form->post_title . "\n";
-        $message .= "접수일시: " . date('Y-m-d H:i:s') . "\n\n";
+        $message .= "접수일시: " . current_time('Y-m-d H:i:s') . "\n\n";
         $message .= "----------------------------------------\n\n";
 
         $attachments = array();
+        $reply_to_email = '';
 
         foreach ($fields as $field) {
             if (!empty($field['enabled']) && isset($entry_data[$field['id']])) {
@@ -660,7 +837,16 @@ class UW_Inquiry_Handler
 
                 // 파일 필드 처리 (배열인 경우)
                 if (is_array($value)) {
-                    if (isset($value['file']) && file_exists($value['file'])) {
+                    if (isset($value[0]) && is_array($value[0]) && isset($value[0]['file'])) {
+                        $names = array();
+                        foreach ($value as $item) {
+                            if (isset($item['file']) && file_exists($item['file'])) {
+                                $attachments[] = $item['file'];
+                            }
+                            if (isset($item['name'])) $names[] = $item['name'];
+                        }
+                        $value = !empty($names) ? implode(', ', $names) . ' (첨부파일 ' . count($names) . '개)' : '';
+                    } elseif (isset($value['file']) && file_exists($value['file'])) {
                         $attachments[] = $value['file'];
                         $value = $value['name'] . ' (첨부파일)';
                     } elseif (isset($value['name'])) {
@@ -670,18 +856,52 @@ class UW_Inquiry_Handler
                     }
                 }
 
+                // 빈 값 본문 출력 생략 (라벨만 남는 빈 줄 방지)
+                if ($value === '' || $value === null) continue;
+
+                // Reply-To 자동 추출: type=email 첫 필드
+                if ($field['type'] === 'email' && empty($reply_to_email) && is_email($value)) {
+                    $reply_to_email = $value;
+                }
+
                 $message .= $field['label'] . ": " . $value . "\n\n";
             }
         }
 
+        // 메일 첨부 용량 제한 (Gmail 등 25MB 한도 → base64 인코딩 여유로 18MB 안전선)
+        $mail_attach_limit = apply_filters('uw_inquiry_mail_attach_limit', 18 * 1024 * 1024);
+        $attach_total = 0;
+        foreach ($attachments as $att_file) {
+            if (is_string($att_file) && file_exists($att_file)) {
+                $attach_total += filesize($att_file);
+            }
+        }
+        $attachments_skipped = false;
+        if ($attach_total > $mail_attach_limit) {
+            $attachments = array();      // 메일 첨부 제외 (데이터·파일은 이미 저장되어 무손실)
+            $attachments_skipped = true;
+        }
+
         $message .= "----------------------------------------\n\n";
+        if ($attachments_skipped) {
+            $message .= "※ 첨부파일 용량이 커서 이 메일에는 포함하지 않았습니다.\n";
+            $message .= "   아래 관리자 페이지에서 직접 다운로드해 주세요.\n\n";
+        }
         $message .= "관리자 페이지에서 상세 내용을 확인하세요:\n";
         $message .= admin_url('admin.php?page=uw-inquiry&action=view_entry&entry_id=' . $entry_id . '&form_id=' . $form_id);
 
+        // From: 사이트 도메인 기반 noreply (필터로 운영 환경에서 변경 가능)
+        $site_host = wp_parse_url(home_url(), PHP_URL_HOST);
+        $from_email = apply_filters('uw_inquiry_from_email', 'contact@unwebs.co.kr');
+        $from_name  = apply_filters('uw_inquiry_from_name', get_bloginfo('name'));
+
         $headers = array(
             'Content-Type: text/plain; charset=UTF-8',
-            'From: ' . get_bloginfo('name') . ' <' . get_option('admin_email') . '>'
+            'From: ' . $from_name . ' <' . $from_email . '>',
         );
+        if (!empty($reply_to_email)) {
+            $headers[] = 'Reply-To: ' . $reply_to_email;
+        }
 
         // 각 이메일 주소로 발송
         foreach ($emails as $email) {
@@ -699,6 +919,60 @@ class UW_Inquiry_Handler
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * 자동회신 메일 (문의자에게 HTML 메일)
+     */
+    private function send_autoreply_email($form_id, $entry_data, $entry_id)
+    {
+        // 활성/비활성 토글 (필터)
+        if (!apply_filters('uw_inquiry_autoreply_enabled', true, $form_id)) return;
+
+        $to_email = isset($entry_data['field_email']) ? $entry_data['field_email'] : '';
+        if (!is_email($to_email)) {
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log('[UW Inquiry] autoreply skipped — invalid email');
+            }
+            return;
+        }
+
+        $form          = get_post($form_id);
+        $fields        = get_post_meta($form_id, '_uw_inquiry_fields', true);
+        $fields        = is_array($fields) ? $fields : array();
+        $contact_email = apply_filters('uw_inquiry_contact_email', 'contact@unwebs.co.kr');
+        $kakao_url     = apply_filters('uw_inquiry_kakao_url', get_option('uw_inquiry_kakao_url', ''));
+        $site_url      = home_url();
+        $site_name     = get_bloginfo('name');
+
+        // From / Reply-To
+        $site_host  = wp_parse_url($site_url, PHP_URL_HOST);
+        $from_email = apply_filters('uw_inquiry_from_email', 'contact@unwebs.co.kr');
+        $from_name  = apply_filters('uw_inquiry_from_name', $site_name);
+
+        // 제목
+        $subject = apply_filters(
+            'uw_inquiry_autoreply_subject',
+            '[' . $site_name . '] 문의 접수가 완료되었습니다',
+            $form_id, $entry_data
+        );
+
+        // HTML 본문
+        ob_start();
+        include __DIR__ . '/templates/autoreply.php';
+        $html = ob_get_clean();
+
+        $headers = array(
+            'Content-Type: text/html; charset=UTF-8',
+            'From: ' . $from_name . ' <' . $from_email . '>',
+            'Reply-To: ' . $contact_email,
+        );
+
+        $sent = wp_mail($to_email, $subject, $html, $headers);
+
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('[UW Inquiry] autoreply ' . ($sent ? 'sent' : 'FAILED') . ' to ' . $to_email);
         }
     }
 

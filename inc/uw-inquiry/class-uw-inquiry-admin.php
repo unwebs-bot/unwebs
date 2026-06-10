@@ -44,6 +44,68 @@ class UW_Inquiry_Admin
     add_action('wp_ajax_uw_inquiry_save_fields', array($this, 'ajax_save_fields'));
     add_action('wp_ajax_uw_inquiry_delete_entry', array($this, 'ajax_delete_entry'));
     add_action('wp_ajax_uw_inquiry_export_csv', array($this, 'ajax_export_csv'));
+    add_action('wp_ajax_uw_inquiry_check_new', array($this, 'ajax_check_new_entries'));
+    add_action('wp_ajax_uw_inquiry_toggle_read', array($this, 'ajax_toggle_read'));
+  }
+
+  /**
+   * 새 entry 폴링 (form_id, last_id 받아 신규 카운트 반환)
+   */
+  public function ajax_check_new_entries()
+  {
+    if (!current_user_can('manage_options')) wp_send_json_error('권한 없음');
+    check_ajax_referer('uw_inquiry_admin_nonce', 'nonce');
+
+    $form_id = isset($_POST['form_id']) ? absint($_POST['form_id']) : 0;
+    $last_id = isset($_POST['last_id']) ? absint($_POST['last_id']) : 0;
+
+    $newer = get_posts(array(
+      'post_type'      => 'uw_inquiry_entry',
+      'post_status'    => array('publish', 'private'),
+      'posts_per_page' => -1,
+      'fields'         => 'ids',
+      'meta_query'     => array(
+        array('key' => '_uw_inquiry_form_id', 'value' => $form_id),
+      ),
+      'date_query' => array(),
+      'post__not_in' => array(),
+    ));
+
+    $newer_ids = array_filter($newer, function ($id) use ($last_id) {
+      return $id > $last_id;
+    });
+
+    wp_send_json_success(array(
+      'count'   => count($newer_ids),
+      'last_id' => !empty($newer) ? max($newer) : $last_id,
+    ));
+  }
+
+  /**
+   * 읽음/안읽음 토글
+   */
+  public function ajax_toggle_read()
+  {
+    if (!current_user_can('manage_options')) wp_send_json_error('권한 없음');
+    check_ajax_referer('uw_inquiry_admin_nonce', 'nonce');
+
+    $entry_id = isset($_POST['entry_id']) ? absint($_POST['entry_id']) : 0;
+    $read     = isset($_POST['read']) ? (int) $_POST['read'] : 0;
+
+    if (!$entry_id || get_post_type($entry_id) !== 'uw_inquiry_entry') {
+      wp_send_json_error('잘못된 항목');
+    }
+
+    if ($read) {
+      update_post_meta($entry_id, '_uw_inquiry_read', 1);
+      update_post_meta($entry_id, '_uw_inquiry_read_at', current_time('mysql'));
+    } else {
+      delete_post_meta($entry_id, '_uw_inquiry_read');
+      delete_post_meta($entry_id, '_uw_inquiry_read_at');
+    }
+
+    // 좌측 메뉴 버블 실시간 갱신용
+    wp_send_json_success(array('unread_count' => $this->get_unread_count()));
   }
 
   /**
@@ -51,10 +113,27 @@ class UW_Inquiry_Admin
    */
   public function add_admin_menu()
   {
+    // 상세보기 진입이면 뱃지 카운트 계산 전에 읽음 마킹 — 같은 페이지 로드에서 즉시 숫자 차감
+    if (isset($_GET['page'], $_GET['action'], $_GET['entry_id'])
+      && $_GET['page'] === 'uw-inquiry' && $_GET['action'] === 'view_entry'
+      && current_user_can('manage_options')) {
+      $eid = absint($_GET['entry_id']);
+      if ($eid && get_post_type($eid) === 'uw_inquiry_entry' && !get_post_meta($eid, '_uw_inquiry_read', true)) {
+        update_post_meta($eid, '_uw_inquiry_read', 1);
+        update_post_meta($eid, '_uw_inquiry_read_at', current_time('mysql'));
+      }
+    }
+
+    // 안 읽은 문의 개수 → 메뉴 알림 버블 (댓글 대기와 동일한 UI)
+    $unread = $this->get_unread_count();
+    $bubble = $unread
+      ? ' <span class="awaiting-mod"><span class="uw-unread-count">' . number_format_i18n($unread) . '</span></span>'
+      : '';
+
     // 메인 메뉴: 입력폼
     add_menu_page(
       '입력폼',
-      '입력폼',
+      '입력폼' . $bubble,
       'manage_options',
       'uw-inquiry',
       array($this, 'render_forms_page'),
@@ -66,7 +145,7 @@ class UW_Inquiry_Admin
     add_submenu_page(
       'uw-inquiry',
       '입력폼 관리',
-      '입력폼 관리',
+      '입력폼 관리' . $bubble,
       'manage_options',
       'uw-inquiry',
       array($this, 'render_forms_page')
@@ -81,6 +160,39 @@ class UW_Inquiry_Admin
       'uw-inquiry-create',
       array($this, 'render_create_page')
     );
+  }
+
+  /**
+   * 안 읽은 문의(entry) 개수.
+   * 읽음 처리 시 _uw_inquiry_read=1 이 저장되므로, 해당 메타가 없으면 안 읽은 문의.
+   */
+  public function get_unread_count()
+  {
+    // 존재하는 폼에 속한 entry만 카운트 — 폼 삭제 후 남은 orphan entry가
+    // 화면에 안 보이면서 뱃지 숫자에만 영구 잔류하는 버그 방지
+    $form_ids = get_posts(array(
+      'post_type'      => 'uw_inquiry_form',
+      'post_status'    => 'any',
+      'posts_per_page' => -1,
+      'fields'         => 'ids',
+      'no_found_rows'  => true,
+    ));
+    if (empty($form_ids)) {
+      return 0;
+    }
+
+    $unread = get_posts(array(
+      'post_type'      => 'uw_inquiry_entry',
+      'post_status'    => array('publish', 'private'),
+      'posts_per_page' => -1,
+      'fields'         => 'ids',
+      'meta_query'     => array(
+        array('key' => '_uw_inquiry_read', 'compare' => 'NOT EXISTS'),
+        array('key' => '_uw_inquiry_form_id', 'value' => array_map('strval', $form_ids), 'compare' => 'IN'),
+      ),
+      'no_found_rows'  => true,
+    ));
+    return count($unread);
   }
 
   /**
@@ -103,8 +215,8 @@ class UW_Inquiry_Admin
     wp_enqueue_script('sortablejs', 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js', array(), '1.15.0', true);
 
     // Custom admin styles and scripts
-    wp_enqueue_style('uw-inquiry-admin', get_theme_file_uri('/assets/css/cpt/inquiry/admin.css'), array(), '1.0.1');
-    wp_enqueue_script('uw-inquiry-admin', get_theme_file_uri('/assets/js/CPT/inquiry/uw-inquiry-admin.js'), array('jquery', 'summernote', 'sortablejs'), '1.0.1', true);
+    wp_enqueue_style('uw-inquiry-admin', get_theme_file_uri('/assets/css/cpt/inquiry/admin.css'), array(), '1.0.2');
+    wp_enqueue_script('uw-inquiry-admin', get_theme_file_uri('/assets/js/CPT/inquiry/uw-inquiry-admin.js'), array('jquery', 'summernote', 'sortablejs'), '1.0.3', true);
 
     wp_localize_script('uw-inquiry-admin', 'uwInquiryAdmin', array(
       'ajaxUrl' => admin_url('admin-ajax.php'),
@@ -135,7 +247,7 @@ class UW_Inquiry_Admin
   {
     $entries = get_posts(array(
       'post_type' => 'uw_inquiry_entry',
-      'post_status' => 'publish',
+      'post_status' => array('publish', 'private'),
       'posts_per_page' => -1,
       'meta_query' => array(
         array(
@@ -378,7 +490,7 @@ class UW_Inquiry_Admin
     // 문의 내역 조회
     $args = array(
       'post_type' => 'uw_inquiry_entry',
-      'post_status' => 'publish',
+      'post_status' => array('publish', 'private'),
       'posts_per_page' => $per_page,
       'paged' => $paged,
       'orderby' => 'date',
@@ -447,14 +559,15 @@ class UW_Inquiry_Admin
         // 리스트에 표시할 필드 (최대 4개)
         $display_fields = array_slice($active_fields, 0, 4);
         ?>
-        <table class="wp-list-table widefat fixed striped uw-inquiry-table">
+        <table class="wp-list-table widefat fixed striped uw-inquiry-table" data-form-id="<?php echo esc_attr($form_id); ?>" data-latest-id="<?php echo esc_attr($query->have_posts() ? max(wp_list_pluck($query->posts, 'ID')) : 0); ?>">
           <thead>
             <tr>
               <th style="width: 50px;">No</th>
+              <th style="width: 80px;">상태</th>
+              <th style="width: 150px;">작성시각</th>
               <?php foreach ($display_fields as $field): ?>
                 <th><?php echo esc_html($field['label']); ?></th>
               <?php endforeach; ?>
-              <th style="width: 150px;">작성시각</th>
               <th style="width: 100px;">관리</th>
             </tr>
           </thead>
@@ -466,23 +579,30 @@ class UW_Inquiry_Admin
               $entry_id = get_the_ID();
               $data = get_post_meta($entry_id, '_uw_inquiry_data', true);
               $data = is_array($data) ? $data : array();
+              $is_read = (bool) get_post_meta($entry_id, '_uw_inquiry_read', true);
               ?>
-              <tr class="uw-entry-row" data-entry-id="<?php echo $entry_id; ?>">
+              <tr class="uw-entry-row<?php echo $is_read ? '' : ' is-unread'; ?>" data-entry-id="<?php echo $entry_id; ?>">
                 <td>
                   <?php echo $start_num++; ?>
                 </td>
+                <td>
+                  <?php if ($is_read): ?>
+                    <span class="uw-status-badge uw-status-read">읽음</span>
+                  <?php else: ?>
+                    <span class="uw-status-badge uw-status-unread">● 안읽음</span>
+                  <?php endif; ?>
+                </td>
+                <td>
+                  <?php echo get_the_date('Y-m-d H:i'); ?>
+                </td>
                 <?php foreach ($display_fields as $field):
                   $field_value = isset($data[$field['id']]) ? $data[$field['id']] : '-';
-                  // 긴 텍스트는 잘라서 표시
                   if (strlen($field_value) > 50) {
                     $field_value = mb_substr($field_value, 0, 50, 'UTF-8') . '...';
                   }
                   ?>
                   <td><?php echo esc_html($field_value); ?></td>
                 <?php endforeach; ?>
-                <td>
-                  <?php echo get_the_date('Y-m-d H:i'); ?>
-                </td>
                 <td>
                   <a href="<?php echo admin_url('admin.php?page=uw-inquiry&action=view_entry&entry_id=' . $entry_id . '&form_id=' . $form_id); ?>"
                     class="button button-small">상세</a>
@@ -527,6 +647,12 @@ class UW_Inquiry_Admin
     if (!$entry || $entry->post_type !== 'uw_inquiry_entry') {
       echo '<div class="wrap"><p>문의를 찾을 수 없습니다.</p></div>';
       return;
+    }
+
+    // 읽음 처리
+    if (!get_post_meta($entry_id, '_uw_inquiry_read', true)) {
+      update_post_meta($entry_id, '_uw_inquiry_read', 1);
+      update_post_meta($entry_id, '_uw_inquiry_read_at', current_time('mysql'));
     }
 
     $form_id = get_post_meta($entry_id, '_uw_inquiry_form_id', true);
@@ -587,12 +713,39 @@ class UW_Inquiry_Admin
                   <div class="uw-entry-content">
                     <?php echo nl2br(esc_html($field_value)); ?>
                   </div>
-                <?php elseif ($field['type'] === 'file' && is_array($field_value) && !empty($field_value['url'])): ?>
-                  <a href="<?php echo esc_url($field_value['url']); ?>" target="_blank" class="button">
-                    📎 <?php echo esc_html($field_value['name'] ?? '파일 다운로드'); ?>
-                  </a>
+                <?php elseif ($field['type'] === 'file'):
+                  // 다중: numeric-keyed array of {url, name, ...}
+                  if (is_array($field_value) && isset($field_value[0]) && is_array($field_value[0])):
+                    ?>
+                    <ul class="uw-entry-files">
+                      <?php foreach ($field_value as $f):
+                        if (empty($f['url'])) continue; ?>
+                        <li>
+                          <a href="<?php echo esc_url($f['url']); ?>" target="_blank" rel="noopener" class="button" download>
+                            📎 <?php echo esc_html(!empty($f['name']) ? $f['name'] : basename($f['url'])); ?>
+                          </a>
+                          <?php if (!empty($f['file']) && file_exists($f['file'])): ?>
+                            <span class="uw-entry-file-size" style="margin-left:8px;color:#666;font-size:12px;">
+                              <?php echo esc_html(size_format(filesize($f['file']))); ?>
+                            </span>
+                          <?php else: ?>
+                            <span style="margin-left:8px;color:#b91c1c;font-size:12px;">⚠ 파일 없음</span>
+                          <?php endif; ?>
+                        </li>
+                      <?php endforeach; ?>
+                    </ul>
+                  <?php
+                  // 단일: {url, name, ...}
+                  elseif (is_array($field_value) && !empty($field_value['url'])):
+                    ?>
+                    <a href="<?php echo esc_url($field_value['url']); ?>" target="_blank" rel="noopener" class="button" download>
+                      📎 <?php echo esc_html(!empty($field_value['name']) ? $field_value['name'] : '파일 다운로드'); ?>
+                    </a>
+                  <?php else: ?>
+                    <span style="color:#888;">-</span>
+                  <?php endif; ?>
                 <?php elseif (is_array($field_value)): ?>
-                  <?php echo esc_html(implode(', ', $field_value)); ?>
+                  <?php echo esc_html(implode(', ', array_map('strval', $field_value))); ?>
                 <?php else: ?>
                   <?php echo esc_html($field_value ?: '-'); ?>
                 <?php endif; ?>
@@ -1056,7 +1209,8 @@ EOT;
     wp_delete_post($entry_id, true);
 
     wp_send_json_success(array(
-      'message' => '삭제되었습니다.',
+      'message'      => '삭제되었습니다.',
+      'unread_count' => $this->get_unread_count(),
     ));
   }
 
@@ -1084,7 +1238,7 @@ EOT;
     // 문의 내역 조회
     $entries = get_posts(array(
       'post_type' => 'uw_inquiry_entry',
-      'post_status' => 'publish',
+      'post_status' => array('publish', 'private'),
       'posts_per_page' => -1,
       'orderby' => 'date',
       'order' => 'DESC',

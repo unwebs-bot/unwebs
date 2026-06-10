@@ -1,25 +1,27 @@
 @charset "utf-8";
 /*
-Theme Name: Starter Theme
-Description: WordPress Starter Theme
+Theme Name: UNWEBS
+Description: Unwebs 자체 사이트 테마
 Version: 1.0
-Author: Your Name
 */
 
 /* ==========================================================================
-   CSS Architecture - Simplified Structure
+   CSS Architecture
+   순서: reset → layout → header/footer → main/content → animate → responsive → cpt
    ========================================================================== */
 
 @import 'reset.css';
 @import 'layout/layout.css';
 @import 'layout/header.css';
 @import 'layout/footer.css';
-@import 'page.css';
+@import 'main.css';
+@import 'content.css';
 @import 'animate.css';
-@import 'responsive.css';
+@import 'main_responsive.css';
+@import 'content_responsive.css';
 
 /* ==========================================================================
-   6. CPT - Custom Post Type (폴더 구조)
+   CPT - Custom Post Type (예외: BEM `__` 유지)
    ========================================================================== */
 
 @import 'cpt/board/board.css';

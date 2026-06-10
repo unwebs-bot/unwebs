@@ -10,19 +10,19 @@
 ?>
 
 <!-- Legal Content Modal -->
-<div class="uw-modal-overlay" aria-hidden="true">
-  <div class="uw-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="uw-modal__header">
-      <h2 class="uw-modal__title" id="modalTitle"></h2>
-      <button type="button" class="uw-modal__close" aria-label="닫기">
+<div class="cm-modal-overlay" aria-hidden="true">
+  <div class="cm-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="cm-modal-header">
+      <h2 class="cm-modal-tit" id="modalTitle"></h2>
+      <button type="button" class="cm-modal-close" aria-label="닫기">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
     </div>
-    <div class="uw-modal__body">
-      <div class="uw-modal__content"></div>
+    <div class="cm-modal-body">
+      <div class="cm-modal-content"></div>
     </div>
   </div>
 </div>

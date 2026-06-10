@@ -5,10 +5,15 @@
  * 보안 강화: CSRF 방지, 세션 고정 공격 방지
  */
 
-// 직접 접근 시에도 WordPress 함수를 사용하지 않으므로 별도 검증
-// 단, 동일 도메인에서만 접근 허용 (Referer 체크)
+// 동일 도메인 Referer 검증 (CSRF / 외부 직접 호출 차단)
 $allowed_referer = isset($_SERVER['HTTP_REFERER']) &&
+    isset($_SERVER['HTTP_HOST']) &&
     strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) !== false;
+if (!$allowed_referer) {
+    header('HTTP/1.0 403 Forbidden');
+    header('X-Content-Type-Options: nosniff');
+    exit('Forbidden');
+}
 
 // 보안 헤더 설정
 header('X-Content-Type-Options: nosniff');

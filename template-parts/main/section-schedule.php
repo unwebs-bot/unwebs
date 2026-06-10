@@ -1,133 +1,183 @@
 <?php
 /**
- * Template Part: 일정관리 - 프로세스 대시보드
+ * Template Part: 일정관리 프로세스 (Gantt)
  *
- * 라이트 테마 간트 차트 (6주 / 5단계)
- * 호버 툴팁 + 바 리빌 애니메이션
+ * 구성:
+ *  - Gantt 차트: 1W~8W 시간축 + 5행 (프로젝트관리 / 기획 / 디자인 / 퍼블리싱 / 운영·유지보수)
+ *  - 막대 3종: 메인(진한 primary) / 서브(옅은 보더 버튼) / 회색(외주·운영급)
+ *
+ * 데이터: start/end는 0~100% (1W=0%, 8W=100% 기준, 1주 ≒ 14.28%)
  */
 
 if (!defined('ABSPATH')) exit;
 
-$weeks = 6;
-$processes = array(
-  array(
-    'label'   => '계약 및 자료수취',
-    'bar'     => '계약 프로세스',
-    'col_s'   => 2, 'col_e' => 3,
-    'color'   => 'blue',
-    'tt'      => '계약 및 자료수취',
-    'items'   => '문의 및 자료 전달,견적서 최종 확정 및 계약,사업자등록증 확인 및 계산서 발행,추가 요청 자료 전달',
-  ),
-  array(
-    'label'   => '기획',
-    'bar'     => '기획 및 기반 구축',
-    'col_s'   => 3, 'col_e' => 4,
-    'color'   => 'green',
-    'tt'      => '홈페이지 기획',
-    'items'   => '사전기획서 전달 및 피드백,와이어프레임 전달 및 피드백,디자인 컨셉 기획 및 구축',
-  ),
-  array(
-    'label'   => '디자인 시안',
-    'bar'     => '시안 작업 및 최적화',
-    'col_s'   => 4, 'col_e' => 6,
-    'color'   => 'amber',
-    'tt'      => '디자인 시안 제작',
-    'items'   => '메인 및 서브페이지 시안 송부,피드백 수취 및 수정 반영,서브시안 완료 및 모바일 최적화',
-  ),
-  array(
-    'label'   => '개발 및 검수',
-    'bar'     => '시스템 구현 및 연동',
-    'col_s'   => 6, 'col_e' => 8,
-    'color'   => 'pink',
-    'tt'      => '개발 및 검수',
-    'items'   => '퍼블리싱 및 기능 개발,오류 검수 및 사이트 테스트,도메인/SSL 연결 및 사이트 등록',
-  ),
-  array(
-    'label'   => '최종 완료',
-    'bar'     => '프로젝트 런칭',
-    'col_s'   => 7, 'col_e' => 8,
-    'color'   => 'indigo',
-    'tt'      => '최종 완료',
-    'items'   => '제작 완료 최종 승인,운영 가이드 전달 및 교육,유지보수 정책 안내',
-  ),
+// 시간축 라벨 — 1W~8W 모두 + 킥오프 (절대 % 좌표)
+$timeline = array(
+    array('label' => '1W',     'pos' => 0,     'kickoff' => false),
+    array('label' => '킥오프',  'pos' => 8,     'kickoff' => true),
+    array('label' => '2W',     'pos' => 14.28, 'kickoff' => false),
+    array('label' => '3W',     'pos' => 28.57, 'kickoff' => false),
+    array('label' => '4W',     'pos' => 42.86, 'kickoff' => false),
+    array('label' => '5W',     'pos' => 57.14, 'kickoff' => false),
+    array('label' => '6W',     'pos' => 71.43, 'kickoff' => false),
+    array('label' => '7W',     'pos' => 85.71, 'kickoff' => false),
+    array('label' => '8W',     'pos' => 100,   'kickoff' => false),
+);
+
+// 단계 구간 (실제 비율 — 계획 30 / 제작 50 / 운영 20)
+$stages = array(
+    array('label' => '계획·전략', 'note' => '',                       'start' => 0,  'end' => 30),
+    array('label' => '제작·준비', 'note' => '',                       'start' => 30, 'end' => 80),
+    array('label' => '운영',     'note' => '유지보수 계약(선택)',       'start' => 80, 'end' => 100),
+);
+
+$rows = array(
+    array(
+        'key'   => 'project',
+        'label' => '프로젝트 관리',
+        'main'  => null,
+        'subs'  => array(
+            array('name' => '일정 수립',      'start' => 0, 'end' => 7,   'type' => 'gray'),
+            array('name' => '프로젝트 매니징', 'start' => 7, 'end' => 100, 'type' => 'gray'),
+        ),
+    ),
+    array(
+        'key'   => 'plan',
+        'label' => '기획',
+        'main'  => array('name' => '기획', 'start' => 0, 'end' => 30),
+        'subs'  => array(
+            array('name' => '프로젝트 정의·요구사항 수집', 'start' => 0,  'end' => 15),
+            array('name' => '사이트맵·와이어프레임 기획',  'start' => 15, 'end' => 30),
+        ),
+    ),
+    array(
+        'key'   => 'design',
+        'label' => '디자인',
+        'main'  => array('name' => '디자인', 'start' => 25, 'end' => 60),
+        'subs'  => array(
+            array('name' => '디자인시스템·콘텐츠 구성', 'start' => 25, 'end' => 37),
+            array('name' => '메인/서브 시안 작업',  'start' => 37, 'end' => 48),
+            array('name' => '반응형 최적화 디자인',  'start' => 48, 'end' => 60),
+        ),
+    ),
+    array(
+        'key'   => 'publish',
+        'label' => '퍼블리싱',
+        'main'  => array('name' => '퍼블리싱', 'start' => 50, 'end' => 85),
+        'subs'  => array(
+            array('name' => '웹표준 코딩',    'start' => 50, 'end' => 62),
+            array('name' => '반응형 구축',       'start' => 62, 'end' => 73),
+            array('name' => '관리자 모듈/커스텀 개발',  'start' => 73, 'end' => 85),
+        ),
+    ),
+    array(
+        'key'   => 'operation',
+        'label' => '오픈·운영',
+        'main'  => array('name' => '오픈·운영', 'start' => 80, 'end' => 100),
+        'subs'  => array(
+            array('name' => 'QA 검수 및 SEO', 'start' => 80, 'end' => 90),
+            array('name' => '호스팅·도메인·SSL',     'start' => 90, 'end' => 100),
+        ),
+    ),
 );
 ?>
 
-<section class="uw-schedule uw-section" id="uwSchedule">
-  <div class="uw-schedule__header">
-    <span class="uw-schedule__subtitle uw-section-subtitle">제작 프로세스</span>
-    <h2 class="uw-schedule__title uw-section-title">홈페이지 제작, 이렇게 진행됩니다.</h2>
-  </div>
+<section class="main-schedule-con cm-section" id="cmSchedule">
+  <div class="area">
 
-  <div class="uw-schedule__container">
-    <div class="uw-schedule__chart">
-
-      <?php $maxDist = count($processes) + $weeks; // 5 + 6 = 11 ?>
-
-      <!-- Header Row -->
-      <div class="uw-schedule__cell uw-schedule__cell--corner" style="grid-row:1; grid-column:1; --cell-delay:0s"></div>
-      <?php for ($w = 1; $w <= $weeks; $w++) : ?>
-        <div class="uw-schedule__cell uw-schedule__cell--header" style="grid-row:1; grid-column:<?php echo $w + 1; ?>; --cell-delay:<?php echo number_format($w / $maxDist, 3); ?>s"><?php echo $w; ?>주차</div>
-      <?php endfor; ?>
-
-      <!-- Data Rows -->
-      <?php foreach ($processes as $ri => $proc) :
-        $row = $ri + 1;
-        $gridRow = $ri + 2;
-      ?>
-        <div class="uw-schedule__cell uw-schedule__cell--label" style="grid-row:<?php echo $gridRow; ?>; grid-column:1; --cell-delay:<?php echo number_format($row / $maxDist, 3); ?>s"><?php echo esc_html($proc['label']); ?></div>
-        <?php for ($w = 0; $w < $weeks; $w++) :
-          $col = $w + 1;
-        ?>
-          <div class="uw-schedule__cell" style="grid-row:<?php echo $gridRow; ?>; grid-column:<?php echo $w + 2; ?>; --cell-delay:<?php echo number_format(($row + $col) / $maxDist, 3); ?>s"></div>
-        <?php endfor; ?>
-      <?php endforeach; ?>
-
-      <!-- Process Bars -->
-      <?php foreach ($processes as $i => $proc) :
-        $row = $i + 2;
-        $delay = 1.2 + $i * 0.15;
-      ?>
-        <div class="uw-schedule__bar uw-schedule__bar--<?php echo esc_attr($proc['color']); ?>"
-             style="grid-row: <?php echo $row; ?>; grid-column: <?php echo $proc['col_s']; ?> / <?php echo $proc['col_e']; ?>; --bar-delay: <?php echo number_format($delay, 1); ?>s;"
-             data-title="<?php echo esc_attr($proc['tt']); ?>"
-             data-color="<?php echo esc_attr($proc['color']); ?>"
-             data-list="<?php echo esc_attr($proc['items']); ?>">
-          <?php if (!empty($proc['bar'])) echo esc_html($proc['bar']); ?>
-        </div>
-      <?php endforeach; ?>
-
+    <div class="cm-tit-box" data-animate="fade-up">
+      <span class="cm-tit-sub">체계적인 일정관리로 안정적인 결과물을 만들어 냅니다</span>
+      <h2 class="cm-tit">홈페이지 제작과정</h2>
     </div>
-  </div>
 
-  <!-- Mobile Vertical Timeline -->
-  <div class="uw-schedule__timeline">
-    <?php foreach ($processes as $i => $proc) :
-      $week_start = $proc['col_s'] - 1;
-      $week_end   = $proc['col_e'] - 2;
-      $week_text  = ($week_start === $week_end)
-        ? $week_start . '주차'
-        : $week_start . '~' . $week_end . '주차';
-      $items = explode(',', $proc['items']);
-    ?>
-      <div class="uw-schedule__step uw-schedule__step--<?php echo esc_attr($proc['color']); ?>" style="--step-delay: <?php echo number_format(0.1 + $i * 0.15, 2); ?>s;">
-        <div class="uw-schedule__step-dot"></div>
-        <div class="uw-schedule__step-content">
-          <span class="uw-schedule__step-week"><?php echo $week_text; ?></span>
-          <h3 class="uw-schedule__step-title"><?php echo esc_html($proc['label']); ?></h3>
-          <ul class="uw-schedule__step-list">
-            <?php foreach ($items as $item) : ?>
-              <li><?php echo esc_html(trim($item)); ?></li>
-            <?php endforeach; ?>
-          </ul>
+    <!-- 모바일 전용: /service-process 와 동일한 마크업 재사용 -->
+    <div class="main-schedule-process hidden-desktop" data-animate="fade-up" data-delay="200">
+      <?php get_template_part('template-parts/common/service-process'); ?>
+    </div>
+
+    <div class="main-schedule-gantt hidden-mobile" data-animate="fade-up" data-delay="200">
+      <div class="main-schedule-gantt-inner">
+
+        <ul class="main-schedule-timeline" aria-hidden="true">
+          <?php foreach ($timeline as $t) : ?>
+          <li class="main-schedule-time<?php echo $t['kickoff'] ? ' is-kickoff' : ''; ?>"
+              style="--pos: <?php echo (float) $t['pos']; ?>;">
+            <?php echo esc_html($t['label']); ?>
+          </li>
+          <?php endforeach; ?>
+        </ul>
+
+        <div class="main-schedule-rows">
+          <?php
+          // % → W(주) 변환: 1W=0%, 8W=100% (7주 구간, 1주 ≒ 14.28%)
+          $pct_to_week_label = function ($start, $end) {
+              $w_start = (int) round(($start / 100) * 7 + 1);
+              $w_end   = (int) round(($end   / 100) * 7 + 1);
+              if ($w_start === $w_end) return $w_start . 'W';
+              return $w_start . 'W ~ ' . $w_end . 'W';
+          };
+
+          foreach ($rows as $row_idx => $row) :
+              $is_compact = empty($row['main']);
+          ?>
+          <div class="main-schedule-row<?php echo $is_compact ? ' is-compact' : ''; ?>"
+               data-cat="<?php echo esc_attr($row['key']); ?>"
+               style="--row-idx: <?php echo (int) $row_idx; ?>;">
+            <div class="main-schedule-row-label" aria-hidden="true"><?php echo esc_html($row['label']); ?></div>
+            <div class="main-schedule-track">
+
+              <?php if (!empty($row['main'])) :
+                  $range = $pct_to_week_label($row['main']['start'], $row['main']['end']);
+                  $aria  = $row['main']['name'] . ', ' . $range;
+              ?>
+              <span class="main-schedule-bar is-main"
+                    style="--start: <?php echo (float) $row['main']['start']; ?>; --end: <?php echo (float) $row['main']['end']; ?>;"
+                    role="button"
+                    tabindex="0"
+                    aria-label="<?php echo esc_attr($aria); ?>"
+                    data-range="<?php echo esc_attr($range); ?>"
+                    data-start="<?php echo (float) $row['main']['start']; ?>"
+                    data-end="<?php echo (float) $row['main']['end']; ?>">
+                <span class="main-schedule-bar-text"><?php echo esc_html($row['main']['name']); ?></span>
+              </span>
+              <?php endif; ?>
+
+              <?php foreach ($row['subs'] as $sub) :
+                  $type  = isset($sub['type']) ? $sub['type'] : 'sub';
+                  $range = $pct_to_week_label($sub['start'], $sub['end']);
+                  $aria  = $sub['name'] . ', ' . $range;
+              ?>
+              <span class="main-schedule-bar is-<?php echo esc_attr($type); ?>"
+                    style="--start: <?php echo (float) $sub['start']; ?>; --end: <?php echo (float) $sub['end']; ?>;"
+                    role="button"
+                    tabindex="0"
+                    aria-label="<?php echo esc_attr($aria); ?>"
+                    data-range="<?php echo esc_attr($range); ?>"
+                    data-start="<?php echo (float) $sub['start']; ?>"
+                    data-end="<?php echo (float) $sub['end']; ?>">
+                <span class="main-schedule-bar-text"><?php echo esc_html($sub['name']); ?></span>
+              </span>
+              <?php endforeach; ?>
+
+            </div>
+          </div>
+          <?php endforeach; ?>
         </div>
-      </div>
-    <?php endforeach; ?>
-  </div>
 
-  <!-- Tooltip -->
-  <div class="uw-schedule__tooltip" id="uwScheduleTooltip">
-    <h4 class="uw-schedule__tooltip-title" id="uwScheduleTtTitle"></h4>
-    <ul class="uw-schedule__tooltip-list" id="uwScheduleTtList"></ul>
+        <ul class="main-schedule-stages">
+          <?php foreach ($stages as $s) : ?>
+          <li class="main-schedule-stage"
+              style="--start: <?php echo (float) $s['start']; ?>; --end: <?php echo (float) $s['end']; ?>;">
+            <span class="main-schedule-stage-label"><?php echo esc_html($s['label']); ?></span>
+            <?php if (!empty($s['note'])) : ?>
+            <span class="main-schedule-stage-note"><?php echo esc_html($s['note']); ?></span>
+            <?php endif; ?>
+          </li>
+          <?php endforeach; ?>
+        </ul>
+
+      </div>
+    </div>
+
   </div>
 </section>

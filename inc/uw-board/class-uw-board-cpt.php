@@ -32,10 +32,69 @@ class UW_Board_CPT
   /**
    * Constructor
    */
+  /**
+   * 공개 게시판 슬러그 — 프론트 URL/permalink 활성화 대상
+   * faq는 page-faq.php(고정 페이지)로 대체되어 제외
+   */
+  const PUBLIC_SLUGS = array('notice');
+
   private function __construct()
   {
     add_action('init', array($this, 'register_post_type'));
     add_action('init', array($this, 'register_taxonomy'));
+    add_action('init', array($this, 'register_rewrite'), 20);
+    add_filter('post_type_link', array($this, 'filter_post_type_link'), 10, 2);
+  }
+
+  /**
+   * /{slug}/ → uw_board_type archive
+   * /{slug}/page/N/ → paged
+   * /{slug}/{post_name}/ → single uw_board
+   *
+   * 공개 슬러그(notice, faq)에 대해서만 등록.
+   */
+  public function register_rewrite()
+  {
+    foreach (self::PUBLIC_SLUGS as $slug) {
+      $s = preg_quote($slug, '/');
+      add_rewrite_rule(
+        '^' . $s . '/page/([0-9]+)/?$',
+        'index.php?uw_board_type=' . $slug . '&paged=$matches[1]',
+        'top'
+      );
+      add_rewrite_rule(
+        '^' . $s . '/([^/]+)/?$',
+        'index.php?post_type=uw_board&name=$matches[1]&uw_board_type=' . $slug,
+        'top'
+      );
+      add_rewrite_rule(
+        '^' . $s . '/?$',
+        'index.php?uw_board_type=' . $slug,
+        'top'
+      );
+    }
+  }
+
+  /**
+   * uw_board permalink을 /{type}/{post_name}/ 으로 변환
+   */
+  public function filter_post_type_link($post_link, $post)
+  {
+    if (empty($post) || $post->post_type !== 'uw_board') {
+      return $post_link;
+    }
+
+    $terms = get_the_terms($post->ID, 'uw_board_type');
+    if (empty($terms) || is_wp_error($terms)) {
+      return $post_link;
+    }
+
+    $type_slug = $terms[0]->slug;
+    if (!in_array($type_slug, self::PUBLIC_SLUGS, true)) {
+      return $post_link;
+    }
+
+    return home_url('/' . $type_slug . '/' . $post->post_name . '/');
   }
 
   /**
@@ -59,17 +118,19 @@ class UW_Board_CPT
 
     $args = array(
       'labels' => $labels,
-      'public' => false,
-      'publicly_queryable' => false,
+      'public' => true,
+      'publicly_queryable' => true,
       'show_ui' => false,  // 커스텀 관리자 UI 사용
       'show_in_menu' => false,
-      'query_var' => false,
+      'query_var' => true,
+      // 직접 rewrite rule로 /{type}/{slug}/ 라우팅 (UW_Board_CPT::register_rewrite)
       'rewrite' => false,
       'capability_type' => 'post',
-      'has_archive' => false,
+      'has_archive' => false, // taxonomy archive(/notice/, /faq/)가 목록 역할
       'hierarchical' => false,
       'supports' => array('title', 'editor', 'author', 'thumbnail'),
       'show_in_rest' => false,
+      'exclude_from_search' => false,
     );
 
     register_post_type('uw_board', $args);
@@ -134,9 +195,12 @@ class UW_Board_CPT
     $args = array(
       'hierarchical' => false,
       'labels' => $labels,
+      'public' => true,
+      'publicly_queryable' => true,
       'show_ui' => false,
       'show_admin_column' => false,
-      'query_var' => false,
+      'query_var' => 'uw_board_type',
+      // 직접 rewrite rule로 /{type}/ 라우팅 (UW_Board_CPT::register_rewrite)
       'rewrite' => false,
       'show_in_rest' => false,
     );

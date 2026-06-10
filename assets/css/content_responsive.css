@@ -1,0 +1,789 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   Content Responsive — 서브페이지 반응형
+   Breakpoint: 1180(LG) / 768(MD) / 480(SM)
+   ※ --cm-area-px / --cm-section-py / --cm-header-height 같은 공통 토큰은
+     layout.css에서 한 번만 재정의. 여기선 페이지별 개별 스타일만.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1180px 이하 (좁은 PC · 태블릿 가로)
+   ========================================================================== */
+@media (max-width: 1180px) {
+  /* ========== 서브 공통 ========== */
+  html {
+    font-size: 15px;
+  }
+
+  .cm-tit {
+    font-size: 30px;
+  }
+
+  /* ========== service - process ========== */
+  .service-process-wrap {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .service-process-side {
+    flex: none;
+    width: 100%;
+  }
+
+  .service-process-sticky {
+    position: static;
+    padding-top: 0;
+  }
+
+  .service-process-step-list {
+    display: none;
+  }
+
+  .service-process-block {
+    margin-bottom: 80px;
+  }
+
+  .service-process-img {
+    height: 220px;
+    margin-bottom: 24px;
+  }
+
+  .service-process-img-placeholder {
+    font-size: 64px;
+  }
+
+  .service-process-block-label {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .service-process-block-txt {
+    margin-bottom: 32px;
+  }
+
+  .service-process-roles {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding-top: 26px;
+  }
+
+  .service-process-role {
+    padding: 22px 22px 18px;
+    border-radius: 12px;
+  }
+
+  /* ========== 블로그 / 전문 칼럼 ========== */
+  .blog-layout {
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+  }
+  .blog-single-tit { font-size: 32px; }
+  .blog-single-body { font-size: 16px; }
+  .blog-single-body h2 { font-size: 24px; margin-top: 48px; }
+  .blog-single-body h3 { font-size: 19px; margin-top: 36px; }
+  .blog-list,
+  .column-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 20px;
+  }
+  .blog-item-info { padding: 24px 22px 20px; }
+  .blog-item-tit { font-size: 17px; }
+
+  .blog-column-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .column-single-tit {
+    font-size: 28px;
+  }
+
+  .column-related-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* ========== service - features ========== */
+  .service-features-list {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px 18px;
+  }
+  .service-features-icon { margin-bottom: 18px; }
+  .service-features-tit { font-size: 17px; }
+  .service-features-txt { font-size: 13px; }
+
+  /* ========== service - tabs (플로팅) ========== */
+  .service-tabs-link { padding: 10px 22px; font-size: 14px; }
+
+  /* ========== service - info ========== */
+  .service-info-list { gap: 56px 36px; }
+  .service-info-media { margin-bottom: 24px; }
+  .service-info-tit { font-size: 24px; margin-bottom: 14px; }
+  .service-info-desc { font-size: 15px; margin-bottom: 22px; }
+  .service-info-features { gap: 12px; }
+  .service-info-feature-txt { font-size: 16px; }
+
+  /* ========== service - materials ========== */
+  .materials-card { padding: 60px 40px; }
+  .materials-step { padding: 32px 36px; gap: 22px; }
+  .materials-step-tit { font-size: 22px; }
+  .materials-step-desc { font-size: 16px; }
+
+  /* ========== auth (login / register / lostpw) ========== */
+  .auth-con { padding: 100px 0 120px; }
+  .auth-card { gap: 40px; }
+  .auth-tit { font-size: 34px; }
+  .auth-txt { font-size: 17px; }
+
+  /* ========== maintenance-request-notice ========== */
+  .mrn-notice-box { padding: 36px; }
+  .mrn-section-tit { font-size: 22px; }
+  .mrn-steps { gap: 20px; padding: 30px; }
+  .mrn-step { padding: 28px 20px; }
+  .mrn-step-label { font-size: 20px; }
+  .mrn-example { grid-template-columns: 1fr 300px; gap: 30px; padding: 36px; }
+  .mrn-example-note strong { font-size: 15px; }
+
+  /* ========== maintenance-request ========== */
+  .maintenance-request-process-card { padding: 36px 30px; }
+  .maintenance-request-process-list { gap: 20px; }
+  .maintenance-request-process-item { gap: 20px; }
+  .maintenance-request-process-step { font-size: 20px; }
+  .maintenance-request-process-icon { width: 84px; height: 84px; }
+  .maintenance-request-process-icon i { font-size: 38px; }
+  .maintenance-request-process-tit { font-size: 19px; }
+  .maintenance-request-process-txt { font-size: 14px; }
+  .maintenance-request-process-arrow { width: 32px; height: 32px; font-size: 24px; }
+  .maintenance-request-notice-box { padding: 36px; }
+  .maintenance-request-notice-tit { font-size: 20px; }
+  .maintenance-request-notice-txt { font-size: 15px; }
+  .maintenance-request-fee-table { font-size: 15px; }
+  .maintenance-request-fee-table th,
+  .maintenance-request-fee-table td { padding: 16px 18px; }
+  .maintenance-request-fee-grouphead th { font-size: 17px; padding: 16px; }
+  .maintenance-request-fee-subhead th { font-size: 15px; padding: 14px; }
+  .maintenance-request-fee-cat span { font-size: 13px; }
+
+  /* ========== notice ========== */
+  .notice-list col.notice-col-num  { width: 80px; }
+  .notice-list col.notice-col-date { width: 130px; }
+  .notice-list thead th { padding: 18px 18px; font-size: 14px; }
+  .notice-row > td { padding: 22px 18px; font-size: 15px; }
+  .notice-cell-date { font-size: 14px; }
+  .notice-single-tit { font-size: 24px; }
+
+  /* ========== maintenance-pricing ========== */
+  .mp-plans-grid { gap: 20px; }
+  .mp-plan { padding: 24px 22px; gap: 22px; }
+  .mp-plan-tit { font-size: 24px; }
+  .mp-plan-price strong { font-size: 26px; }
+  .mp-plan-items { padding: 14px; }
+  .mp-plan-item-key { flex: 0 0 120px; font-size: 13px; }
+  .mp-plan-item-val { font-size: 13px; }
+  .mp-plan-badge { font-size: 12px; padding: 7px 18px; }
+  .mp-benefits-grid { gap: 20px; }
+  .mp-benefit { padding: 38px 28px; min-height: 240px; }
+  .mp-benefit-tit { font-size: 19px; }
+  .mp-benefit-desc { font-size: 14px; }
+  .mp-benefit-icon { width: 64px; height: 64px; right: 24px; bottom: 24px; }
+  .mp-onetime-con, .mp-addon-con { padding: 60px 0; }
+  .mp-section-tit { font-size: 22px; }
+  .mp-table thead th { font-size: 15px; padding: 16px; }
+  .mp-table tbody th, .mp-table tbody td { padding: 18px 22px; }
+  .mp-table-item strong { font-size: 16px; }
+  .mp-table-price { font-size: 17px; }
+  .mp-table-group th { padding: 10px 18px; font-size: 12px; }
+  .mp-table-notes { padding: 18px 22px; font-size: 13px; }
+}
+
+
+/* ==========================================================================
+   768px 이하 (태블릿 세로 · 모바일)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* ========== 서브 공통 ========== */
+  html {
+    font-size: 14px;
+  }
+
+  .cm-tit {
+    font-size: 30px;
+    margin-top: 5px;
+  }
+
+  .cm-tit-txt {
+    font-size: 15px;
+    margin-top: 12px;
+  }
+
+  /* ========== service - process ========== */
+  .service-process-wrap {
+    gap: 30px;
+  }
+
+  .service-process-step {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .service-process-step-num {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .service-process-block {
+    margin-bottom: 60px;
+  }
+
+  .service-process-img {
+    height: 180px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+  }
+
+  .service-process-img-placeholder {
+    font-size: 48px;
+  }
+
+  .service-process-block-label {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+  .service-process-block-txt {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .service-process-roles {
+    gap: 22px;
+  }
+
+  .service-process-role-tag {
+    font-size: 17px;
+    margin-bottom: 12px;
+  }
+
+  .service-process-role-list li {
+    font-size: 13px;
+  }
+
+  /* ========== 블로그 / 전문 칼럼 ========== */
+  .blog-layout {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    margin-top: 36px;
+  }
+  .blog-sidebar {
+    position: static;
+    top: auto;
+  }
+  .blog-sidebar-tit { font-size: 18px; margin-bottom: 12px; padding-bottom: 12px; }
+  .blog-cat-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .blog-cat-item { flex: 0 0 auto; }
+  .blog-cat-item + .blog-cat-item { border-top: 0; }
+  .blog-cat-link {
+    padding: 10px 16px;
+    border: 1px solid var(--cm-border);
+    border-radius: 999px;
+    background: var(--cm-white);
+    font-size: 13px;
+  }
+  .blog-cat-link::before { display: none; }
+  .blog-cat-item.is-active .blog-cat-link {
+    background: var(--cm-primary);
+    border-color: var(--cm-primary);
+    color: var(--cm-white);
+  }
+  .blog-cat-item.is-active .blog-cat-count { color: var(--cm-white); opacity: 0.85; }
+
+  .blog-list,
+  .column-list {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .blog-item-info { padding: 22px 22px 18px; }
+
+  /* single 768 */
+  .blog-single-con { padding-top: 40px; padding-bottom: 20px; }
+  .blog-single-header { padding: 8px 0 36px; margin-bottom: 36px; }
+  .blog-single-tit { font-size: 26px; }
+  .blog-single-meta { gap: 14px; }
+  .blog-single-meta-item { font-size: 13px; }
+  .blog-single-thumb { margin-bottom: 36px; border-radius: 12px; }
+  .blog-single-body { font-size: 15px; line-height: 1.8; }
+  .blog-single-body h2 { font-size: 21px; margin: 40px 0 16px; padding-bottom: 10px; }
+  .blog-single-body h3 { font-size: 17px; margin: 28px 0 10px; }
+  .blog-single-body blockquote { padding: 16px 20px; margin: 22px 0; }
+  .blog-single-nav { grid-template-columns: 1fr; }
+  .blog-single-nav-item { padding: 20px 22px; min-height: 0; }
+
+  .blog-column-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .blog-column-head .cm-tit {
+    font-size: 26px;
+  }
+
+  .column-single-tit {
+    font-size: 22px;
+  }
+
+  .column-single-body {
+    font-size: 15px;
+  }
+
+  .column-single-body h2 {
+    font-size: 20px;
+    margin-top: 32px;
+  }
+
+  .column-single-body h3 {
+    font-size: 17px;
+    margin-top: 24px;
+  }
+
+  .column-related-list {
+    grid-template-columns: 1fr;
+  }
+
+  .column-single-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .column-single-nav-next {
+    grid-column: 1;
+    text-align: left;
+  }
+
+  /* ========== service - responsive demo ==========
+     가로형(PC/노트북): width 100%, height auto — 모형이 가로로 길게
+     세로형(태블릿/모바일): height 고정, width auto — 모형이 세로로 길게
+     ※ width/height 둘 다 transition 가능하도록 명시값 부여 → 토글 변화가 자연스러움 */
+  .service-responsive-frame {
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-bottom: 0;
+    align-items: center;
+    justify-content: center;
+    min-height: 240px;
+    transition: min-height 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .service-responsive-device {
+    max-width: 100% !important;
+    max-height: 78vh;
+    border-width: 10px;
+    border-radius: 14px;
+    transition: width 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+                height 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+                border-radius 0.55s ease,
+                border-width 0.3s ease;
+  }
+
+  /* 가로형: width 뷰포트 가득, height는 비율로 자동 */
+  .service-responsive-device.is-pc,
+  .service-responsive-device.is-laptop {
+    width: 100% !important;
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  /* 세로형: height 고정, width는 비율로 자동 → 세로로 길게 */
+  .service-responsive-device.is-tablet {
+    width: auto !important;
+    height: 65vh;
+    aspect-ratio: 3 / 4;
+  }
+
+  .service-responsive-device.is-mobile {
+    width: auto !important;
+    height: 65vh;
+    aspect-ratio: 9 / 16;
+    border-radius: 28px;
+  }
+
+  /* ========== service - features ========== */
+  .service-features-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 16px;
+  }
+  .service-features-icon { margin-bottom: 14px; }
+  .service-features-tit { font-size: 15px; margin-bottom: 8px; }
+  .service-features-txt { font-size: 12.5px; line-height: 1.55; }
+
+  /* ========== service - tabs (플로팅) — 모바일 미사용 ========== */
+  .service-tabs-wrap { display: none; }
+
+  /* ========== service - info — 모바일 1열 스택 ========== */
+  .service-info-list {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+  .service-info-media {
+    margin-bottom: 20px;
+    border-radius: 14px;
+  }
+  .service-info-tit { font-size: 20px; margin-bottom: 12px; }
+  .service-info-desc { font-size: 14px; margin-bottom: 18px; line-height: 1.55; }
+  .service-info-features { gap: 10px; }
+  .service-info-check { width: 22px; height: 22px; font-size: 12px; }
+  .service-info-feature { gap: 12px; }
+  .service-info-feature-txt { font-size: 15px; }
+
+  /* ========== service - materials — 박스 제거, 흰 배경 평면 ========== */
+  .service-materials-con {
+    background: #fff;
+    color: var(--cm-text);
+  }
+  .service-materials-con .cm-tit { color: var(--cm-text); }
+  .service-materials-con .cm-tit-sub { color: #86909c; }
+
+  .materials-card {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    margin-top: 56px; /* 헤더-스텝 간격 확보 */
+  }
+  .materials-steps {
+    gap: 56px;
+  }
+  /* 번호를 가로 옆이 아닌 본문 위 작은 라벨로 — 가로 공간 절약 */
+  .materials-step {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .materials-step-num {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    margin-top: 0;
+  }
+  /* 모바일: body를 display:contents로 풀어서 자식 재배치
+     순서: 이미지 → 제목 → 설명 (번호는 숨김) */
+  .materials-step-body {
+    display: contents;
+  }
+  .materials-step-num {
+    display: none;
+  }
+  .materials-step-media {
+    order: 1;
+    margin: 0 0 16px;
+    width: 100%;
+  }
+  .materials-step-head {
+    order: 2;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .materials-step-desc {
+    order: 3;
+    font-size: 14px;
+  }
+  .materials-step-tit { font-size: 19px; }
+  .materials-step-cta { padding: 6px 16px; font-size: 13px; }
+  .materials-step-cta i { font-size: 15px; }
+
+  /* ========== service - process (모바일) — 가로 넘침 픽스 + 사이드바 cm-tit-box 간격 ========== */
+  .service-process-wrap {
+    width: 100%;
+    min-width: 0;
+  }
+  .service-process-side,
+  .service-process-blocks {
+    max-width: 100%;
+    width: 100%;
+    min-width: 0;
+  }
+  .service-process-img {
+    aspect-ratio: auto;
+    height: auto;
+  }
+  .service-process-sticky .cm-tit-box {
+    margin-bottom: 24px;
+  }
+  /* 모바일에선 스크롤 반응 애니메이션 비활성 — 인라인 style 안전망 */
+  .service-process-block {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .materials-step-media {
+    background: #f8f9fb;
+    margin-top: 20px;
+  }
+  .materials-step-media.has-video {
+    background: #000;
+    border-color: #2a2f37;
+  }
+  .materials-step-video-toggle {
+    right: 10px;
+    bottom: 10px;
+    width: 32px;
+    height: 32px;
+  }
+  .materials-step-video-toggle i {
+    font-size: 15px;
+  }
+
+  /* ========== auth (login / register / lostpw) ========== */
+  .auth-con { padding: 70px 0 90px; }
+  .auth-card { gap: 32px; max-width: 100%; }
+  .auth-tit { font-size: 28px; }
+  .auth-txt { font-size: 15px; }
+  .auth-links { gap: 16px; }
+  .auth-links a { font-size: 14px; }
+
+  /* ========== 헤더 — 로그인/로그아웃 토글 (모바일은 햄버거 메뉴 처리) ========== */
+  .cm-header-user { display: none; }
+  .cm-header-btn-ghost { display: none; }
+
+  /* ========== maintenance-request-notice ========== */
+  /* hero padding은 .cm-sub-hero 공통 룰이 처리. cm-tit 사이즈는 .cm-tit 글로벌 룰 사용 */
+  .mrn-notice-con { padding: 10px 0 20px; }
+  .mrn-notice-box { padding: 28px 22px; flex-direction: column; gap: 14px; border-radius: 8px; }
+  .mrn-notice-tit { font-size: 19px; }
+  .mrn-notice-txt { font-size: 14px; line-height: 1.65; }
+  .mrn-download-btn { padding: 12px 22px; font-size: 14px; }
+  .mrn-section-con { padding: 30px 0; }
+  .mrn-section-tit { font-size: 20px; }
+  .mrn-section-sub { font-size: 14px; }
+  .mrn-steps { grid-template-columns: 1fr; gap: 16px; padding: 22px; }
+  .mrn-step { padding: 26px 20px; }
+  .mrn-example { grid-template-columns: 1fr; gap: 24px; padding: 28px; }
+  .mrn-example-preview { min-height: 360px; }
+  .mrn-marker-1 { top: 6%; }
+  .mrn-marker-2 { top: 30%; }
+  .mrn-marker-3 { top: 56%; }
+  .mrn-marker-4 { top: 80%; }
+
+  /* ========== maintenance-request ========== */
+  /* hero padding은 .cm-sub-hero 공통 룰이 처리 */
+  .maintenance-request-process-con { padding: 0; }
+  .maintenance-request-process-card { padding: 36px 24px; border-radius: 16px; }
+  .maintenance-request-process-list { flex-direction: column; gap: 28px; }
+  .maintenance-request-process-item { max-width: none; width: 100%; gap: 16px; }
+  .maintenance-request-process-step { font-size: 18px; }
+  .maintenance-request-process-icon { width: 72px; height: 72px; }
+  .maintenance-request-process-icon i { font-size: 32px; }
+  .maintenance-request-process-tit { font-size: 18px; }
+  .maintenance-request-process-arrow { transform: rotate(90deg); width: 28px; height: 28px; font-size: 22px; }
+
+  .maintenance-request-cta { padding: 16px 36px; font-size: 16px; }
+
+  .maintenance-request-notice-con { padding: 20px 0; }
+  .maintenance-request-notice-box { padding: 28px 22px; flex-direction: column; gap: 14px; border-radius: 8px; }
+  .maintenance-request-notice-mark { width: 26px; height: 26px; font-size: 16px; }
+  .maintenance-request-notice-tit { font-size: 18px; }
+  .maintenance-request-notice-txt { font-size: 14px; line-height: 1.65; }
+  .maintenance-request-notice-body { gap: 14px; }
+
+  /* 비용 테이블 — 모바일에선 "구분 / 비용" 서브헤드 숨김 + 4열을 2열로 reflow.
+     각 tr은 두 줄(건별 행 → 부가 행)로 자연 흐름 */
+  .maintenance-request-fee-con { padding: 30px 0 50px; }
+  .maintenance-request-fee-table { font-size: 14px; }
+  .maintenance-request-fee-table colgroup { display: none; }
+
+  .maintenance-request-fee-subhead { display: none; }
+
+  .maintenance-request-fee-grouphead { display: flex; }
+  .maintenance-request-fee-grouphead th {
+    flex: 1 1 50%;
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  .maintenance-request-fee-table tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .maintenance-request-fee-table tbody tr > .maintenance-request-fee-cat {
+    flex: 1 1 60%;
+    flex-direction: column;
+    justify-content: center;
+    padding: 14px 14px;
+    border-top: 1px solid #ececec;
+    border-right: 1px solid #ececec;
+  }
+  .maintenance-request-fee-table tbody tr > .maintenance-request-fee-cost {
+    flex: 1 1 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 12px;
+    border-top: 1px solid #ececec;
+    border-right: 1px solid #ececec;
+  }
+  /* 짝수 위치(부가 서비스 셀)의 우측 border 제거 → 행 우측 끝 정리 */
+  .maintenance-request-fee-table tbody tr > .maintenance-request-fee-cost:last-child {
+    border-right: 0;
+  }
+  .maintenance-request-fee-cat strong { font-size: 14px; }
+  .maintenance-request-fee-cat span { font-size: 12px; margin-top: 2px; }
+
+  /* ========== notice ========== */
+  .notice-list col.notice-col-num  { width: 64px; }
+  .notice-list col.notice-col-date { width: 110px; }
+  .notice-list thead th { padding: 14px 12px; font-size: 13px; }
+  .notice-row > td { padding: 18px 12px; font-size: 14px; }
+  .notice-cell-tit .notice-link { gap: 6px; }
+  .notice-badge-pin { min-width: 42px; height: 24px; font-size: 11px; }
+  .notice-cell-date { font-size: 12px; }
+  .notice-icon-file { width: 14px; height: 14px; }
+
+  .notice-single-header { padding-bottom: 20px; }
+  .notice-single-tit { font-size: 20px; }
+  .notice-single-date { font-size: 13px; }
+  .notice-single-body { padding: 28px 0; font-size: 15px; line-height: 1.7; min-height: 140px; }
+  .notice-single-files { padding: 22px 0; }
+  .notice-files-tit { font-size: 13px; }
+  .notice-files-link { font-size: 14px; }
+  .notice-nav-item { grid-template-columns: 84px 1fr; padding: 16px 0; font-size: 14px; }
+  .notice-single-actions { margin-top: 28px; }
+  .notice-single-actions .cm-btn { min-width: 140px; }
+
+  /* ========== maintenance-pricing ========== */
+  /* hero padding은 .cm-sub-hero 공통 룰이 처리 */
+  .mp-plans-con { padding: 30px 0 60px; }
+  .mp-plans-grid { grid-template-columns: 1fr; gap: 30px; padding-top: 0; }
+  /* 모바일 1열 스택 시 강조 카드 위에 뱃지 공간 확보 */
+  .mp-plan.is-highlight { margin-top: 36px; }
+  .mp-plan { padding: 22px 18px; gap: 20px; }
+  .mp-plan-items { padding: 14px; }
+  .mrn-notice-box { padding: 22px 18px; }
+  .mp-benefit { padding: 24px 20px; min-height: 0; }
+  .mp-cat-tit { font-size: 15px; }
+  .mp-plan-tit { font-size: 22px; }
+  .mp-plan-desc { font-size: 13px; }
+  .mp-plan-price strong { font-size: 24px; }
+  .mp-plan-item-key { flex: 0 0 130px; }
+  .mp-plan-badge {
+    font-size: 11px;
+    padding: 6px 14px;
+    margin-bottom: 8px;
+  }
+  /* 모바일 1열 스택 시 강조 카드 위에 뱃지 공간 확보 */
+  .mp-plan.is-highlight { margin-top: 36px; }
+  .mp-plans-grid { padding-top: 0; }
+  .mp-benefits-con { padding: 60px 0; }
+  .mp-benefits-grid { grid-template-columns: 1fr; gap: 16px; margin-top: 30px; }
+  .mp-benefit { padding: 24px 20px; min-height: 0; }
+  .mp-benefit-tit { font-size: 18px; }
+  .mp-benefit-icon { width: 52px; height: 52px; right: 20px; bottom: 20px; }
+  .mp-onetime-con, .mp-addon-con { padding: 50px 0; }
+  .mp-section-tit { font-size: 20px; }
+  .mp-section-sub { font-size: 14px; }
+  .mp-table { font-size: 14px; }
+  .mp-table colgroup { display: none; }
+  .mp-table thead th { font-size: 16px; padding: 14px; }
+  .mp-table tbody th, .mp-table tbody td { padding: 14px 16px; }
+  .mp-table-item strong { font-size: 14px; }
+  .mp-table-item span { font-size: 12px; }
+  .mp-table-price { font-size: 15px; }
+  .mp-table-group th { padding: 10px 16px; font-size: 13px; }
+
+  /* ========== sub-faq ========== */
+  .sub-faq-tabs {
+    gap: 8px;
+    margin: 36px auto 44px;
+  }
+  .sub-faq-tab {
+    height: 46px;
+    min-width: 86px;
+    padding: 0 22px;
+    font-size: 15px;
+  }
+  .sub-faq-group { margin-top: 44px; }
+  .sub-faq-cate { font-size: 18px; padding-bottom: 12px; }
+  .sub-faq-trigger { padding: 22px 16px; gap: 12px; }
+  .sub-faq-q-mark { width: 22px; height: 22px; font-size: 12px; }
+  .sub-faq-q-text { font-size: 15px; }
+  .sub-faq-arrow { width: 24px; height: 24px; font-size: 18px; }
+  .sub-faq-a { padding: 24px 22px; margin: 0 0 12px; }
+  .sub-faq-a-text { font-size: 14px; line-height: 1.7; }
+}
+
+
+/* ==========================================================================
+   480px 이하 (작은 모바일)
+   ========================================================================== */
+@media (max-width: 480px) {
+  .cm-tit {
+    font-size: 30px;
+    margin-top: 5px;
+  }
+
+  .cm-tit-txt {
+    font-size: 14px;
+  }
+
+  /* ========== service - responsive demo ========== */
+  .service-responsive-device {
+    border-width: 8px;
+    border-radius: 12px;
+  }
+
+  .service-responsive-device.is-mobile {
+    border-radius: 22px;
+  }
+
+  /* ========== service - features ========== */
+  .service-features-list {
+    gap: 22px 12px;
+  }
+  .service-features-icon { margin-bottom: 12px; border-radius: 10px; }
+  .service-features-tit { font-size: 14px; margin-bottom: 6px; }
+  .service-features-txt { font-size: 12px; }
+
+  /* ========== service - materials (480 추가 조정) ========== */
+  .materials-steps { gap: 48px; }
+  .materials-step { flex-direction: column; gap: 10px; }
+  .materials-step-tit { font-size: 17px; }
+  .materials-step-desc { font-size: 13.5px; }
+  .materials-step-media { margin-top: 16px; }
+
+  /* ========== maintenance-request (480 추가 조정) ========== */
+  .maintenance-request-process-card { padding: 28px 18px; }
+  .maintenance-request-process-icon { width: 64px; height: 64px; }
+  .maintenance-request-process-icon i { font-size: 28px; }
+  .maintenance-request-process-tit { font-size: 17px; }
+  .maintenance-request-process-txt { font-size: 13px; }
+  .maintenance-request-notice-box { padding: 22px 18px; }
+  .maintenance-request-notice-tit { font-size: 17px; }
+  .maintenance-request-notice-txt { font-size: 13px; }
+  .maintenance-request-fee-grouphead th { font-size: 13px; padding: 12px; }
+  .maintenance-request-fee-table { font-size: 13px; }
+  .maintenance-request-fee-table tbody tr > .maintenance-request-fee-cat,
+  .maintenance-request-fee-table tbody tr > .maintenance-request-fee-cost {
+    padding: 12px 10px;
+  }
+  .maintenance-request-fee-cat strong { font-size: 13px; }
+  .maintenance-request-fee-cat span { font-size: 11px; }
+
+  /* ========== notice (480 추가 조정) ========== */
+  .notice-list col.notice-col-num  { width: 50px; }
+  .notice-list col.notice-col-date { width: 90px; }
+  .notice-list thead th { padding: 12px 8px; font-size: 12px; }
+  .notice-row > td { padding: 16px 8px; font-size: 13px; }
+  .notice-badge-pin { min-width: 36px; height: 22px; font-size: 10px; padding: 0 6px; }
+  .notice-cell-date { font-size: 11px; }
+  .notice-single-tit { font-size: 18px; }
+  .notice-nav-item { grid-template-columns: 70px 1fr; }
+
+  /* ========== sub-faq (480 추가 조정) ========== */
+  .sub-faq-tabs { gap: 6px; margin: 28px auto 36px; }
+  .sub-faq-tab { height: 40px; min-width: 72px; padding: 0 16px; font-size: 13px; }
+  .sub-faq-cate { font-size: 16px; }
+  .sub-faq-q-text { font-size: 14px; }
+}

@@ -5,10 +5,9 @@
 get_header();
 ?>
 
-<?php get_template_part('template-parts/common/sub-visual'); ?>
 
-<main class="uw-main" id="main-content" role="main">
-  <section class="section" style="padding: 80px 0;">
+<main class="cm-main" id="main-content" role="main">
+  <section class="sub-content-con">
     <div class="area">
       <?php
       while (have_posts()) :

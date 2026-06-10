@@ -84,6 +84,17 @@ class UW_Board_Admin
         // 동적 서브메뉴: 각 게시판별
         $boards = $this->get_all_boards();
         foreach ($boards as $slug => $board) {
+            // column 보드는 별도 'column' CPT — 표준 WP-admin 리스트로 직접 링크
+            if ($slug === 'column' && post_type_exists('column')) {
+                add_submenu_page(
+                    'uw-board',
+                    $board['name'],
+                    $board['name'],
+                    'edit_posts',
+                    'edit.php?post_type=column'
+                );
+                continue;
+            }
             add_submenu_page(
                 'uw-board',
                 $board['name'],
@@ -104,10 +115,18 @@ class UW_Board_Admin
      */
     public function fix_admin_menu_highlight($parent_file)
     {
-        global $pagenow;
+        global $pagenow, $post_type;
 
         if ($pagenow === 'admin.php' && isset($_GET['page']) && $_GET['page'] === 'uw-board-settings' && isset($_GET['edit'])) {
             return 'uw-board';
+        }
+
+        // column CPT 편집·리스트·신규 작성 시 — uw-board 부모 메뉴 활성화 유지
+        if (in_array($pagenow, array('edit.php', 'post.php', 'post-new.php'), true)) {
+            $pt = isset($_GET['post_type']) ? sanitize_key($_GET['post_type']) : $post_type;
+            if ($pt === 'column') {
+                return 'uw-board';
+            }
         }
 
         return $parent_file;
@@ -118,10 +137,18 @@ class UW_Board_Admin
      */
     public function fix_admin_submenu_highlight($submenu_file)
     {
-        global $pagenow;
+        global $pagenow, $post_type;
 
         if ($pagenow === 'admin.php' && isset($_GET['page']) && $_GET['page'] === 'uw-board-settings' && isset($_GET['edit'])) {
             return 'uw-board'; // 게시판 관리 메뉴 활성화
+        }
+
+        // column CPT 페이지 — uw-board 서브메뉴 "전문 칼럼" 활성화
+        if (in_array($pagenow, array('edit.php', 'post.php', 'post-new.php'), true)) {
+            $pt = isset($_GET['post_type']) ? sanitize_key($_GET['post_type']) : $post_type;
+            if ($pt === 'column') {
+                return 'edit.php?post_type=column';
+            }
         }
 
         return $submenu_file;
@@ -604,6 +631,13 @@ class UW_Board_Admin
     {
         $page = isset($_GET['page']) ? sanitize_key($_GET['page']) : '';
         $slug = str_replace('uw-board-', '', $page);
+
+        // column 보드는 uw_board CPT가 아닌 별도 'column' CPT를 사용 — 표준 WP-admin 리스트로 위임
+        if ($slug === 'column' && post_type_exists('column')) {
+            wp_safe_redirect(admin_url('edit.php?post_type=column'));
+            exit;
+        }
+
         $board = $this->get_board_settings($slug);
 
         if (!$board) {

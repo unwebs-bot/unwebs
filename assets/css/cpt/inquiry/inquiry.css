@@ -458,8 +458,8 @@
   .uw-field-group input[type="tel"],
   .uw-field-group textarea,
   .uw-field-group select {
-    padding: 10px 14px;
-    font-size: 16px;
+    padding: 10px;
+    font-size: 14px;
   }
 
   /* 파일 첨부 박스 모바일 스타일 */

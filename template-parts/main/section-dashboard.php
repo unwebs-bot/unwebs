@@ -12,24 +12,25 @@ $consult_data = uw_dashboard_get_consults();
 if (empty($project_data) && empty($consult_data)) return;
 ?>
 
-<section class="uw-dashboard uw-section">
-  <div class="uw-dashboard__container">
+<section class="main-dashboard-con cm-section">
+  <div class="area">
+    <div class="main-dashboard-wrap">
 
     <!-- 실시간 프로젝트 현황 -->
-    <div class="uw-dashboard__section" data-ticker="project">
-      <h2 class="uw-dashboard__title">실시간 프로젝트 현황</h2>
-      <div class="uw-dashboard__window">
-        <ul class="uw-dashboard__list" id="uwDashboardProject">
+    <div class="main-dashboard-section" data-ticker="project">
+      <h2 class="main-dashboard-tit">실시간 프로젝트 현황</h2>
+      <div class="main-dashboard-window">
+        <ul class="main-dashboard-list" id="cmDashboardProject">
           <?php foreach ($project_data as $item) : ?>
-          <li class="uw-dashboard__item">
-            <div class="uw-dashboard__item-left">
-              <span class="uw-dashboard__tag"><?php echo esc_html($item['type']); ?></span>
-              <div class="uw-dashboard__info">
-                <span class="uw-dashboard__item-title"><?php echo esc_html($item['title']); ?></span>
-                <span class="uw-dashboard__date"><?php echo esc_html($item['date']); ?></span>
+          <li class="main-dashboard-item">
+            <div class="main-dashboard-item-left">
+              <span class="main-dashboard-tag"><?php echo esc_html($item['type']); ?></span>
+              <div class="main-dashboard-info">
+                <span class="main-dashboard-item-tit"><?php echo esc_html($item['title']); ?></span>
+                <span class="main-dashboard-date"><?php echo esc_html($item['date']); ?></span>
               </div>
             </div>
-            <span class="uw-dashboard__badge <?php echo uw_dashboard_status_class($item['status']); ?>"><?php echo esc_html($item['status']); ?></span>
+            <span class="main-dashboard-badge <?php echo uw_dashboard_status_class($item['status']); ?>"><?php echo esc_html($item['status']); ?></span>
           </li>
           <?php endforeach; ?>
         </ul>
@@ -37,29 +38,30 @@ if (empty($project_data) && empty($consult_data)) return;
     </div>
 
     <!-- 상담 및 견적 안내 현황 -->
-    <div class="uw-dashboard__section" data-ticker="consult">
-      <h2 class="uw-dashboard__title">상담 및 견적 안내 현황</h2>
-      <div class="uw-dashboard__window">
-        <ul class="uw-dashboard__list" id="uwDashboardConsult">
+    <div class="main-dashboard-section" data-ticker="consult">
+      <h2 class="main-dashboard-tit">상담문의 현황</h2>
+      <div class="main-dashboard-window">
+        <ul class="main-dashboard-list" id="cmDashboardConsult">
           <?php foreach ($consult_data as $item) : ?>
-          <li class="uw-dashboard__item">
-            <div class="uw-dashboard__item-left">
-              <span class="uw-dashboard__tag"><?php echo esc_html($item['type']); ?></span>
-              <div class="uw-dashboard__info">
-                <span class="uw-dashboard__item-title"><?php echo esc_html($item['title']); ?></span>
-                <span class="uw-dashboard__date"><?php echo esc_html($item['date']); ?></span>
+          <li class="main-dashboard-item">
+            <div class="main-dashboard-item-left">
+              <span class="main-dashboard-tag"><?php echo esc_html($item['type']); ?></span>
+              <div class="main-dashboard-info">
+                <span class="main-dashboard-item-tit"><?php echo esc_html($item['title']); ?></span>
+                <span class="main-dashboard-date"><?php echo esc_html($item['date']); ?></span>
               </div>
             </div>
-            <span class="uw-dashboard__badge <?php echo uw_dashboard_status_class($item['status']); ?>"><?php echo esc_html($item['status']); ?></span>
+            <span class="main-dashboard-badge <?php echo uw_dashboard_status_class($item['status']); ?>"><?php echo esc_html($item['status']); ?></span>
           </li>
           <?php endforeach; ?>
         </ul>
       </div>
     </div>
 
-  </div>
+    </div>
 
-  <div class="uw-dashboard__footer">
-    <span class="uw-dashboard__footer-date">*<?php echo date_i18n('Y년 n월 j일'); ?> 기준</span>
+    <div class="main-dashboard-footer">
+      <span class="main-dashboard-footer-date">*<?php echo date_i18n('Y년 n월 j일'); ?> 기준</span>
+    </div>
   </div>
 </section>

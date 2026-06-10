@@ -1,0 +1,57 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   Dev Debug — 반응형 작업용 (운영 enqueue 제외)
+   사용: URL에 ?debug=1 추가 시 functions.php에서 조건부 enqueue
+   ========================================================================== */
+
+/* 1. 가로 스크롤 유발 요소 빨강 outline — overflow-x 절대 금지 룰 */
+body.uw-debug * {
+  outline: 1px solid rgba(255, 0, 0, 0.08);
+}
+
+/* 2. 현재 viewport 사이즈 + BP 라벨 우상단 표시 */
+body.uw-debug::before {
+  content: 'Viewport: ' attr(data-vw) 'px';
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  z-index: 99999;
+  padding: 6px 10px;
+  background: #111;
+  color: #fff;
+  font: 12px/1 monospace;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+body.uw-debug::after {
+  content: 'XL';
+  position: fixed;
+  top: 8px;
+  right: 200px;
+  z-index: 99999;
+  padding: 6px 10px;
+  background: #3182f6;
+  color: #fff;
+  font: 12px/1 monospace;
+  font-weight: 700;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+@media (max-width: 1440px) { body.uw-debug::after { content: 'XL ≤1440'; background: #3182f6; } }
+@media (max-width: 1180px) { body.uw-debug::after { content: 'LG ≤1180'; background: #f59e0b; } }
+@media (max-width: 768px)  { body.uw-debug::after { content: 'MD ≤768';  background: #ef4444; } }
+@media (max-width: 480px)  { body.uw-debug::after { content: 'SM ≤480';  background: #7c3aed; } }
+
+/* 3. 컨테이너 가이드 — area 폭 시각화 */
+body.uw-debug .cm-area,
+body.uw-debug [class*="-area"] {
+  background: rgba(49, 130, 246, 0.04);
+}
+
+/* 4. 가로 스크롤 발생 시 body 빨갛게 — JS에서 .uw-overflow 토글 */
+body.uw-debug.uw-overflow {
+  box-shadow: inset 0 0 0 4px red;
+}

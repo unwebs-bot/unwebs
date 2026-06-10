@@ -381,13 +381,113 @@
 
     // 목록 행 클릭 시 상세로 이동
     $(document).on('click', '.uw-entry-row', function (e) {
-      // 버튼 클릭 제외
-      if ($(e.target).closest('button, a').length) return;
+      if ($(e.target).closest('button, a, .uw-status-badge').length) return;
 
       var $link = $(this).find('a.button');
       if ($link.length) {
         location.href = $link.attr('href');
       }
+    });
+
+    // 실시간 신규 entry 폴링 + 안읽음 배지 토글
+    initEntryPolling();
+    initReadToggle();
+  }
+
+  /**
+   * 30초 간격으로 새 entry 카운트 체크
+   * 신규 발견 → 상단 배너 표시 + "지금 새로고침" 버튼
+   */
+  function initEntryPolling() {
+    var $table = $('.uw-inquiry-table[data-form-id]');
+    if (!$table.length) return;
+
+    var formId = $table.data('form-id');
+    var lastId = parseInt($table.data('latest-id'), 10) || 0;
+    var $banner = null;
+
+    function showBanner(count) {
+      if ($banner) {
+        $banner.find('.uw-newalert-count').text(count);
+        return;
+      }
+      $banner = $(
+        '<div class="uw-newalert" role="status">' +
+        '  <span class="uw-newalert-dot"></span>' +
+        '  새 문의 <strong class="uw-newalert-count">' + count + '</strong>건이 도착했습니다.' +
+        '  <button type="button" class="button button-primary uw-newalert-reload">지금 새로고침</button>' +
+        '</div>'
+      );
+      $('.uw-inquiry-admin h1').first().after($banner);
+      $banner.find('.uw-newalert-reload').on('click', function () { location.reload(); });
+    }
+
+    setInterval(function () {
+      $.post(uwInquiryAdmin.ajaxUrl, {
+        action: 'uw_inquiry_check_new',
+        nonce: uwInquiryAdmin.nonce,
+        form_id: formId,
+        last_id: lastId
+      }, function (res) {
+        if (res && res.success && res.data && res.data.count > 0) {
+          showBanner(res.data.count);
+        }
+      });
+    }, 30000);
+  }
+
+  /**
+   * 좌측 admin 메뉴 "입력폼" 버블 숫자 갱신 (0이면 제거, 없으면 생성)
+   */
+  function updateMenuBubble(count) {
+    count = parseInt(count, 10) || 0;
+    var $menuLi  = $('#adminmenu li.toplevel_page_uw-inquiry');
+    var $bubbles = $menuLi.find('.awaiting-mod');
+
+    if (count > 0) {
+      if ($bubbles.length) {
+        $bubbles.find('.uw-unread-count').text(count);
+      } else {
+        var html = ' <span class="awaiting-mod"><span class="uw-unread-count">' + count + '</span></span>';
+        $menuLi.find('> a .wp-menu-name').append(html);
+        $menuLi.find('.wp-submenu a[href="admin.php?page=uw-inquiry"]').first().append(html);
+      }
+    } else {
+      $bubbles.remove();
+    }
+  }
+
+  /**
+   * 상태 배지 클릭 시 읽음/안읽음 수동 토글
+   */
+  function initReadToggle() {
+    $(document).on('click', '.uw-status-badge', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var $badge = $(this);
+      var $row = $badge.closest('.uw-entry-row');
+      var entryId = $row.data('entry-id');
+      var nextRead = $row.hasClass('is-unread') ? 1 : 0;
+
+      $.post(uwInquiryAdmin.ajaxUrl, {
+        action: 'uw_inquiry_toggle_read',
+        nonce: uwInquiryAdmin.nonce,
+        entry_id: entryId,
+        read: nextRead
+      }, function (res) {
+        if (res && res.success) {
+          if (nextRead) {
+            $row.removeClass('is-unread');
+            $badge.removeClass('uw-status-unread').addClass('uw-status-read').text('읽음');
+          } else {
+            $row.addClass('is-unread');
+            $badge.removeClass('uw-status-read').addClass('uw-status-unread').text('● 안읽음');
+          }
+          if (res.data && typeof res.data.unread_count !== 'undefined') {
+            updateMenuBubble(res.data.unread_count);
+          }
+        }
+      });
     });
   }
 

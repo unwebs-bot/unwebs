@@ -44,21 +44,10 @@
         $form.find('.has-error').removeClass('has-error');
         $form.find('.uw-inquiry-field-error').text('');
 
-        // 커스텀 유효성 검사
+        // 커스텀 유효성 검사 — 빨간 인라인 메시지는 validateForm 안에서 표시됨
         var validation = validateForm($form);
         if (!validation.valid) {
-          // 첫 번째 에러 메시지 알림
-          alert(validation.message);
-
-          // 첫 번째 에러 필드로 포커스
-          if (validation.errorField && validation.errorField.length) {
-            validation.errorField.focus();
-
-            // 스크롤 이동
-            $('html, body').animate({
-              scrollTop: validation.errorField.offset().top - 100
-            }, 500);
-          }
+          scrollToError(validation);
           return;
         }
 
@@ -81,8 +70,57 @@
     });
   }
 
+  /**
+   * 첫 에러로 부드럽게 스크롤 + 포커스
+   * - 스크롤 타겟은 group (라벨까지 보이게, hidden input 회피)
+   * - sticky 헤더 높이 동적 계산
+   * - focus는 preventScroll(브라우저 강제 점프 차단)
+   * - native scroll-behavior:smooth 활용 (jQuery 큐 충돌 회피)
+   */
+  function scrollToError(validation) {
+    var $target = (validation.errorGroup && validation.errorGroup.length)
+      ? validation.errorGroup
+      : validation.errorField;
+    if (!$target || !$target.length) return;
+
+    // sticky 헤더 높이 측정 (없으면 80 fallback)
+    var $header = $('.cm-header, .cm-header-wrap, header.cm-header').first();
+    var headerH = $header.length ? $header.outerHeight() : 0;
+    if (!headerH) headerH = 80;
+    var GAP = 20;
+
+    var top = $target.offset().top - headerH - GAP;
+    if (top < 0) top = 0;
+
+    // 모던 브라우저: window.scrollTo smooth (한 번에 단일 스크롤)
+    if ('scrollBehavior' in document.documentElement.style) {
+      window.scrollTo({ top: top, left: 0, behavior: 'smooth' });
+      // 스크롤 종료 후 focus (preventScroll로 두 번째 점프 차단)
+      setTimeout(function () {
+        var node = (validation.errorField && validation.errorField[0])
+          ? validation.errorField[0]
+          : $target[0];
+        if (node && typeof node.focus === 'function') {
+          try { node.focus({ preventScroll: true }); }
+          catch (e) { node.focus(); }
+        }
+      }, 450);
+    } else {
+      // 폴백: 단일 엘리먼트 큐 (html, body 동시 큐 충돌 방지)
+      $('html, body').stop(true).animate({ scrollTop: top }, 400, 'swing', function () {
+        var node = (validation.errorField && validation.errorField[0])
+          ? validation.errorField[0]
+          : $target[0];
+        if (node && typeof node.focus === 'function') {
+          try { node.focus({ preventScroll: true }); }
+          catch (e) { /* IE */ }
+        }
+      });
+    }
+  }
+
   function validateForm($form) {
-    var result = { valid: true, message: '', errorField: null };
+    var result = { valid: true, message: '', errorField: null, errorGroup: null };
 
     // 필수 필드 검사
     $form.find('[required]').each(function () {
@@ -127,6 +165,7 @@
         result.valid = false;
         result.message = message;
         result.errorField = $input;
+        result.errorGroup = $group;
 
         $group.addClass('has-error');
         $group.find('.uw-inquiry-field-error').text(message);
@@ -269,6 +308,8 @@
       contentType: false,
       success: function (response) {
         if (response.success) {
+          // 네이버 파워링크 전환 (문의 완료) — redirect/popup 양쪽 모두 이동 전 발화
+          if (window.uwNaverCnvInquiry) { window.uwNaverCnvInquiry(); }
           // 성공
           if (response.data.type === 'redirect' && response.data.redirect) {
             // 페이지 이동

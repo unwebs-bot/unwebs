@@ -1,0 +1,1029 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   Main Responsive - 메인페이지 반응형
+   Breakpoint: 1440(XL) / 1180(LG) / 768(MD) / 480(SM)
+   ※ 모든 메인페이지 반응형은 이 파일에 모음 (일관성)
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1440px 이하
+   ========================================================================== */
+@media (max-width: 1440px) {
+  .main-status-banner-wrap {
+    padding: 10px 30px;
+  }
+
+  .main-status-banner-group {
+    gap: 12px;
+  }
+
+  .main-status-banner-badge {
+    font-size: 14px;
+    padding: 6px 20px;
+  }
+
+  .main-status-banner-label,
+  .main-status-banner-value {
+    font-size: 14px;
+  }
+
+  .main-status-banner-cta {
+    font-size: 14px;
+    padding: 6px 20px;
+  }
+
+  .main-status-banner-divider {
+    margin: 0 6px;
+  }
+
+  .has-status-banner .cm-header {
+    top: 46px;
+  }
+
+  .has-status-banner .cm-mobile-btn {
+    top: calc(46px + (var(--cm-header-height) - 32px) / 2);
+  }
+
+  .main-visual-info {
+    flex: 0 0 35%;
+  }
+
+  .main-visual-wrap {
+    padding: 0 40px;
+    gap: 40px;
+  }
+
+  .main-visual-nav {
+    gap: 16px;
+  }
+
+  .main-visual-scroll {
+    right: 40px;
+  }
+
+  .main-dashboard-footer {
+    padding: 20px 40px 0;
+  }
+
+  .main-maintenance-wrap {
+    padding: 0 40px;
+  }
+}
+
+
+/* ==========================================================================
+   1180px 이하
+   ========================================================================== */
+@media (max-width: 1180px) {
+  .main-status-banner-con {
+    display: none;
+  }
+
+  .has-status-banner .cm-header {
+    top: 0;
+  }
+
+  .has-status-banner .cm-mobile-btn {
+    top: calc((var(--cm-header-height) - 32px) / 2);
+  }
+
+  /* 태블릿/모바일: 디바이스 위, 텍스트 아래 (column-reverse) + info 100% */
+  .main-visual-wrap {
+    flex-direction: column-reverse;
+    padding: 120px 40px 100px;
+    gap: 50px;
+  }
+
+  .main-visual-info {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    min-height: auto;
+  }
+
+  .main-visual-logo img {
+    margin: 0 auto;
+  }
+
+  /* dl 박스 자체를 가운데 + 안의 row는 좌측 정렬 → 라벨/값 일관 정렬 */
+  .main-visual-meta {
+    align-items: stretch;
+    width: max-content;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .main-visual-meta-item {
+    justify-content: flex-start;
+  }
+
+  .main-visual-actions {
+    justify-content: center;
+  }
+
+  .main-visual-nav {
+    justify-content: center;
+  }
+
+  .main-visual-devices {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .main-visual-scroll {
+    display: none;
+  }
+
+  .main-projects-item { width: 280px; }
+
+  .main-maintenance-wrap {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 0;
+  }
+
+  /* 1열 전환 시 frame absolute 풀고 normal flow로 복귀 */
+  .main-maintenance-ticker {
+    height: auto;
+    position: relative;
+  }
+
+  .main-maintenance-ticker-frame {
+    position: static;
+    inset: auto;
+    height: auto;
+  }
+
+  .main-maintenance-window {
+    flex: 0 0 auto;
+    height: 400px;
+    min-height: 0;
+  }
+
+  /* Dashboard — 카드 내부 패딩/간격 축소 (좁은 PC에서 답답함 해소) */
+  .main-dashboard-wrap {
+    gap: 24px;
+  }
+
+  .main-dashboard-item {
+    padding: 16px 20px;
+  }
+
+  .main-dashboard-item-left {
+    gap: 24px;
+  }
+
+  .main-dashboard-tag {
+    min-width: 0;
+    font-size: 14px;
+  }
+
+  .main-dashboard-badge {
+    min-width: 80px;
+    font-size: 13px;
+  }
+
+  /* Maintenance KPI 박스 — 자식들 본문폭 맞추기 위해 패딩 제거 */
+  .main-maintenance-kpi {
+    padding: 0;
+    background: transparent;
+  }
+
+  .main-schedule-chart {
+    grid-template-columns: 160px repeat(6, 1fr);
+    grid-template-rows: 50px repeat(5, 70px);
+  }
+
+  .main-schedule-cell-label,
+  .main-schedule-cell-corner {
+    padding: 0 16px;
+    font-size: 13px;
+  }
+
+  .main-stats-box {
+    padding: 60px 40px 48px;
+    border-radius: 20px;
+  }
+
+  .main-stats-wrap {
+    gap: 32px;
+  }
+
+  .main-stats-number {
+    font-size: 60px;
+    height: 70px;
+  }
+
+  .main-stats-unit {
+    font-size: 44px;
+  }
+
+  .main-stats-brands {
+    margin-top: 48px;
+  }
+
+  .main-portfolio-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px 24px;
+  }
+
+  .main-portfolio-name {
+    font-size: 16px;
+  }
+
+  .main-portfolio-mob {
+    border-width: 4px;
+    border-radius: 16px;
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .main-reviews-item { width: 290px; }
+  .main-reviews-card { height: 400px; padding: 32px 28px; }
+  .main-reviews-headline { font-size: 18px; }
+
+  .main-columns-grid {
+    gap: 32px 24px;
+  }
+
+  .main-columns-tit {
+    font-size: 17px;
+  }
+
+  /* Contact */
+  .main-contact-con .cm-tit { font-size: 34px; }
+  .main-contact-stats {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 24px 0;
+  }
+  .main-contact-stats-item {
+    padding: 16px;
+    border-right: 0;
+  }
+  .main-contact-stats-item:nth-child(odd) {
+    border-right: 1px solid var(--cm-border);
+  }
+  .main-contact-stats-item:nth-child(1),
+  .main-contact-stats-item:nth-child(2) {
+    border-bottom: 1px solid var(--cm-border);
+  }
+  .main-contact-wrap {
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+  }
+  .main-contact-side { padding: 26px; }
+  .main-contact-form-area { padding: 28px; }
+}
+
+
+/* ==========================================================================
+   960px 이하 — Dashboard 한정 sub-BP (2열로는 카드 폭 부족)
+   ========================================================================== */
+@media (max-width: 960px) {
+  .main-dashboard-wrap {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+
+/* ==========================================================================
+   768px 이하
+   ========================================================================== */
+@media (max-width: 768px) {
+  .main-visual-wrap {
+    padding: 100px 20px 80px;
+    gap: 40px;
+  }
+
+  .main-visual-tit {
+    font-size: 38px;
+    line-height: 1.25;
+  }
+
+  .main-visual-meta-label {
+    min-width: 70px;
+    font-size: 12px;
+  }
+
+  .main-visual-meta-value {
+    font-size: 14px;
+  }
+
+  /* 가로 2개 분할 (column-reverse 환경 안에서 row 정렬 + 동등 분할) */
+  .main-visual-actions {
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 60px;
+  }
+
+  .main-visual-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 12px 16px;
+    justify-content: center;
+  }
+
+  .main-visual-phone {
+    width: 100px;
+    bottom: -15px;
+    right: 0;
+  }
+
+  /* 인디케이터 viewport 가로 가득 — item 균등 분할 */
+  .main-visual-nav {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .main-visual-nav-item {
+    flex: 1 1 0;
+    width: auto;
+    height: 4px;
+  }
+
+  .main-visual-nav-item.is-active {
+    width: auto;
+  }
+
+  .cm-section-tit {
+    font-size: 26px;
+  }
+
+  .cm-section-desc {
+    font-size: 14px;
+  }
+
+  .main-dashboard-wrap {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 0;
+  }
+
+  .main-dashboard-footer {
+    padding: 16px 0 0;
+  }
+
+  /* 모바일: 1 item만 보이게 (티커 1개씩 순환) */
+  .main-dashboard-window {
+    height: 80px;
+  }
+
+  .main-dashboard-item {
+    padding: 16px 20px;
+    height: 80px;
+  }
+
+  .main-dashboard-tag {
+    display: none;
+  }
+
+  .main-dashboard-item-tit {
+    font-size: 14px;
+  }
+
+  .main-dashboard-badge {
+    padding: 6px 12px;
+    font-size: 12px;
+    min-width: 70px;
+  }
+
+  .main-projects-item { width: 240px; }
+  .main-projects-list { gap: 16px; animation-duration: 45s; }
+  .main-projects-tit { font-size: 14px; }
+  .main-projects-badge { padding: 5px 10px; font-size: 11px; }
+
+  .main-maintenance-header {
+    margin-bottom: 40px;
+  }
+
+  /*
+   * 근본 수정: grid → block
+   * CSS Grid의 min-width:auto가 콘텐츠 폭만큼 트랙을 확장하는 문제 원천 차단.
+   * block이면 자식들이 부모 100% 내에서 자연스럽게 축소됨.
+   */
+  .main-maintenance-wrap {
+    display: block;
+    padding: 0;
+  }
+
+  .main-maintenance-kpi {
+    margin-bottom: 30px;
+  }
+
+  .main-maintenance-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .main-maintenance-card {
+    padding: 16px 10px;
+    word-break: keep-all;
+  }
+
+  .main-maintenance-card-label {
+    font-size: 12px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    word-break: keep-all;
+  }
+
+  .main-maintenance-card-value {
+    font-size: 28px;
+  }
+
+  .main-maintenance-card-value em {
+    font-size: 14px;
+  }
+
+  .main-maintenance-chart-box {
+    overflow: hidden;
+    padding: 20px 16px 16px;
+  }
+
+  .main-maintenance-chart-tit {
+    font-size: 14px;
+  }
+
+  .main-maintenance-chart-legend {
+    gap: 14px;
+    font-size: 11px;
+  }
+
+  .main-maintenance-chart-body {
+    height: 240px;
+    gap: 8px;
+  }
+
+  .main-maintenance-chart-yaxis {
+    font-size: 10px;
+  }
+
+  .main-maintenance-chart-xlabel {
+    font-size: 10px;
+  }
+
+  .main-maintenance-chart-num-free {
+    font-size: 11px;
+  }
+
+  .main-maintenance-chart-num-paid {
+    font-size: 9px;
+    top: -14px;
+  }
+
+  .main-maintenance-chart-stack {
+    width: 70%;
+    max-width: 40px;
+  }
+
+  /* 티커: viewport 풀블리드 + 좌우 fade로 자연스러운 등장/퇴장
+     (projects 섹션과 동일한 결 — con이 이미 다크 배경이라 frame 박스 효과 불필요) */
+  .main-maintenance-ticker {
+    margin: 0 calc(var(--cm-area-px) * -1);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+  }
+
+  .main-maintenance-ticker-frame {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .main-maintenance-window {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    height: auto;
+    max-height: none;
+  }
+
+  .main-maintenance-columns {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+  }
+
+  /* 모바일: PC vertical marquee 비활성화 + list 가로 marquee */
+  .main-maintenance-track {
+    animation: none;
+    display: block;
+  }
+
+  /* 모바일에선 두 번째 ul 숨김 (가로 marquee로는 별도 처리 어려움) */
+  .main-maintenance-list[aria-hidden="true"] {
+    display: none;
+  }
+
+  .main-maintenance-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: max-content;
+    gap: 12px;
+    padding: 0;
+    animation: cmMarqueeScroll 25s linear infinite;
+    will-change: transform;
+  }
+
+  .main-maintenance-track[data-column="2"] .main-maintenance-list {
+    animation-duration: 30s;
+    animation-direction: reverse;
+  }
+
+  .main-maintenance-item {
+    min-width: 200px;
+    flex-shrink: 0;
+    padding: 16px;
+  }
+
+  .main-maintenance-window::before,
+  .main-maintenance-window::after {
+    display: none;
+  }
+
+  .main-maintenance-company {
+    font-size: 15px;
+  }
+
+  .main-maintenance-meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .main-schedule-header {
+    margin-bottom: 32px;
+  }
+
+  .main-schedule-wrap {
+    padding: 0;
+    overflow: visible;
+  }
+
+  /* Hide grid chart on mobile */
+  .main-schedule-chart {
+    display: none;
+  }
+
+  .main-schedule-tooltip {
+    display: none;
+  }
+
+  /* Show card list */
+  .main-schedule-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0 auto;
+  }
+
+  /* 왼쪽 바/도트 제거 */
+  .main-schedule-timeline::before { display: none; }
+  .main-schedule-step-dot { display: none; }
+
+  /* Step */
+  .main-schedule-step {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  /* Step card */
+  .main-schedule-step-content {
+    background: var(--cm-white);
+    border: 1px solid var(--cm-border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Week badge — step별 5색은 컴포넌트 로컬 디자인(step 단계 시각구분) */
+  .main-schedule-step-week {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+
+  .main-schedule-step-blue .main-schedule-step-week   { background: #eff6ff; color: #2563eb; }
+  .main-schedule-step-green .main-schedule-step-week  { background: #ecfdf5; color: #059669; }
+  .main-schedule-step-amber .main-schedule-step-week  { background: #fffbeb; color: #d97706; }
+  .main-schedule-step-pink .main-schedule-step-week   { background: #fdf2f8; color: #db2777; }
+  .main-schedule-step-indigo .main-schedule-step-week { background: #eef2ff; color: #4f46e5; }
+
+  .main-schedule-step-tit {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cm-text);
+    margin: 0 0 10px;
+  }
+
+  .main-schedule-step-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--cm-sub);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .main-schedule-step-list li::before {
+    content: '-';
+    margin-right: 6px;
+    color: var(--cm-sub);
+  }
+
+  /* Step animation */
+  .main-schedule-con.is-animated .main-schedule-step {
+    animation: cmCellAppear 0.5s ease-out var(--step-delay, 0s) forwards;
+  }
+
+  .main-stats-box {
+    padding: 48px 24px 40px;
+    border-radius: 16px;
+  }
+
+  /* 가로 3개 동등 분할 — 4자리 숫자 들어가도록 폰트 다운 */
+  .main-stats-wrap {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding: 20px 0;
+  }
+
+  .main-stats-item {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0;
+    gap: 10px;
+  }
+
+  .main-stats-number {
+    font-size: 34px;
+    height: 42px;
+    letter-spacing: -1.5px;
+  }
+
+  .main-stats-unit {
+    font-size: 24px;
+    top: -2px;
+  }
+
+  .main-stats-label {
+    font-size: 12px;
+    text-align: center;
+    word-break: keep-all;
+  }
+
+  .main-stats-brands {
+    margin-top: 40px;
+    gap: 24px;
+  }
+
+  .main-stats-brands-track {
+    gap: 48px;
+  }
+
+  .main-stats-brand-item {
+    height: 38px;
+  }
+
+  .main-portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 16px;
+    margin: 0 auto;
+  }
+
+  /* 포폴 페이지도 태블릿에선 2열 (데스크탑 3열 override 해제) */
+  .portfolio-list-con .main-portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .main-portfolio-name {
+    font-size: 14px;
+  }
+
+  .main-portfolio-mob {
+    border-width: 3px;
+    border-radius: 12px;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .cm-tag {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+
+  .main-reviews-list { gap: 14px; animation-duration: 60s; }
+  .main-reviews-item { width: 250px; }
+  .main-reviews-card { height: 360px; padding: 28px 22px; border-radius: 10px; }
+  .main-reviews-headline { font-size: 16px; margin-bottom: 16px; }
+  .main-reviews-body { font-size: 13px; line-height: 1.6; }
+  .main-reviews-company { font-size: 12px; }
+
+  .main-columns-grid {
+    grid-template-columns: 1fr;
+    gap: 28px 16px;
+  }
+
+  /* 모바일에서는 최신 1편만 노출 */
+  .main-columns-item:nth-child(n+2) {
+    display: none;
+  }
+
+  .main-columns-img {
+    border-radius: 10px;
+  }
+
+  .main-columns-tit {
+    font-size: 15px;
+  }
+
+  .main-columns-date {
+    font-size: 13px;
+  }
+
+  /* FAQ */
+  .main-faq-trigger {
+    padding: 22px 16px;
+    gap: 12px;
+  }
+
+  .main-faq-q-mark {
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+  }
+
+  .main-faq-q-text {
+    font-size: 15px;
+  }
+
+  .main-faq-arrow {
+    width: 24px;
+    height: 24px;
+    font-size: 18px;
+  }
+
+  .main-faq-a {
+    padding: 24px 22px;
+    margin: 0 0 12px;
+    border-radius: 10px;
+  }
+
+  .main-faq-a-text {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* Contact — 1컬럼 전환 */
+  .main-contact-con .cm-tit { font-size: 26px; }
+  .main-contact-con .cm-tit-sub { font-size: 14px; }
+  .main-contact-stats { margin-bottom: 50px; }
+  .main-contact-stats-value { font-size: 26px; }
+  .main-contact-stats-suffix { font-size: 18px; }
+  .main-contact-wrap {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .main-contact-side { padding: 22px; }
+  .main-contact-form-area { padding: 22px; }
+  .main-contact-modal-panel { max-height: 88vh; }
+
+  /* 포트폴리오 모달: 모바일 패딩 축소 (base 50px → 24px) */
+  .port-modal-body { padding: 24px; }
+
+  /* radio/checkbox 그룹 — 모바일에서 2열로 */
+  .main-contact-form-area .uw-inquiry-field-radio-group,
+  .main-contact-form-area .uw-inquiry-field-checkbox-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* ==========================================================================
+   480px 이하
+   ========================================================================== */
+@media (max-width: 480px) {
+  .main-visual-wrap {
+    padding: 80px 16px 60px;
+    gap: 30px;
+  }
+
+  .main-visual-tit {
+    font-size: 30px;
+    line-height: 1.3;
+  }
+
+  .main-visual-meta {
+    margin: 40px auto;
+    gap: 12px;
+  }
+
+  .main-visual-meta-label {
+    min-width: 100px;
+    font-size: 14px;
+  }
+
+  .main-visual-meta-value {
+    font-size: 14px;
+  }
+
+  .main-visual-actions {
+    margin-bottom: 60px;
+  }
+
+  .main-visual-btn {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+
+  .main-dashboard-item {
+    padding: 14px 16px;
+    height: 72px;
+  }
+
+  .main-dashboard-item-left {
+    gap: 12px;
+  }
+
+  .main-dashboard-tag {
+    font-size: 12px;
+    min-width: 40px;
+  }
+
+  .main-dashboard-item-tit {
+    font-size: 13px;
+  }
+
+  .main-dashboard-badge {
+    padding: 5px 10px;
+    font-size: 11px;
+    min-width: 60px;
+  }
+
+  .main-dashboard-window {
+    height: 72px;
+  }
+
+  .main-projects-item { width: 200px; }
+
+  .main-maintenance-cards {
+    gap: 8px;
+  }
+
+  .main-maintenance-card {
+    padding: 14px 10px;
+  }
+
+  .main-maintenance-card-label {
+    font-size: 11px;
+  }
+
+  .main-maintenance-card-value {
+    font-size: 24px;
+  }
+
+  .main-maintenance-card-value em {
+    font-size: 12px;
+  }
+
+  .main-maintenance-chart-box {
+    padding: 16px 12px;
+  }
+
+  .main-maintenance-chart-label {
+    font-size: 8px;
+  }
+
+  .main-maintenance-item {
+    min-width: 180px;
+    padding: 14px;
+  }
+
+  .main-maintenance-company {
+    font-size: 14px;
+  }
+
+  .main-maintenance-badge {
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+
+  .main-schedule-wrap {
+    padding: 0;
+  }
+
+  .main-schedule-step-content {
+    padding: 14px 16px;
+  }
+
+  .main-schedule-step-tit {
+    font-size: 15px;
+  }
+
+  .main-schedule-step-list {
+    font-size: 12px;
+  }
+
+  .main-stats-box {
+    padding: 40px 16px 32px;
+  }
+
+  /* 가로 3개 균등 분할 — 좌우 패딩 줄이고 폰트 적정 사이즈로 키움 */
+  .main-stats-wrap {
+    gap: 4px;
+    padding: 24px 0;
+  }
+
+  .main-stats-item {
+    gap: 8px;
+  }
+
+  .main-stats-number {
+    font-size: 28px;
+    height: 34px;
+    letter-spacing: -1.5px;
+  }
+
+  .main-stats-unit {
+    font-size: 20px;
+  }
+
+  .main-stats-label {
+    font-size: 12px;
+  }
+
+  /* Portfolio — 1열, max-width 해제 */
+  .main-portfolio-grid {
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+
+  /* 포폴 페이지도 모바일 1열 (데스크탑 3열 override 해제) */
+  .portfolio-list-con .main-portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* 메인 섹션만 모바일에서 처음 3개만 노출 (포폴 index 페이지는 전체 노출) */
+  .main-portfolio-con .main-portfolio-card:nth-child(n+4) {
+    display: none;
+  }
+
+  .main-portfolio-name {
+    font-size: 17px;
+  }
+
+  .main-columns-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* 섹션 라벨 다운 */
+  .cm-tit-sub {
+    font-size: 14px;
+  }
+
+  /* maintenance ticker 좌우 fade(mask) 제거 — 다크 배경 위에 검은 음영처럼 보임 */
+  .main-maintenance-ticker {
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+
+  /* contact form 양옆 패딩만 제거 (위아래는 cascade 유지) */
+  .main-contact-form-area {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* 입력폼 폰트/패딩 다운 (placeholder는 input cascade로 동일 크기) */
+  .main-contact-form-area .uw-inquiry-field-input,
+  .main-contact-form-area .uw-inquiry-field-textarea,
+  .main-contact-form-area .uw-inquiry-field-select {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* placeholder 명시 — input과 동일 사이즈 강제 (다른 cascade override 방지) */
+  .main-contact-form-area .uw-inquiry-field-input::placeholder,
+  .main-contact-form-area .uw-inquiry-field-textarea::placeholder {
+    font-size: 14px;
+  }
+
+  .main-contact-form-area .uw-inquiry-field-header{
+    margin: 0;
+  }
+
+  .main-contact-form-area .uw-inquiry-field-option{
+    padding: 13px 0;
+  }
+}

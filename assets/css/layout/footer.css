@@ -3,67 +3,66 @@
    ========================================================================== */
 
 /* --- Footer Container --- */
-.uw-footer {
+.cm-footer {
   background-color: #191c23;
-  color: var(--uw-white, #fff);
+  color: var(--cm-white, #fff);
   --footer-transition: all 0.2s ease;
 }
 
-.uw-footer__inner {
+.cm-footer-inner {
   max-width: var(--area-width, 1440px);
   margin: 0 auto;
-  padding: 0 var(--area-padding, 100px);
 }
 
 
 /* ==========================================================================
    1. Upper Section - Navigation & CTA
    ========================================================================== */
-.uw-footer__upper {
+.cm-footer-upper {
   padding: 80px 0 40px;
 }
 
-.uw-footer__upper .uw-footer__inner {
+.cm-footer-upper .cm-footer-inner {
   display: flex;
   justify-content: space-between;
   gap: 60px;
 }
 
 /* --- Navigation --- */
-.uw-footer__nav {
+.cm-footer-nav {
   display: flex;
   gap: 60px;
   flex: 1;
 }
 
-.uw-footer__nav-col {
+.cm-footer-nav-col {
   min-width: 0;
 }
 
-.uw-footer__nav-title {
+.cm-footer-nav-tit {
   font-size: 16px;
   font-weight: 700;
-  color: var(--uw-white, #fff);
+  color: var(--cm-white, #fff);
   margin-bottom: 20px;
   line-height: 1;
 }
 
-.uw-footer__nav-title a {
+.cm-footer-nav-tit a {
   color: inherit;
   transition: var(--footer-transition);
 }
 
-.uw-footer__nav-title a:hover {
+.cm-footer-nav-tit a:hover {
   opacity: 0.7;
 }
 
-.uw-footer__nav-list {
+.cm-footer-nav-list {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.uw-footer__nav-list li a {
+.cm-footer-nav-list li a {
   font-size: 14px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.5);
@@ -71,16 +70,16 @@
   line-height: 1;
 }
 
-.uw-footer__nav-list li a:hover {
-  color: var(--uw-white, #fff);
+.cm-footer-nav-list li a:hover {
+  color: var(--cm-white, #fff);
 }
 
 /* --- Logo --- */
-.uw-footer__logo {
+.cm-footer-logo {
   display: none;
 }
 
-.uw-footer__logo img {
+.cm-footer-logo img {
   height: 40px;
   width: auto;
   object-fit: contain;
@@ -88,12 +87,12 @@
   transition: var(--footer-transition);
 }
 
-.uw-footer__logo:hover img {
+.cm-footer-logo:hover img {
   opacity: 0.7;
 }
 
 /* --- CTA Area --- */
-.uw-footer__cta {
+.cm-footer-cta {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -101,63 +100,63 @@
   flex-shrink: 0;
 }
 
-.uw-footer__cta-buttons {
+.cm-footer-cta-buttons {
   display: flex;
   gap: 12px;
 }
 
-.uw-footer__cta-btn {
+.cm-footer-cta-btn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   padding: 14px 24px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--uw-white);
+  color: var(--cm-white);
   background-color: #2b2c2f;
   border-radius: 8px;
   transition: var(--footer-transition);
   white-space: nowrap;
 }
 
-.uw-footer__cta-btn:hover {
-  background-color: var(--uw-primary);
-  color: var(--uw-white, #fff);
+.cm-footer-cta-btn:hover {
+  background-color: var(--cm-primary);
+  color: var(--cm-white, #fff);
 }
 
-.uw-footer__cta-btn--primary {
+.cm-footer-cta-btn-primary {
   background-color: #6b7280;
-  color: var(--uw-white, #fff);
+  color: var(--cm-white, #fff);
 }
 
-.uw-footer__cta-btn--primary:hover {
-  background-color: var(--uw-primary);
+.cm-footer-cta-btn-primary:hover {
+  background-color: var(--cm-primary);
 }
 
-.uw-footer__cta-btn svg {
+.cm-footer-cta-btn svg {
   flex-shrink: 0;
 }
 
 /* --- Phone --- */
-.uw-footer__phone {
+.cm-footer-phone {
   text-align: right;
 }
 
-.uw-footer__phone-number {
+.cm-footer-phone-number {
   display: block;
   font-size: 42px;
   font-weight: 800;
-  color: var(--uw-white, #fff);
+  color: var(--cm-white, #fff);
   letter-spacing: -0.02em;
   line-height: 1.2;
   transition: var(--footer-transition);
 }
 
-.uw-footer__phone-number:hover {
+.cm-footer-phone-number:hover {
   opacity: 0.8;
 }
 
-.uw-footer__phone-hours {
+.cm-footer-phone-hours {
   font-size: 16px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.4);
@@ -168,49 +167,49 @@
 /* ==========================================================================
    2. Lower Section - Business Info & Copyright
    ========================================================================== */
-.uw-footer__lower {
+.cm-footer-lower {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 40px 0;
 }
 
-.uw-footer__lower .uw-footer__inner {
+.cm-footer-lower .cm-footer-inner {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 }
 
 /* --- Business Info (6-column table grid) --- */
-.uw-footer__info {
+.cm-footer-info {
   display: grid;
   grid-template-columns: auto 1fr auto 1fr;
   gap: 10px 0;
   align-items: baseline;
 }
 
-.uw-footer__info-item {
+.cm-footer-info-item {
   display: contents;
 }
 
-.uw-footer__info-item dt {
+.cm-footer-info-item dt {
   font-size: 14px;
   font-weight: 700;
-  color: var(--uw-white);
+  color: var(--cm-white);
   white-space: nowrap;
   padding-right: 30px;
 }
 
-.uw-footer__info-item dd {
+.cm-footer-info-item dd {
   font-size: 14px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.4);
 }
 
 /* --- Copyright --- */
-.uw-footer__copyright {
+.cm-footer-copyright {
   flex-shrink: 0;
 }
 
-.uw-footer__copyright p {
+.cm-footer-copyright p {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.35);
 }
@@ -219,7 +218,7 @@
 /* ==========================================================================
    3. Modal Styles
    ========================================================================== */
-.uw-modal-overlay {
+.cm-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -235,13 +234,13 @@
   transition: var(--footer-transition);
 }
 
-.uw-modal-overlay.is-open {
+.cm-modal-overlay.is-open {
   opacity: 1;
   visibility: visible;
 }
 
-.uw-modal {
-  background-color: var(--uw-white, #fff);
+.cm-modal {
+  background-color: var(--cm-white, #fff);
   border-radius: 12px;
   width: 90%;
   max-width: 700px;
@@ -253,27 +252,27 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
-.uw-modal-overlay.is-open .uw-modal {
+.cm-modal-overlay.is-open .cm-modal {
   transform: translateY(0) scale(1);
 }
 
-.uw-modal__header {
+.cm-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  border-bottom: 1px solid var(--uw-border, #e5e5e5);
+  border-bottom: 1px solid var(--cm-border, #e5e5e5);
   flex-shrink: 0;
 }
 
-.uw-modal__title {
+.cm-modal-tit {
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--uw-text, #222);
+  color: var(--cm-text, #222);
   margin: 0;
 }
 
-.uw-modal__close {
+.cm-modal-close {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -283,65 +282,65 @@
   background: none;
   cursor: pointer;
   border-radius: 50%;
-  color: var(--uw-gray, #666);
+  color: var(--cm-gray, #666);
   transition: var(--footer-transition);
 }
 
-.uw-modal__close:hover {
+.cm-modal-close:hover {
   background-color: rgba(0, 0, 0, 0.05);
-  color: var(--uw-text, #222);
+  color: var(--cm-text, #222);
 }
 
-.uw-modal__close svg {
+.cm-modal-close svg {
   width: 24px;
   height: 24px;
 }
 
-.uw-modal__body {
+.cm-modal-body {
   padding: 24px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   flex: 1;
 }
 
-.uw-modal__content {
-  color: var(--uw-text, #222);
+.cm-modal-content {
+  color: var(--cm-text, #222);
   font-size: 0.95rem;
   line-height: 1.8;
 }
 
-.uw-modal__content h3 {
+.cm-modal-content h3 {
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 24px;
-  color: var(--uw-text, #222);
+  color: var(--cm-text, #222);
 }
 
-.uw-modal__content h4 {
+.cm-modal-content h4 {
   font-size: 1.1rem;
   font-weight: 600;
   margin-top: 28px;
   margin-bottom: 12px;
-  color: var(--uw-text, #222);
+  color: var(--cm-text, #222);
 }
 
-.uw-modal__content p {
+.cm-modal-content p {
   margin-bottom: 16px;
-  color: var(--uw-gray, #666);
+  color: var(--cm-gray, #666);
 }
 
-.uw-modal__content ul {
+.cm-modal-content ul {
   margin: 12px 0 20px;
   padding-left: 20px;
 }
 
-.uw-modal__content li {
+.cm-modal-content li {
   margin-bottom: 8px;
-  color: var(--uw-gray, #666);
+  color: var(--cm-gray, #666);
 }
 
-.uw-modal__content strong {
-  color: var(--uw-text, #222);
+.cm-modal-content strong {
+  color: var(--cm-text, #222);
 }
 
 body.modal-open {
@@ -354,68 +353,68 @@ body.modal-open {
    ========================================================================== */
 
 /* Large Desktop */
-@media (max-width: 1280px) {
-  .uw-footer__nav {
+@media (max-width: 1440px) {
+  .cm-footer-nav {
     gap: 40px;
   }
 
-  .uw-footer__upper .uw-footer__inner {
+  .cm-footer-upper .cm-footer-inner {
     gap: 40px;
   }
 
-  .uw-footer__phone-number {
+  .cm-footer-phone-number {
     font-size: 30px;
   }
 }
 
 /* Tablet */
-@media (max-width: 1024px) {
-  .uw-footer__inner {
+@media (max-width: 1180px) {
+  .cm-footer-inner {
     padding: 0 40px;
   }
 
-  .uw-footer__upper {
+  .cm-footer-upper {
     padding: 50px 0;
   }
 
-  .uw-footer__upper .uw-footer__inner {
+  .cm-footer-upper .cm-footer-inner {
     flex-direction: column;
     gap: 40px;
   }
 
   /* Hide sitemap on tablet */
-  .uw-footer__nav {
+  .cm-footer-nav {
     display: none;
   }
 
   /* Show logo on tablet/mobile */
-  .uw-footer__logo {
+  .cm-footer-logo {
     display: block;
   }
 
-  .uw-footer__cta {
+  .cm-footer-cta {
     flex-direction: column;
     align-items: flex-start;
     gap: 24px;
     width: 100%;
   }
 
-  .uw-footer__cta-buttons {
+  .cm-footer-cta-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
     gap: 10px;
   }
 
-  .uw-footer__cta-btn {
+  .cm-footer-cta-btn {
     justify-content: center;
   }
 
-  .uw-footer__phone {
+  .cm-footer-phone {
     text-align: left;
   }
 
-  .uw-footer__lower .uw-footer__inner {
+  .cm-footer-lower .cm-footer-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: 30px;
@@ -424,20 +423,20 @@ body.modal-open {
 
 /* Mobile */
 @media (max-width: 768px) {
-  .uw-footer__inner {
+  .cm-footer-inner {
     padding: 0 24px;
   }
 
-  .uw-footer__upper {
+  .cm-footer-upper {
     padding: 40px 0;
   }
 
   /* Hide sitemap on mobile */
-  .uw-footer__nav {
+  .cm-footer-nav {
     display: none;
   }
 
-  .uw-footer__cta {
+  .cm-footer-cta {
     flex-direction: column;
     align-items: flex-start;
     gap: 24px;
@@ -445,95 +444,95 @@ body.modal-open {
   }
 
   /* 2 buttons in a row */
-  .uw-footer__cta-buttons {
+  .cm-footer-cta-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
     gap: 10px;
   }
 
-  .uw-footer__cta-btn {
+  .cm-footer-cta-btn {
     justify-content: center;
     padding: 14px 16px;
     font-size: 13px;
   }
 
-  .uw-footer__phone {
+  .cm-footer-phone {
     text-align: left;
   }
 
-  .uw-footer__phone-number {
+  .cm-footer-phone-number {
     font-size: 28px;
   }
 
-  .uw-footer__lower {
+  .cm-footer-lower {
     padding: 20px 0 0;
   }
 
-  .uw-footer__info {
+  .cm-footer-info {
     grid-template-columns: auto 1fr auto 1fr;
   }
 
-  .uw-footer__info-item dd {
+  .cm-footer-info-item dd {
     padding-right: 24px;
   }
 
   /* Modal Mobile */
-  .uw-modal {
+  .cm-modal {
     width: 95%;
     max-height: 85vh;
   }
 
-  .uw-modal__header {
+  .cm-modal-header {
     padding: 16px 20px;
   }
 
-  .uw-modal__title {
+  .cm-modal-tit {
     font-size: 1.1rem;
   }
 
-  .uw-modal__body {
+  .cm-modal-body {
     padding: 20px;
   }
 
-  .uw-modal__content {
+  .cm-modal-content {
     font-size: 0.9rem;
   }
 
-  .uw-modal__content h3 {
+  .cm-modal-content h3 {
     font-size: 1.3rem;
   }
 
-  .uw-modal__content h4 {
+  .cm-modal-content h4 {
     font-size: 1rem;
   }
 }
 
 /* Small Mobile */
 @media (max-width: 480px) {
-  .uw-footer__inner {
+  .cm-footer-inner {
     padding: 0 20px;
   }
 
-  .uw-footer__phone-number {
+  .cm-footer-phone-number {
     font-size: 24px;
   }
 
-  .uw-footer__cta-btn {
+  .cm-footer-cta-btn {
     font-size: 12px;
     padding: 12px 10px;
     gap: 6px;
   }
 
-  .uw-footer__info {
+  .cm-footer-info {
     grid-template-columns: auto 1fr;
   }
 
-  .uw-footer__copyright p {
+  .cm-footer-copyright p {
     font-size: 12px;
   }
 
-  .uw-footer__lower .uw-footer__inner {
+  .cm-footer-lower .cm-footer-inner {
     padding-bottom: 20px;
   }
 }

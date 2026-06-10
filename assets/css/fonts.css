@@ -1,0 +1,45 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   Web Fonts
+   - Pretendard: 한글 + 숫자 + 기호 (CDN dynamic subset, header.php에서 link)
+   - Nohemi: 영문 알파벳(A-Z, a-z)만 (unicode-range)
+   ※ 캐시 버스팅을 위해 layout.css에서 분리 → functions.php에서 별도 enqueue
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Nohemi';
+  src: url('../fonts/nohemi/Nohemi-Regular.woff') format('woff'),
+       url('../fonts/nohemi/Nohemi-Regular.ttf')  format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0041-005A, U+0061-007A;
+}
+@font-face {
+  font-family: 'Nohemi';
+  src: url('../fonts/nohemi/Nohemi-Medium.woff') format('woff'),
+       url('../fonts/nohemi/Nohemi-Medium.ttf')  format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0041-005A, U+0061-007A;
+}
+@font-face {
+  font-family: 'Nohemi';
+  src: url('../fonts/nohemi/Nohemi-SemiBold.woff') format('woff'),
+       url('../fonts/nohemi/Nohemi-SemiBold.ttf')  format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0041-005A, U+0061-007A;
+}
+@font-face {
+  font-family: 'Nohemi';
+  src: url('../fonts/nohemi/Nohemi-Bold.woff') format('woff'),
+       url('../fonts/nohemi/Nohemi-Bold.ttf')  format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0041-005A, U+0061-007A;
+}

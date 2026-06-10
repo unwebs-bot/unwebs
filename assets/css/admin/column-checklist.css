@@ -1,0 +1,109 @@
+/* UW Column Checklist — 관리자 metabox 전용 */
+.uw-ccl {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.uw-ccl-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.uw-ccl-summary .uw-ccl-count {
+  font-size: 15px;
+}
+
+.uw-ccl-summary .uw-ccl-pass {
+  color: #0d6efd;
+  font-weight: 700;
+}
+
+.uw-ccl-summary .uw-ccl-label {
+  color: #666;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.uw-ccl-progress {
+  height: 6px;
+  background: #eee;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.uw-ccl-progress-bar {
+  height: 100%;
+  background: #0d6efd;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.uw-ccl-progress-bar.is-full {
+  background: #16a34a;
+}
+
+.uw-ccl-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+
+.uw-ccl-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 4px 0;
+  color: #555;
+}
+
+.uw-ccl-mark {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid #ccc;
+  background: #fff;
+  margin-top: 2px;
+  display: inline-block;
+  position: relative;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.uw-ccl-list li.is-pass {
+  color: #111;
+}
+
+.uw-ccl-list li.is-pass .uw-ccl-mark {
+  background: #16a34a;
+  border-color: #16a34a;
+}
+
+.uw-ccl-list li.is-pass .uw-ccl-mark::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 3.5px;
+  width: 3px;
+  height: 6px;
+  border: solid #fff;
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+
+.uw-ccl-list li.is-fail .uw-ccl-mark {
+  border-color: #dc2626;
+  background: #fff;
+}
+
+.uw-ccl-hint {
+  margin: 10px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+  color: #888;
+  font-size: 11px;
+  line-height: 1.4;
+}

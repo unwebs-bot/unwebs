@@ -1,227 +1,469 @@
 @charset "utf-8";
 
+/* Web Fonts는 fonts.css로 분리 (functions.php에서 별도 enqueue 캐시 버스팅) */
+
+
 /* ==========================================================================
    Layout - CSS Variables & Core Layout
    ========================================================================== */
 
 :root {
   /* Primary Color (프로젝트별 변경) */
-  --uw-primary: #3182f6;
-  --uw-sub: #6B7280;
-  --uw-black: #111;
-  --uw-white: #fff;
-  --uw-text: #111;
-  --uw-bg: #F8F9FB;
-  --uw-border: #e6e6e6;
+  --cm-primary: #3182f6;
+  --cm-primary-rgb: 49, 130, 246;
+  --cm-sub: #6B7280;
+  --cm-black: #111;
+  --cm-white: #fff;
+  --cm-text: #111;
+  --cm-text-body: #374151;       /* 긴 본문 단락용 — text보다 한 톤 부드러움 */
+  --cm-bg: #F8F9FB;
+  --cm-border: #e6e6e6;
 
-  /* Typography */
-  --uw-font-main: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  /* Dark Theme (메인 비주얼 등) */
+  --cm-dark-bg: #0f0f0f;
+
+  /* Typography
+     스택 순서: Nohemi(영문만·unicode-range 매치) → Pretendard(한글·숫자) → 시스템 폰트 */
+  --cm-font-main: 'Nohemi', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 
   /* Layout */
   --area-width: 1440px;
   --area-padding: 100px 0;
-  --uw-header-height: 80px;
+  --cm-header-height: 80px;
 
-  /* Section Padding (반응형 - 미디어쿼리에서 재정의) */
-  --uw-section-py: 100px;
-  --uw-section-px: 0px;
+  /* Section Padding (반응형 — 미디어쿼리에서 재정의) */
+  --cm-section-py: 120px;
+  --cm-section-px: 0px;
+
+  /* Area 좌우 여백 (본문폭 1440보다 좁은 PC·태블릿·모바일 보호) */
+  --cm-area-px: 0px;
 
   /* Transitions & Shadows */
-  --uw-transition: all 0.4s ease-in-out;
-  --uw-transition-slow: all 0.8s ease-in-out;
-  --uw-shadow: 0 8px 12px rgba(0,0,0,0.1);
+  --cm-transition: all 0.4s ease-in-out;
+  --cm-transition-slow: all 0.8s ease-in-out;
+  --cm-shadow: 0 8px 12px rgba(0,0,0,0.1);
 }
 
-/* Section Padding - Responsive Overrides */
-@media (max-width: 1180px) {
+/* ==========================================================================
+   Breakpoint 표준 — XL(1440) / LG(1180) / MD(768) / SM(480)
+   ----------------------------------------------------------------------------
+   복붙용 스니펫 (mobile-down):
+     @media (max-width: 1440px) { } // XL — 본문폭 경계
+     @media (max-width: 1180px) { } // LG — 좁은 PC / 태블릿 가로
+     @media (max-width: 768px)  { } // MD — 태블릿 세로 / 모바일
+     @media (max-width: 480px)  { } // SM — 작은 모바일
+
+   반응형 작업 룰:
+     - 가로 스크롤 금지 (overflow-x:hidden 임시처방 X, 래핑/스태킹으로 해결)
+     - cascade 충돌 체크 → 부모 셀렉터 override 우선, 공통 cm- 클래스 재사용
+     - HTML 구조 먼저 확인 → CSS 범위 정확히 → 일괄 수정
+     - 디버그: URL에 ?debug=1 (BP 라벨, 가로 스크롤 감지)
+   ========================================================================== */
+
+/* XL 이하 — 본문폭 경계, 좌우 여백 시작 */
+@media (max-width: 1440px) {
   :root {
-    --uw-section-py: 80px;
-    --uw-section-px: 40px;
+    --cm-area-px: 40px;
   }
 }
 
+/* LG 이하 — 좁은 PC / 태블릿 가로 */
+@media (max-width: 1180px) {
+  :root {
+    --cm-section-py: 80px;
+    --cm-section-px: 40px;
+    --cm-area-px: 40px;
+  }
+}
+
+/* MD 이하 — 태블릿 세로 / 모바일 */
 @media (max-width: 768px) {
   :root {
-    --uw-section-py: 50px;
-    --uw-section-px: 20px;
+    --cm-section-py: 60px;
+    --cm-section-px: 16px;
+    --cm-area-px: 16px;
+    --cm-header-height: 60px;
+  }
+}
+
+/* SM 이하 — 작은 모바일 */
+@media (max-width: 480px) {
+  :root {
+    --cm-section-py: 70px;
+    --cm-section-px: 16px;
+    --cm-area-px: 16px;
+    --cm-header-height: 60px;
   }
 }
 
 
 /* ==========================================================================
-   2. Typography (기본 타이포그래피)
+   Typography (기본 타이포그래피)
    ========================================================================== */
 html {
   font-size: 16px;
 }
 
 body {
-  font-family: var(--uw-font-main);
+  font-family: var(--cm-font-main);
   font-size: 16px;
-  color: var(--uw-text);
+  color: var(--cm-text);
   letter-spacing: -0.02em;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--uw-font-main);
+  font-family: var(--cm-font-main);
   font-weight: 700;
   line-height: 1.4;
 }
 
 
-
 /* ==========================================================================
-   3. Container (컨테이너)
+   Container (컨테이너)
    ========================================================================== */
 .area {
   max-width: var(--area-width);
   margin: 0 auto;
+  padding: 0 var(--cm-area-px);
 }
-
 
 
 /* ==========================================================================
-   4. Title Box (섹션 타이틀)
+   cm-tit-box (섹션 타이틀 공통 컴포넌트)
+   - cm-tit-sub : ENGLISH LABEL / 카테고리
+   - cm-tit     : 한글 제목 (h2~h4)
+   - cm-tit-txt : 설명
    ========================================================================== */
-.tit-box {
+.cm-tit-box {
   text-align: center;
+  margin-bottom: 50px;
 }
 
-.tit-box .category-tit {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--uw-primary);
+@media (max-width: 1180px) {
+  .cm-tit-box { margin-bottom: 40px; }
 }
 
-.tit-box .main-tit {
+@media (max-width: 768px) {
+  .cm-tit-box { margin-bottom: 30px; }
+}
+
+.cm-tit-sub {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--cm-primary);
+}
+
+.cm-tit {
   font-size: 44px;
   font-weight: 700;
   line-height: 1.4;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
-.tit-box .sub-tit {
-  font-size: 20px;
+.cm-tit-txt {
+  font-size: 18px;
   color: #666;
   margin-top: 20px;
 }
 
+/* 모바일 전용 줄바꿈 — 480 이하에서만 br 활성화 (display: revert로 br 기본 line-break 보장) */
+.cm-br-mobile { display: none; }
+@media (max-width: 480px) {
+  .cm-br-mobile { display: revert; }
+}
 
 
 /* ==========================================================================
-   5. Sub Visual (서브페이지 비주얼)
+   cm-skip-nav (접근성 — 스킵 네비)
    ========================================================================== */
-.sub-visual {
-  position: relative;
-  width: 100%;
-  height: 400px;
-  background: #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sub-visual-bg {
+.cm-skip-nav {
   position: absolute;
-  top: 0;
+  top: -100px;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.6);
-}
-
-.sub-visual-content {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-}
-
-.sub-visual__title {
-  font-size: 48px;
-  color: #fff;
-  font-weight: 700;
-  margin-top: 10px;
-}
-
-/* Breadcrumb */
-.sub-breadcrumb__list {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sub-breadcrumb__item {
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.sub-breadcrumb__item a {
-  color: rgba(255, 255, 255, 0.8);
-  transition: color 0.2s;
-}
-
-.sub-breadcrumb__item a:hover {
-  color: #fff;
-}
-
-.sub-breadcrumb__item:not(:last-child)::after {
-  content: '-';
-  margin: 0 10px;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.sub-breadcrumb__item.is-current {
-  color: #fff;
+  padding: 10px 16px;
+  background: var(--cm-primary);
+  color: var(--cm-white);
   font-weight: 500;
+  z-index: 9999;
+  transition: top 0.2s;
+}
+.cm-skip-nav:focus {
+  top: 0;
 }
 
-/* Sub LNB */
-.sub-lnb {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 55px;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
+
+/* ==========================================================================
+   .blind (스크린리더 전용 텍스트 — 시각적으로 완전 숨김)
+   사용: <caption class="blind">표 제목</caption>, <span class="blind">아이콘 설명</span>
+   ========================================================================== */
+.blind {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
-.sub-lnb__list {
+
+/* ==========================================================================
+   cm-btn (공통 버튼)
+   ========================================================================== */
+.cm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  min-height: 48px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--cm-text);
+  background: var(--cm-white);
+  border: 1px solid var(--cm-border);
+  border-radius: 8px;
+  transition: var(--cm-transition);
+  cursor: pointer;
+}
+.cm-btn:hover {
+  border-color: var(--cm-text);
+}
+.cm-btn-primary {
+  background: var(--cm-primary);
+  color: var(--cm-white);
+  border-color: var(--cm-primary);
+}
+.cm-btn-primary:hover {
+  background: var(--cm-text);
+  border-color: var(--cm-text);
+  color: var(--cm-white);
+}
+
+
+/* ==========================================================================
+   cm-tag (공통 태그 / 뱃지 — 회색 pill)
+   ========================================================================== */
+.cm-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cm-sub);
+  background: var(--cm-bg);
+  border-radius: 100px;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+
+/* ==========================================================================
+   cm-faq (FAQ 아코디언 공통)
+   ========================================================================== */
+.cm-faq-list {
+  border-top: 1px solid var(--cm-border);
+}
+.cm-faq-item {
+  border-bottom: 1px solid var(--cm-border);
+}
+.cm-faq-q {
   display: flex;
-  height: 100%;
-  max-width: var(--area-width);
-  margin: 0 auto;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px 0;
+  font-size: 17px;
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
 }
-
-.sub-lnb__item {
+.cm-faq-q::-webkit-details-marker { display: none; }
+.cm-faq-q-mark {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cm-primary);
+  color: var(--cm-white);
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+}
+.cm-faq-q-txt {
+  flex: 1;
+  line-height: 1.5;
+}
+.cm-faq-a {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 0 0 24px 0;
+  color: var(--cm-sub);
+  line-height: 1.7;
+}
+.cm-faq-a-mark {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cm-bg);
+  color: var(--cm-text);
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+}
+.cm-faq-a-txt {
   flex: 1;
 }
 
-.sub-lnb__item a {
+
+/* ==========================================================================
+   cm-pagination (페이지네이션)
+   ========================================================================== */
+.cm-pagination {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  padding: 0 30px;
+  gap: 6px;
+  margin-top: 60px;
+}
+.cm-pagination a,
+.cm-pagination span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: var(--cm-text);
+  background: var(--cm-white);
+  border: 1px solid var(--cm-border);
+  border-radius: 6px;
+  transition: var(--cm-transition);
+}
+.cm-pagination .current,
+.cm-pagination a:hover {
+  background: var(--cm-primary);
+  color: var(--cm-white);
+  border-color: var(--cm-primary);
+}
+
+
+/* ==========================================================================
+   cm-breadcrumbs (Rank Math 래퍼)
+   ========================================================================== */
+.cm-breadcrumbs {
+  font-size: 14px;
+  color: var(--cm-sub);
+  padding: 16px 0;
+}
+.cm-breadcrumbs a {
+  color: var(--cm-sub);
+  transition: color 0.2s;
+}
+.cm-breadcrumbs a:hover {
+  color: var(--cm-primary);
+}
+
+
+/* ==========================================================================
+   cm-error (404)
+   ========================================================================== */
+.cm-error-con {
+  padding: 120px 0;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+.cm-error-wrap {
+  text-align: center;
+}
+.cm-error-code {
+  font-size: 120px;
+  font-weight: 900;
+  color: var(--cm-primary);
+  line-height: 1;
+  margin-bottom: 20px;
+}
+.cm-error-tit {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.cm-error-txt {
   font-size: 16px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-  transition: all 0.2s;
+  color: var(--cm-sub);
+  line-height: 1.7;
+  margin-bottom: 40px;
 }
-
-.sub-lnb__item a:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.sub-lnb__item.is-active a {
-  color: #fff;
-  font-weight: 500;
-  background: var(--uw-primary);
+.cm-error-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 
+/* ==========================================================================
+   sub-content-con (서브페이지 섹션 기본 패딩)
+   ========================================================================== */
+/* 좌우 패딩은 .area 가 담당 → 중복 방지 + 풀블리드 자식 허용 */
+.sub-content-con {
+  padding: var(--cm-section-py) 0;
+}
+
+/* ==========================================================================
+   .cm-sub-hero (서브페이지 hero 공통 — sub-content-con과 함께 사용)
+   - 위 padding은 sub-content-con 그대로 상속(섹션 간 일관성)
+   - 아래는 hero용으로 축소 (cm-tit-box ↔ 다음 섹션 사이 호흡)
+   ========================================================================== */
+.cm-sub-hero {
+  padding-bottom: 40px;
+}
+@media (max-width: 768px) {
+  .cm-sub-hero { padding-bottom: 20px; }
+}
+
+/* ==========================================================================
+   서브페이지 공통 — sticky 헤더 아래 호흡 (body.is-sub)
+   front-page 외 모든 페이지에 적용 — archive / single / page-* / blog 등 일관 처리
+   ========================================================================== */
+body.is-sub .cm-main {
+  padding-top: var(--cm-header-height);
+}
+
+
+/* ==========================================================================
+   공통 유틸리티 (모바일 애니메이션 비활성화 / 표시 유틸리티)
+   ========================================================================== */
+
+/* Mobile Animation 비활성화 */
+@media (max-width: 768px) {
+  [data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .delay-100, .delay-200, .delay-300, .delay-400, .delay-500 {
+    animation-delay: 0s !important;
+  }
+}
+
+/* Utility Classes */
+@media (max-width: 768px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hidden-desktop {
+    display: none !important;
+  }
+}
